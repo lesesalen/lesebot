@@ -12,7 +12,8 @@
     "clean": "rm -rf dist/ .cache/ .coverage/",
     "dev": "tsc --watch --incremental",
     "dev:run": "nodemon --watch src --ext ts --delay 2 dist/index.js",
-    "lint": "prettier --check ./src/**/*.ts ./tests/**/*.ts && eslint ./src/**/*.ts ./tests/**/*.ts",
+    "lint": "eslint .",
+    "style": "prettier --check ./src/**/*.ts",
     "release": "standard-version"
   },
   "dependencies": {
