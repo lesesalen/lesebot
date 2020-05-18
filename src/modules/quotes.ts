@@ -1,4 +1,5 @@
 import path from "path";
+import dateFormat from "dateformat";
 
 import { Quote } from "../types";
 import { loadJson } from "../utils";
@@ -19,4 +20,10 @@ export const loadMergedQuotes = async (): Promise<Quote[]> => {
   const q2 = await loadAddedQuotes();
 
   return q1.concat(q2);
+};
+
+export const formatQuote = (quote: Quote): string => {
+  const date = dateFormat(new Date(quote.date), "fullDate");
+
+  return `${quote.quote} -- ${quote.author} (${date})`;
 };
