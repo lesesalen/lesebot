@@ -1,6 +1,11 @@
 <h1 align="center">lesebot</h1>
 
 <p align="center">
+   <a href="https://github.com/sondr3/lesebot/actions"><img alt="GitHub Actions Status" src="https://github.com/sondr3/lesebot/workflows/pipeline/badge.svg" /></a>
+   <br />
+</p>
+
+<p align="center">
    <strong>A small but useful Discord bot.</strong>
 </p>
 
