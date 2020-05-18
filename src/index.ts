@@ -17,7 +17,7 @@ client.registry
 
 client.once("ready", () => {
   console.log(`Logged in as ${client.user?.tag}! (${client.user?.id})`);
-  client.user?.setActivity("WOOP");
+  client.user?.setActivity("STUDENTS", { type: "WATCHING" });
 });
 
 client.on("error", console.error);
