@@ -108,3 +108,5 @@ tmp/
 temp/
 
 .env
+
+data/added_quotes.json
