@@ -1,0 +1,45 @@
+{
+  "name": "lesebot",
+  "version": "0.1.0",
+  "description": "A (helpful) Discord bot",
+  "main": "index.js",
+  "repository": "https://github.com/sondr3/lesebot",
+  "author": "Sondre Nilsen",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rm -rf dist/",
+    "build": "tsc",
+    "clean": "rm -rf dist/ .cache/ .coverage/",
+    "dev": "tsc --watch --incremental -p tsconfig.build.json",
+    "lint": "prettier --check ./src/**/*.ts ./tests/**/*.ts && eslint ./src/**/*.ts ./tests/**/*.ts",
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@sondr3/eslint-config-typescript": "^0.5.2",
+    "@sondr3/prettier": "^0.2.0",
+    "@sondr3/tsconfig": "^0.4.0",
+    "eslint": "^7.0.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.3",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.2"
+  },
+  "prettier": "@sondr3/prettier",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  }
+}
