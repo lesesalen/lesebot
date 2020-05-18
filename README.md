@@ -12,8 +12,8 @@
 
 **Table of Contents**
 
-- [What](#what)
 - [Installation](#installation)
+  - [Production](#production)
   - [Developing](#developing)
 - [Inspiration, help](#inspiration-help)
 - [License](#license)
@@ -32,6 +32,20 @@ growing problem of bots and their rights, we could instead just pile onto a
 single bot.
 
 # Installation
+
+## Production
+
+For production I recommend hosting the bot in a Docker container and running
+that. It is fairly straight forward:
+
+```sh
+$ docker build -t <name> .
+$ docker run -d <name> -d
+```
+
+**Note:** You should probably omit the `-d` flag if you are developing locally
+as this launches it headless. Otherwise you have to find the process ID and then
+view its logs.
 
 ## Developing
 
