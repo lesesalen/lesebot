@@ -45,7 +45,7 @@ that. It is fairly straight forward:
 
 ```sh
 $ docker build -t <name> .
-$ docker run -d <name> -d
+$ docker run -d <name>
 ```
 
 **Note:** You should probably omit the `-d` flag if you are developing locally
