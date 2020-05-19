@@ -4,7 +4,7 @@ import path from "path";
 require("dotenv").config();
 
 const client = new CommandoClient({
-  commandPrefix: "~",
+  commandPrefix: "!",
   owner: "217316187032256512",
 });
 
