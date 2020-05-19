@@ -25,7 +25,9 @@ class WednesdayCommand extends Command {
       return await message.reply("You need to be in a voice channel for wednesday");
     } else {
       const connection = await voiceChannel.join();
-      const dispatcher = connection.play(fs.createReadStream(path.resolve(process.cwd(), "assets/wednesday.mp3")));
+      const dispatcher = connection.play(
+        fs.createReadStream(path.resolve(process.cwd(), "assets/restricted/wednesday.mp3")),
+      );
       dispatcher.on("error", console.error);
       dispatcher.on("start", () => console.log("wednesday.mp3 is now playing"));
       dispatcher.on("finish", () => {

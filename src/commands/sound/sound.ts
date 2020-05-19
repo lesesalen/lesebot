@@ -28,9 +28,6 @@ class SoundCommand extends Command {
     if (file === "") {
       return await message.reply("You need to specify the file to play...");
     }
-    if (file === "wednesday") {
-      return await message.reply("hey, that's illegal");
-    }
 
     const voiceChannel = message.member.voice.channel;
 

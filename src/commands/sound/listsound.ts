@@ -22,7 +22,6 @@ class ListSoundCommand extends Command {
         const { name, ext } = path.parse(p);
         return `> ${name}${ext}`;
       })
-      .filter((p) => p !== "> wednesday.mp3")
       .join("\n");
     return await message.direct(reply);
   };
