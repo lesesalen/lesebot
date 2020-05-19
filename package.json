@@ -17,6 +17,8 @@
     "release": "standard-version"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^0.19.2",
     "dateformat": "^3.0.3",
     "discord.js": "^12.2.0",
     "discord.js-commando": "github:discordjs/Commando#bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc",
@@ -45,12 +47,12 @@
     "@sondr3/prettier": "^0.2.0",
     "@sondr3/tsconfig": "^0.4.0",
     "@types/dateformat": "^3.0.1",
-    "@types/ws": "^7.2.4",
     "@types/node": "^14.0.1",
-    "nodemon": "^2.0.4",
+    "@types/ws": "^7.2.4",
     "eslint": "^7.0.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.3",
+    "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "typescript": "^3.9.2"
   }
