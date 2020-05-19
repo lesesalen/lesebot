@@ -25,3 +25,7 @@ export const loadJson = async <T>(filePath: string): Promise<T[]> => {
   const file = await fs.readFile(filePath);
   return JSON.parse(file.toString());
 };
+
+export const sample = <T>(arr: T[]): T => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};

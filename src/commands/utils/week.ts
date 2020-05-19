@@ -9,7 +9,7 @@ class WeekCommand extends Command {
       aliases: ["uke", "ukenr"],
       group: "util",
       memberName: "week",
-      description: "A random quote from our highly intelligent members",
+      description: "What week is it again? Man, I wish I had a calendar",
     });
   }
 

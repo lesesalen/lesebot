@@ -3,6 +3,7 @@ import { Message } from "discord.js";
 
 import { Quote } from "../../types";
 import { loadMergedQuotes, formatQuote } from "../../modules/quotes";
+import { sample } from "../../utils";
 
 class QuoteCommand extends Command {
   constructor(client: CommandoClient) {
@@ -17,7 +18,7 @@ class QuoteCommand extends Command {
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
     const quotes = await this.load();
-    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+    const quote = sample(quotes);
 
     return await message.say(formatQuote(quote));
   };
