@@ -10,6 +10,7 @@ class InsultCommand extends Command {
       memberName: "insult",
       description: "Insult a 'friend'",
       argsPromptLimit: 0,
+      format: "[target]",
       args: [
         {
           key: "target",
@@ -18,11 +19,21 @@ class InsultCommand extends Command {
           validate: undefined,
           default: "",
         },
+        {
+          key: "tts",
+          prompt: "Play as Text-To-Speech",
+          type: "boolean",
+          validate: undefined,
+          default: false,
+        },
       ],
     });
   }
 
-  run = async (message: CommandoMessage, { target }: { target: User | string }): Promise<Message | Message[]> => {
+  run = async (
+    message: CommandoMessage,
+    { target, tts }: { target: User | string; tts: boolean },
+  ): Promise<Message | Message[]> => {
     const api = await axios.get(`https://insult.mattbas.org/api/insult`);
     const insult: string = api.data.toLowerCase();
 
@@ -30,7 +41,7 @@ class InsultCommand extends Command {
       return await message.say(`Wow, <@${message.author.id}>, ${insult}`);
     } else {
       const response = `Hey, <@${target.id}>! <@${message.author.id}> thinks ${insult}`;
-      return await message.say(response);
+      return await message.say(response, { tts: tts });
     }
   };
 }
