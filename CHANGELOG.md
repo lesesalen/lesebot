@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.1 (2020-05-19)
+
+### Features
+
+- use ! as prefix ([8ae5655](https://github.com/sondr3/lesebot/commit/8ae5655d228fb6cd45539af5d21ef799c49a3bce))
+
+### Bug Fixes
+
+- add ffmpeg to Docker image ([63321e6](https://github.com/sondr3/lesebot/commit/63321e62a6f694bca8d0267cb135f5f573a36d8f))
+
 ## 0.1.0 (2020-05-19)
 
 ### Features
