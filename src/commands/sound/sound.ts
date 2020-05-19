@@ -21,6 +21,10 @@ class SoundCommand extends Command {
           default: "",
         },
       ],
+      throttling: {
+        usages: 1,
+        duration: 10,
+      },
     });
   }
 

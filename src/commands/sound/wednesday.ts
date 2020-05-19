@@ -11,6 +11,10 @@ class WednesdayCommand extends Command {
       group: "sound",
       memberName: "wednesday",
       description: "It is Wednesday my Dudes",
+      throttling: {
+        usages: 1,
+        duration: 10,
+      },
     });
   }
 
