@@ -2,7 +2,7 @@ import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
 import axios from "axios";
 
-class InsultCommand extends Command {
+class CatFactsCommand extends Command {
   constructor(client: CommandoClient) {
     super(client, {
       name: "catfact",
@@ -20,4 +20,4 @@ class InsultCommand extends Command {
   };
 }
 
-export default InsultCommand;
+export default CatFactsCommand;

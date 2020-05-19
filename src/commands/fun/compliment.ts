@@ -2,7 +2,7 @@ import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message, User } from "discord.js";
 import axios from "axios";
 
-class InsultCommand extends Command {
+class ComplimentCommand extends Command {
   constructor(client: CommandoClient) {
     super(client, {
       name: "compliment",
@@ -36,4 +36,4 @@ class InsultCommand extends Command {
   };
 }
 
-export default InsultCommand;
+export default ComplimentCommand;
