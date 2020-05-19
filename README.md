@@ -45,7 +45,7 @@ that. It is fairly straight forward:
 
 ```sh
 $ docker build -t <name> .
-$ docker run -d <name>
+$ docker run -itd --restart unless-stopped --name <name> <name>
 ```
 
 **Note:** You should probably omit the `-d` flag if you are developing locally
