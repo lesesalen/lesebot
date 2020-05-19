@@ -19,8 +19,8 @@ class ListSoundCommand extends Command {
     const paths = await globby(`${path.resolve(process.cwd(), "assets")}/*.mp3`);
     const reply = paths
       .map((p) => {
-        const { name, ext } = path.parse(p);
-        return `> ${name}${ext}`;
+        const { name } = path.parse(p);
+        return `> ${name}`;
       })
       .join("\n");
     return await message.direct(reply);
