@@ -1,5 +1,9 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
+
+import fs from "fs";
+import path from "path";
+
 import { sample } from "../../utils";
 
 class WinnerCommand extends Command {
@@ -20,6 +24,17 @@ class WinnerCommand extends Command {
       return await message.reply("You need to be in a voice channel to use this command...");
     } else {
       const winner = sample(voiceChannel.members.array());
+      const connection = await voiceChannel.join();
+      const dispatcher = connection.play(
+        fs.createReadStream(path.resolve(process.cwd(), "assets/restricted/hes_the_winner.mp3")),
+      );
+      dispatcher.on("error", console.error);
+      dispatcher.on("start", () => console.log("hes_the_winner.mp3 is now playing"));
+      dispatcher.on("finish", () => {
+        console.log("hes_the_winner.mp3 is done playing");
+        dispatcher.destroy();
+        voiceChannel.leave();
+      });
 
       const reply = await message.say(`And the winner is... <@${winner.user.id}>`);
       if (reply instanceof Message) {
