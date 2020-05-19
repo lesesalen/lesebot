@@ -10,7 +10,10 @@ const client = new CommandoClient({
 
 client.registry
   .registerDefaultTypes()
-  .registerGroups([["fun", "Small, fun commands"]])
+  .registerGroups([
+    ["fun", "Small, fun commands"],
+    ["sound", "Cover your earholes"],
+  ])
   .registerDefaultGroups()
   .registerDefaultCommands()
   .registerCommandsIn(path.join(__dirname, "commands"));
