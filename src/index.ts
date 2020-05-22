@@ -13,6 +13,7 @@ client.registry
   .registerGroups([
     ["fun", "Small, fun commands"],
     ["sound", "Cover your earholes"],
+    ["uib", "Useful commands related to UiB"],
   ])
   .registerDefaultGroups()
   .registerDefaultCommands()
