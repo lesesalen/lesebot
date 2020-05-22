@@ -6,7 +6,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences-autumn-2017";
 dayjs.extend(customParseFormat);
 
-interface Course {
+export interface Course {
   code: string;
   title: string;
   url: string;
@@ -14,12 +14,11 @@ interface Course {
   exams: Exam[];
 }
 
-interface Exam {
+export interface Exam {
   date: Date;
   duration?: string;
   location?: string;
   system?: string;
-  part?: string;
 }
 
 interface Exams {

@@ -1,7 +1,8 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import logger from "../../utils/logger";
-import { parsePage } from "../../modules/exams";
+import { parsePage, Course } from "../../modules/exams";
+import dateFormat from "dateformat";
 
 class ExamCommand extends Command {
   constructor(client: CommandoClient) {
@@ -42,7 +43,7 @@ class ExamCommand extends Command {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
-    const course = exams.courses.get(inputSubject);
+    const course = exams.courses.get(inputSubject) as Course;
 
     logger.info({
       message: "Subject was inquired about",
@@ -50,10 +51,36 @@ class ExamCommand extends Command {
       subject: inputSubject,
     });
 
-    await message.say(`${course?.code}: ${course?.title}\nAssessment: ${course?.assessment}`);
-    return await message.say(
-      `Exam: ${course?.exams[0].date} at ${course?.exams[0].location} for ${course?.exams[0].duration}`,
-    );
+    const embed = new MessageEmbed()
+      .setColor("#0099ff")
+      .setTitle(course?.code)
+      .setURL(course?.url ?? "")
+      .setDescription(course?.title)
+      .addField("Assessment", course.assessment);
+
+    this.buildExamEmbed(course, embed);
+
+    return await message.say(embed);
+  };
+
+  buildExamEmbed = (course: Course, embed: MessageEmbed): void => {
+    for (const exam of course.exams) {
+      let fields = [];
+      if (Object.prototype.hasOwnProperty.call(exam, "date")) {
+        fields.push({ name: "Date", value: dateFormat(exam.date, "fullDate"), inline: true });
+      }
+      if (Object.prototype.hasOwnProperty.call(exam, "duration")) {
+        fields.push({ name: "Duration", value: exam.duration, inline: true });
+      }
+      if (Object.prototype.hasOwnProperty.call(exam, "location")) {
+        fields.push({ name: "Location", value: exam.location, inline: true });
+      }
+      if (Object.prototype.hasOwnProperty.call(exam, "system")) {
+        fields.push({ name: "System", value: exam.system, inline: true });
+      }
+      embed.addFields(fields);
+      fields = [];
+    }
   };
 }
 
