@@ -30,6 +30,9 @@ class ComplimentCommand extends Command {
     if (typeof target === "string") {
       return await message.say(`Wow, <@${message.author.id}>, ${compliment.toLowerCase()}`);
     } else {
+      if (target.id === message.author.id) {
+        return await message.reply("Wow, you're really fishing for compliments...");
+      }
       const response = `Hey, <@${target.id}>! ${compliment}. (from <@${message.author.id}>)`;
       return await message.say(response);
     }
