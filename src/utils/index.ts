@@ -15,19 +15,7 @@ export const writeJson = async <T>(filePath: string, content: T): Promise<void> 
     await fs.writeFile(quotesPath, "");
   }
 
-  const file = await fs.readFile(quotesPath);
-  let contents: T[];
-  try {
-    contents = JSON.parse(file.toString());
-  } catch (e) {
-    contents = [];
-    logger.warn({
-      message: `File had no contents`,
-    });
-  }
-  contents.push(content);
-
-  await fs.writeFile(path.resolve(quotesPath), JSON.stringify(contents));
+  await fs.writeFile(path.resolve(quotesPath), JSON.stringify(content));
 };
 
 export const loadJson = async <T>(filePath: string): Promise<T[]> => {
@@ -47,4 +35,8 @@ export const soundSamples = async (): Promise<string[]> => {
   });
 
   return fileNames;
+};
+
+export const jsonToMap = <V>(jsonStr: string): Map<string, V> => {
+  return new Map(JSON.parse(jsonStr));
 };

@@ -1,7 +1,7 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message, MessageEmbed } from "discord.js";
 import logger from "../../utils/logger";
-import { parsePage, Course } from "../../modules/exams";
+import { Course, readPage } from "../../modules/exams";
 import dateFormat from "dateformat";
 
 class ExamCommand extends Command {
@@ -32,8 +32,8 @@ class ExamCommand extends Command {
       return await message.reply("You need to specify the subject to ask about");
     }
 
-    const exams = await parsePage();
-    if (!exams.courses.has(inputSubject)) {
+    const exams = await readPage();
+    if (!exams.has(inputSubject)) {
       logger.warn({
         message: "Missing course",
         userId: message.author.id,
@@ -43,7 +43,7 @@ class ExamCommand extends Command {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
-    const course = exams.courses.get(inputSubject) as Course;
+    const course = exams.get(inputSubject) as Course;
 
     logger.info({
       message: "Subject was inquired about",

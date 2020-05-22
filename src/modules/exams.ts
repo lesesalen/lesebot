@@ -2,8 +2,14 @@ import axios from "axios";
 import cheerio from "cheerio";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import path from "path";
+import { promises as fs } from "fs";
+
+import { writeJson, jsonToMap } from "../utils";
 
 const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences-autumn-2017";
+const EXAM_PATH = path.resolve(process.cwd(), "data/exams.json");
+
 dayjs.extend(customParseFormat);
 
 export interface Course {
@@ -19,11 +25,6 @@ export interface Exam {
   duration?: string;
   location?: string;
   system?: string;
-}
-
-interface Exams {
-  title: string;
-  courses: Map<string, Course>;
 }
 
 const parseExams = ($: CheerioStatic, elem: Cheerio): Exam[] => {
@@ -85,15 +86,25 @@ const loadPage = async (): Promise<CheerioStatic> => {
   return cheerio.load(data);
 };
 
-export const parsePage = async (): Promise<Exams> => {
+export const parsePage = async (): Promise<Map<string, Course>> => {
   const $ = await loadPage();
-  const exams: Exams = { title: "", courses: new Map() };
+  const courses = new Map();
 
-  exams.title = $("h2").text();
   $(".faculty-exam-list > li").each((_i, elem) => {
     const course = parseCourse($, elem);
-    exams.courses.set(course.code, course);
+    courses.set(course.code, course);
   });
 
-  return exams;
+  return courses;
+};
+
+export const writePage = async (): Promise<void> => {
+  const exams = await parsePage();
+  const map = Array.from(exams.entries());
+  await writeJson(EXAM_PATH, map);
+};
+
+export const readPage = async (): Promise<Map<string, Course>> => {
+  const file = await fs.readFile(EXAM_PATH);
+  return jsonToMap(file.toString());
 };
