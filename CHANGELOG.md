@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.2 (2020-05-22)
+
+### Features
+
+- added more sounds ([3b12034](https://github.com/sondr3/lesebot/commit/3b12034789f4eab8ea925132caad93ff7fa69910))
+
 ### 0.1.1 (2020-05-19)
 
 ### Features
