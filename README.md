@@ -45,12 +45,14 @@ that. It is fairly straight forward:
 
 ```sh
 $ docker build -t <name> .
-$ docker run -itd --restart unless-stopped --name <name> <name>
+$ docker run -e TZ=<timezone> -itd --restart unless-stopped --name <name> <name>
 ```
 
 **Note:** You should probably omit the `-d` flag if you are developing locally
 as this launches it headless. Otherwise you have to find the process ID and then
 view its logs.
+**NOTE:** It's recommended that you update the TZ to your own timezone, by
+default Docker containers run in UTC, so it'll be off by a few hours.
 
 ## Developing
 
