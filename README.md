@@ -53,6 +53,14 @@ expose your application secrets, so make sure it is never added to your repo.
 
 ## Production
 
+### Automatically
+
+For a very quick and easy deploy of your bot, you can quickly edit the
+`deploy.sh` file and change the name from `lesebot` to whatever you want it to
+be and then just run it from the command line `./deploy.sh`.
+
+### Manually
+
 For production I recommend hosting the bot in a Docker container and running
 that. It is fairly straight forward:
 
