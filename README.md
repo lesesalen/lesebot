@@ -58,7 +58,7 @@ that. It is fairly straight forward:
 
 ```sh
 $ docker build -t <name> .
-$ docker run -itd --restart unless-stopped --name <name> <name>
+$ docker run --env-file .env -itd --restart unless-stopped --name <name> <name>
 ```
 
 **Note:** You should probably omit the `-d` flag if you are developing locally
