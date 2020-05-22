@@ -1,7 +1,6 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
-import globby from "globby";
-import path from "path";
+import { soundSamples } from "../../utils";
 
 class ListSoundCommand extends Command {
   constructor(client: CommandoClient) {
@@ -16,14 +15,10 @@ class ListSoundCommand extends Command {
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
     await message.direct("Here are all the sound files!");
-    const paths = await globby(`${path.resolve(process.cwd(), "assets")}/*.mp3`);
-    const reply = paths
-      .map((p) => {
-        const { name } = path.parse(p);
-        return `> ${name}`;
-      })
-      .join("\n");
-    return await message.direct(reply);
+    const paths = await soundSamples();
+    const reply = paths.map((p) => `> ${p}`).join("\n");
+    await message.direct(reply);
+    return await message.reply(`To run do ${process.env.DISCORD_PREFIX}sound <name>`);
   };
 }
 

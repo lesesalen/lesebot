@@ -2,6 +2,7 @@ import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
 import fs from "fs";
 import path from "path";
+import { soundSamples } from "../../utils";
 
 class SoundCommand extends Command {
   constructor(client: CommandoClient) {
@@ -31,6 +32,13 @@ class SoundCommand extends Command {
   run = async (message: CommandoMessage, { file }: { file: string }): Promise<Message | Message[]> => {
     if (file === "") {
       return await message.reply("You need to specify the file to play...");
+    }
+    const paths = await soundSamples();
+    const hasMatch = paths.some((p) => p.includes(file));
+    if (!hasMatch) {
+      return await message.reply(
+        `No matching sound clip found, try again!\nFor a look at the list of samples see \`${process.env.DISCORD_PREFIX} listsound\``,
+      );
     }
 
     const voiceChannel = message.member.voice.channel;

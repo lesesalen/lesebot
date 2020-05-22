@@ -1,4 +1,5 @@
 import { promises as fs } from "fs";
+import globby from "globby";
 import path from "path";
 
 export const writeJson = async <T>(filePath: string, content: T): Promise<void> => {
@@ -28,4 +29,14 @@ export const loadJson = async <T>(filePath: string): Promise<T[]> => {
 
 export const sample = <T>(arr: T[]): T => {
   return arr[Math.floor(Math.random() * arr.length)];
+};
+
+export const soundSamples = async (): Promise<string[]> => {
+  const paths = await globby(`${path.resolve(process.cwd(), "assets")}/*.mp3`);
+  const fileNames = paths.map((p) => {
+    const { name } = path.parse(p);
+    return name;
+  });
+
+  return fileNames;
 };
