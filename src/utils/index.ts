@@ -1,12 +1,17 @@
 import { promises as fs } from "fs";
 import globby from "globby";
 import path from "path";
+import logger from "./logger";
 
 export const writeJson = async <T>(filePath: string, content: T): Promise<void> => {
   const quotesPath = path.resolve(filePath);
   try {
     await fs.stat(quotesPath);
   } catch (e) {
+    logger.warn({
+      message: `404: File not found`,
+      file: filePath,
+    });
     await fs.writeFile(quotesPath, "");
   }
 
@@ -16,6 +21,9 @@ export const writeJson = async <T>(filePath: string, content: T): Promise<void> 
     contents = JSON.parse(file.toString());
   } catch (e) {
     contents = [];
+    logger.warn({
+      message: `File had no contents`,
+    });
   }
   contents.push(content);
 

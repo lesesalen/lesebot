@@ -4,6 +4,7 @@ import { Message } from "discord.js";
 import { Quote } from "../../types";
 import { writeJson } from "../../utils";
 import { ADDED_QUOTES_PATH } from "../../modules/quotes";
+import logger from "../../utils/logger";
 
 class AddQuoteCommand extends Command {
   constructor(client: CommandoClient) {
@@ -28,6 +29,12 @@ class AddQuoteCommand extends Command {
     const lastMessage = await message.channel.messages.fetch(id);
     const quote: Quote = { quote: lastMessage.content, author: lastMessage.author.username, date: new Date() };
     await writeJson(ADDED_QUOTES_PATH, quote);
+
+    logger.info({
+      message: `Adding a new quote from ID`,
+      userId: message.author.id,
+      messageId: id,
+    });
 
     return await message.say(`Thanks! Added a new quote to the memory bank...`);
   };

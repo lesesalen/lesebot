@@ -1,6 +1,7 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
 import { soundSamples } from "../../utils";
+import logger from "../../utils/logger";
 
 class ListSoundCommand extends Command {
   constructor(client: CommandoClient) {
@@ -14,6 +15,11 @@ class ListSoundCommand extends Command {
   }
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
+    logger.info({
+      message: `List of sounds requested`,
+      userId: message.author.id,
+    });
+
     await message.direct("Here are all the sound files!");
     const paths = await soundSamples();
     const reply = paths.map((p) => `> ${p}`).join("\n");

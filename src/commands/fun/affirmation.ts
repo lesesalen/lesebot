@@ -1,6 +1,7 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
 import axios from "axios";
+import logger from "../../utils/logger";
 
 class AffirmationCommand extends Command {
   constructor(client: CommandoClient) {
@@ -16,6 +17,11 @@ class AffirmationCommand extends Command {
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
     const api = await axios.get(`https://www.affirmations.dev/`);
     const affirm = api.data.affirmation;
+
+    logger.info({
+      message: "Someone needed some affirmation...",
+      userId: message.author.id,
+    });
 
     return await message.say(affirm);
   };

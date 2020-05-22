@@ -1,9 +1,9 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
 
-import { Quote } from "../../types";
 import { loadMergedQuotes, formatQuote } from "../../modules/quotes";
 import { sample } from "../../utils";
+import logger from "../../utils/logger";
 
 class QuoteCommand extends Command {
   constructor(client: CommandoClient) {
@@ -17,14 +17,15 @@ class QuoteCommand extends Command {
   }
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
-    const quotes = await this.load();
+    const quotes = await loadMergedQuotes();
     const quote = sample(quotes);
 
-    return await message.say(formatQuote(quote));
-  };
+    logger.info({
+      message: "Quote requested",
+      userId: message.author.id,
+    });
 
-  load = async (): Promise<Quote[]> => {
-    return await loadMergedQuotes();
+    return await message.say(formatQuote(quote));
   };
 }
 

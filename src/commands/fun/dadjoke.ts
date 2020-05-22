@@ -1,6 +1,7 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
 import axios from "axios";
+import logger from "../../utils/logger";
 
 class DadJokeCommand extends Command {
   constructor(client: CommandoClient) {
@@ -19,6 +20,11 @@ class DadJokeCommand extends Command {
       },
     });
     const joke = api.data.joke;
+
+    logger.info({
+      message: "Dad joke, ha ha",
+      userId: message.author.id,
+    });
 
     return await message.say(joke);
   };

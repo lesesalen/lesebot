@@ -1,5 +1,6 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
+import logger from "../../utils/logger";
 
 class RiggedCommand extends Command {
   constructor(client: CommandoClient) {
@@ -12,6 +13,11 @@ class RiggedCommand extends Command {
   }
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
+    logger.info({
+      message: "REE",
+      userId: message.author.id,
+    });
+
     return await message.say(
       `En feil har oppstått. Grunnet lav tilgang på økonomiske ressurser trenger vi hjelp til å ordne opp i feilen. Vi tar imot _frivillige donasjoner_ på **2188** på vipps.`,
     );
