@@ -2,7 +2,7 @@ import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
 
 import { Quote } from "../../types";
-import { writeJson } from "../../utils";
+import { writeJson, mergeJson } from "../../utils";
 import { ADDED_QUOTES_PATH } from "../../modules/quotes";
 import logger from "../../utils/logger";
 
@@ -35,7 +35,8 @@ class ManuallyAddQuoteCommand extends Command {
     { text, author }: { text: string; author: string },
   ): Promise<Message | Message[]> => {
     const quote: Quote = { quote: text, author: author, date: new Date() };
-    await writeJson(ADDED_QUOTES_PATH, quote);
+    const mergedQuotes = await mergeJson(ADDED_QUOTES_PATH, quote);
+    await writeJson(ADDED_QUOTES_PATH, mergedQuotes);
 
     logger.info({
       message: `Manually adding a new quote from ID`,
