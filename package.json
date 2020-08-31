@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
     "cheerio": "^1.0.0-rc.3",
     "dateformat": "^3.0.3",
-    "dayjs": "^1.8.33",
+    "dayjs": "^1.8.34",
     "discord.js": "^12.3.1",
     "discord.js-commando": "github:discordjs/Commando#c5f4b209e89c648cb67007684468b9c51f4aa502",
     "dotenv": "^8.2.0",
@@ -48,20 +48,20 @@
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.2",
-    "@sondr3/eslint-config-typescript": "^0.8.0",
+    "@sondr3/eslint-config-typescript": "^0.8.1",
     "@sondr3/prettier": "^0.2.1",
     "@sondr3/tsconfig": "^0.4.1",
     "@types/cheerio": "^0.22.21",
     "@types/dateformat": "^3.0.1",
     "@types/dotenv": "^8.2.0",
-    "@types/node": "^14.0.27",
+    "@types/node": "^14.6.2",
     "@types/ws": "^7.2.6",
-    "eslint": "^7.7.0",
+    "eslint": "^7.8.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.11",
+    "lint-staged": "^10.2.13",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5",
+    "prettier": "^2.1.1",
     "standard-version": "^9.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   }
 }
