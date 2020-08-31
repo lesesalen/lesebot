@@ -15,7 +15,7 @@ class AffirmationCommand extends Command {
   }
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
-    const api = await axios.get(`https://www.affirmations.dev/`);
+    const api = await axios.get<Record<string, string>>(`https://www.affirmations.dev/`);
     const affirm = api.data.affirmation;
 
     logger.info({

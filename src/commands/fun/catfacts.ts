@@ -14,7 +14,7 @@ class CatFactsCommand extends Command {
   }
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
-    const api = await axios.get(`https://catfact.ninja/fact`);
+    const api = await axios.get<Record<string, string>>(`https://catfact.ninja/fact`);
     const fact = api.data.fact;
 
     logger.info({

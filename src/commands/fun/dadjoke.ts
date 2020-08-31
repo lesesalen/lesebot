@@ -14,7 +14,7 @@ class DadJokeCommand extends Command {
   }
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
-    const api = await axios.get(`https://icanhazdadjoke.com/`, {
+    const api = await axios.get<Record<string, string>>(`https://icanhazdadjoke.com/`, {
       headers: {
         Accept: "application/json",
       },

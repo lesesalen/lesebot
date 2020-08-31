@@ -35,7 +35,7 @@ class InsultCommand extends Command {
     message: CommandoMessage,
     { target, tts }: { target: User | string; tts: boolean },
   ): Promise<Message | Message[]> => {
-    const api = await axios.get(`https://insult.mattbas.org/api/insult`);
+    const api = await axios.get<string>(`https://insult.mattbas.org/api/insult`);
     const insult: string = api.data.toLowerCase();
 
     logger.info({

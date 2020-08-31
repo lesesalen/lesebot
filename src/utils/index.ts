@@ -20,7 +20,7 @@ export const writeJson = async <T>(filePath: string, content: T): Promise<void> 
 
 export const loadJson = async <T>(filePath: string): Promise<T[]> => {
   const file = await fs.readFile(filePath);
-  return JSON.parse(file.toString());
+  return JSON.parse(file.toString()) as Promise<T[]>;
 };
 
 export const mergeJson = async <T>(filePath: string, content: T): Promise<T[]> => {
@@ -28,7 +28,7 @@ export const mergeJson = async <T>(filePath: string, content: T): Promise<T[]> =
 
   let contents: T[];
   try {
-    contents = JSON.parse(file.toString());
+    contents = JSON.parse(file.toString()) as T[];
   } catch (e) {
     contents = [];
     logger.warn({

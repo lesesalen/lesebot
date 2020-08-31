@@ -24,7 +24,7 @@ class ListSoundCommand extends Command {
     const paths = await soundSamples();
     const reply = paths.map((p) => `> ${p}`).join("\n");
     await message.direct(reply);
-    return await message.reply(`To run do ${process.env.DISCORD_PREFIX}sound <name>`);
+    return await message.reply(`To run do ${process.env.DISCORD_PREFIX ?? "!"}sound <name>`);
   };
 }
 

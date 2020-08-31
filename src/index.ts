@@ -1,7 +1,8 @@
 import { CommandoClient } from "discord.js-commando";
+import { config } from "dotenv";
 import path from "path";
 
-require("dotenv").config();
+config();
 
 const client = new CommandoClient({
   commandPrefix: process.env.DISCORD_PREFIX,
@@ -20,10 +21,11 @@ client.registry
   .registerCommandsIn(path.join(__dirname, "commands"));
 
 client.once("ready", () => {
+  if (!client.user) throw new Error("User not authenticated");
   console.log(`Logged in as ${client.user?.tag}! (${client.user?.id})`);
-  client.user?.setActivity("STUDENTS", { type: "WATCHING" });
+  void client.user?.setActivity("STUDENTS", { type: "WATCHING" });
 });
 
 client.on("error", console.error);
 
-client.login(process.env.DISCORD_TOKEN);
+void client.login(process.env.DISCORD_TOKEN);

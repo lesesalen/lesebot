@@ -82,7 +82,7 @@ const parseCourse = ($: CheerioStatic, elem: CheerioElement): Course => {
 };
 
 const loadPage = async (): Promise<CheerioStatic> => {
-  const { data } = await axios.get(EXAM_URL);
+  const { data } = await axios.get<string>(EXAM_URL);
   return cheerio.load(data);
 };
 

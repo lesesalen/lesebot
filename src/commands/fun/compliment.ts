@@ -24,7 +24,7 @@ class ComplimentCommand extends Command {
   }
 
   run = async (message: CommandoMessage, { target }: { target: User | string }): Promise<Message | Message[]> => {
-    const api = await axios.get(`https://complimentr.com/api`);
+    const api = await axios.get<Record<string, string>>(`https://complimentr.com/api`);
     let compliment: string = api.data.compliment.toLowerCase();
     compliment = compliment.charAt(0).toUpperCase() + compliment.slice(1);
 

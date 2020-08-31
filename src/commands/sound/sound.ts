@@ -44,7 +44,9 @@ class SoundCommand extends Command {
       });
 
       return await message.reply(
-        `No matching sound clip found, try again!\nFor a look at the list of samples see \`${process.env.DISCORD_PREFIX} listsound\``,
+        `No matching sound clip found, try again!\nFor a look at the list of samples see \`${
+          process.env.DISCORD_PREFIX ?? "!"
+        } listsound\``,
       );
     }
 
