@@ -1,6 +1,6 @@
 {
   "name": "lesebot",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "A (helpful) Discord bot",
   "main": "dist/index.js",
   "repository": "https://github.com/sondr3/lesebot",
@@ -18,14 +18,16 @@
   },
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
-    "@types/axios": "^0.14.0",
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
+    "cheerio": "^1.0.0-rc.3",
     "dateformat": "^3.0.3",
-    "discord.js": "^12.2.0",
-    "discord.js-commando": "github:discordjs/Commando#bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc",
+    "dayjs": "^1.8.34",
+    "discord.js": "^12.3.1",
+    "discord.js-commando": "github:discordjs/Commando#c5f4b209e89c648cb67007684468b9c51f4aa502",
     "dotenv": "^8.2.0",
-    "globby": "^11.0.0",
-    "sodium": "^3.0.2"
+    "globby": "^11.0.1",
+    "sodium": "^3.0.2",
+    "winston": "^3.3.3"
   },
   "prettier": "@sondr3/prettier",
   "husky": {
@@ -44,19 +46,22 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "@sondr3/eslint-config-typescript": "^0.5.2",
-    "@sondr3/prettier": "^0.2.0",
-    "@sondr3/tsconfig": "^0.4.0",
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
+    "@sondr3/eslint-config-typescript": "^0.8.1",
+    "@sondr3/prettier": "^0.2.1",
+    "@sondr3/tsconfig": "^0.4.1",
+    "@types/cheerio": "^0.22.21",
     "@types/dateformat": "^3.0.1",
-    "@types/node": "^14.0.1",
-    "@types/ws": "^7.2.4",
-    "eslint": "^7.0.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^14.6.2",
+    "@types/ws": "^7.2.6",
+    "eslint": "^7.8.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.3",
+    "lint-staged": "^10.2.13",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5",
-    "typescript": "^3.9.2"
+    "prettier": "^2.1.1",
+    "standard-version": "^9.0.0",
+    "typescript": "^4.0.2"
   }
 }

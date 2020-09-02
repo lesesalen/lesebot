@@ -110,3 +110,4 @@ temp/
 .env
 
 data/added_quotes.json
+data/exams.json
