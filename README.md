@@ -18,6 +18,7 @@
 **Table of Contents**
 
 - [Installation](#installation)
+  - [Configuration](#configuration)
   - [Production](#production)
   - [Developing](#developing)
 - [Inspiration, help](#inspiration-help)
@@ -38,14 +39,34 @@ single bot.
 
 # Installation
 
+## Configuration
+
+Before any of the next steps, it's important to look at the `.env.example` file
+and see what you need to change. At the very least you must get a new Discord
+token. You can follow this
+[guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
+and copy the `.env.example` file to `.env`. Then you can simply change the token
+in the file from `abcde` to your actual key.
+
+**NB:** The `.env` is ignored by `git` by default so that you never accidentally
+expose your application secrets, so make sure it is never added to your repo.
+
 ## Production
+
+### Automatically
+
+For a very quick and easy deploy of your bot, you can quickly edit the
+`deploy.sh` file and change the name from `lesebot` to whatever you want it to
+be and then just run it from the command line `./deploy.sh`.
+
+### Manually
 
 For production I recommend hosting the bot in a Docker container and running
 that. It is fairly straight forward:
 
 ```sh
 $ docker build -t <name> .
-$ docker run -d <name>
+$ docker run --env-file .env -itd --restart unless-stopped --name <name> <name>
 ```
 
 **Note:** You should probably omit the `-d` flag if you are developing locally
@@ -62,14 +83,6 @@ $ git clone git@github.com:sondr3/lesebot.git
 $ cd lesebot
 $ yarn install
 ```
-
-You also need to get a application token, follow this
-[guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
-and copy the `.env.example` file to `.env`. Then you can simply change the token
-in the file from `abcde` to your actual key
-
-**NB:** The `.env` is ignored by `git` by default so that you never accidentally
-expose your application secrets, so make sure it is never added to your repo.
 
 Once you have everything installed you can start developing. The easiest way to
 do this is to start the TypeScript compiler with `yarn dev` to automatically

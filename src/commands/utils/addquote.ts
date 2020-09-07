@@ -2,8 +2,9 @@ import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
 
 import { Quote } from "../../types";
-import { writeJson } from "../../utils";
+import { writeJson, mergeJson } from "../../utils";
 import { ADDED_QUOTES_PATH } from "../../modules/quotes";
+import logger from "../../utils/logger";
 
 class AddQuoteCommand extends Command {
   constructor(client: CommandoClient) {
@@ -27,7 +28,14 @@ class AddQuoteCommand extends Command {
   run = async (message: CommandoMessage, { id }: { id: string }): Promise<Message | Message[]> => {
     const lastMessage = await message.channel.messages.fetch(id);
     const quote: Quote = { quote: lastMessage.content, author: lastMessage.author.username, date: new Date() };
-    await writeJson(ADDED_QUOTES_PATH, quote);
+    const mergedQuotes = await mergeJson(ADDED_QUOTES_PATH, quote);
+    await writeJson(ADDED_QUOTES_PATH, mergedQuotes);
+
+    logger.info({
+      message: `Adding a new quote from ID`,
+      userId: message.author.id,
+      messageId: id,
+    });
 
     return await message.say(`Thanks! Added a new quote to the memory bank...`);
   };

@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 
 import { sample } from "../../utils";
+import logger from "../../utils/logger";
 
 class WinnerCommand extends Command {
   constructor(client: CommandoClient) {
@@ -21,9 +22,21 @@ class WinnerCommand extends Command {
     const voiceChannel = message.member.voice.channel;
 
     if (!voiceChannel) {
+      logger.warn({
+        message: "User was not in sound channel for calendar",
+        userId: message.author.id,
+      });
+
       return await message.reply("You need to be in a voice channel to use this command...");
     } else {
       const winner = sample(voiceChannel.members.array());
+
+      logger.info({
+        message: "Selected a new calendar winner!",
+        userId: message.author.id,
+        winner: winner,
+      });
+
       const connection = await voiceChannel.join();
       const dispatcher = connection.play(
         fs.createReadStream(path.resolve(process.cwd(), "assets/restricted/hes_the_winner.mp3")),
