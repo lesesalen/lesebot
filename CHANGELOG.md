@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.4](https://github.com/sondr3/lesebot/compare/v0.3.3...v0.3.4) (2020-09-11)
+
+### Features
+
+- add GH Action to autodeploy on release ([272633f](https://github.com/sondr3/lesebot/commit/272633f7de1982e5af159391c318e4f854d33abd))
+- added [added woah and wah] ([#14](https://github.com/sondr3/lesebot/issues/14)) ([a9629dc](https://github.com/sondr3/lesebot/commit/a9629dca317a204668308e2fa773410dd3e97c50))
+
 ### [0.3.3](https://github.com/sondr3/lesebot/compare/v0.3.2...v0.3.3) (2020-09-11)
 
 ### [0.3.2](https://github.com/sondr3/lesebot/compare/v0.3.1...v0.3.2) (2020-09-11)
