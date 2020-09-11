@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/sondr3/lesebot/compare/v0.3.1...v0.3.2) (2020-09-11)
+
+### Features
+
+- added ['i did not hit her' and 'bababooey'] ([eeba473](https://github.com/sondr3/lesebot/commit/eeba473f9afae2177c85d76880d7a4b0cb303fca))
+
 ## [0.3.0](https://github.com/sondr3/lesebot/compare/v0.2.0...v0.3.0) (2020-05-22)
 
 ### Features
