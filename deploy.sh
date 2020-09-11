@@ -2,6 +2,9 @@
 
 echo "Redeploying lesebot!"
 
+echo "Pulling origin"
+git pull
+
 echo "Building new docker container..."
 docker build -t lesebot .
 
