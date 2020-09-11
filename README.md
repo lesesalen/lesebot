@@ -59,6 +59,11 @@ For a very quick and easy deploy of your bot, you can quickly edit the
 `deploy.sh` file and change the name from `lesebot` to whatever you want it to
 be and then just run it from the command line `./deploy.sh`.
 
+**NOTE:** This bot is automatically deployed whenever a tag is pushed, so to
+automatically deploy simply run `yarn release` and then `git push` and it'll
+automagically be updated in about five minutes (depending on whether it has to
+reinstall dependencies).
+
 ### Manually
 
 For production I recommend hosting the bot in a Docker container and running
