@@ -52,4 +52,5 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             cd lesebot
+            git pull
             ./deploy.sh
