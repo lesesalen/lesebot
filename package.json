@@ -26,8 +26,10 @@
     "discord.js-commando": "github:discordjs/Commando#c5f4b209e89c648cb67007684468b9c51f4aa502",
     "dotenv": "^8.2.0",
     "globby": "^11.0.1",
-    "sodium": "^3.0.2",
     "winston": "^3.3.3"
+  },
+  "optionalDependencies": {
+    "sodium": "^3.0.2"
   },
   "prettier": "@sondr3/prettier",
   "husky": {

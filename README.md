@@ -89,11 +89,14 @@ $ cd lesebot
 $ yarn install
 ```
 
+**NOTE:** If you don't care about the test bot being able to run voice commands
+you can install it without the optional dependency `sodium` like so: `yarn install --ignore-optional`.
+
 Once you have everything installed you can start developing. The easiest way to
 do this is to start the TypeScript compiler with `yarn dev` to automatically
-compile your code and with `yarn dev:run` to actually run the Discord bot. You
-can run the `dev:run` command alongside the `dev` command as the latter will
-automagically reload the bot whenever the compiled code changes.
+compile your code and then in a separate terminal window run `yarn dev:run` to
+actually run the Discord bot. This will compile and reload the bot whenever the
+compiled code changes.
 
 Once you are satisified with your work you can commit it to this repo, however
 note that to commit something you need to follow the
@@ -102,8 +105,10 @@ style of commits (e.g. `feat: added foo command`).
 
 # Inspiration, help
 
-- [Eivind Dagsland Halderaker](https://github.com/Eivinddh/Discord-bots) and his small calendar bot.
-- [Ståle Jacobsen](https://github.com/stalejacobsen-uib/) for his quotes, week number and assorted bot.
+- [Eivind Dagsland Halderaker](https://github.com/Eivinddh/Discord-bots) and his
+  small calendar bot.
+- [Ståle Jacobsen](https://github.com/stalejacobsen-uib/) for his quotes, week
+  number and assorted bot.
 
 # License
 
