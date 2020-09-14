@@ -62,14 +62,14 @@ class SoundCommand extends Command {
       return await message.reply("You need to be in a voice channel first...");
     }
 
-    if (ALLOWED_VOICE_CHANNEL !== voiceChannel.id) {
+    if (!ALLOWED_VOICE_CHANNEL.includes(voiceChannel.id)) {
       logger.info({
         message: "User attempted to annoy in the wrong voice channel",
         userId: message.author.id,
         file: file,
       });
 
-      return await message.say(`You can only annoy others in <#${ALLOWED_VOICE_CHANNEL}>, behave.`);
+      return await message.say(`You can only annoy others in <#${ALLOWED_VOICE_CHANNEL[0]}>, behave.`);
     }
 
     logger.info({
