@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/sondr3/lesebot/compare/v0.4.0...v0.4.1) (2020-09-14)
+
+### Features
+
+- allow bot on personal server too ([c5d2697](https://github.com/sondr3/lesebot/commit/c5d269785bc142419aa103c482a1912f96d27c96))
+
 ## [0.4.0](https://github.com/sondr3/lesebot/compare/v0.3.5...v0.4.0) (2020-09-14)
 
 ### ⚠ BREAKING CHANGES
