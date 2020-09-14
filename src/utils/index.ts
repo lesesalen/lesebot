@@ -46,12 +46,10 @@ export const sample = <T>(arr: T[]): T => {
 
 export const soundSamples = async (): Promise<string[]> => {
   const paths = await globby(`${path.resolve(process.cwd(), "assets")}/*.mp3`);
-  const fileNames = paths.map((p) => {
+  return paths.map((p) => {
     const { name } = path.parse(p);
     return name;
   });
-
-  return fileNames;
 };
 
 export const jsonToMap = <V>(jsonStr: string): Map<string, V> => {
