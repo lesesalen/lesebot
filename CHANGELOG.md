@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/sondr3/lesebot/compare/v0.3.5...v0.4.0) (2020-09-14)
+
+### ⚠ BREAKING CHANGES
+
+- this will make the bot less annoying
+
+### Features
+
+- you can only play sounds in #Lesesalen now ([5000c13](https://github.com/sondr3/lesebot/commit/5000c13b9422ec66e7efccfdb81da3ccf76b3523))
+
 ### [0.3.5](https://github.com/sondr3/lesebot/compare/v0.3.4...v0.3.5) (2020-09-12)
 
 ### Features
