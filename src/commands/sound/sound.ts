@@ -36,7 +36,7 @@ class SoundCommand extends Command {
       return await message.reply("You need to specify the file to play...");
     }
     const paths = await soundSamples();
-    const hasMatch = paths.some((p) => p.includes(file));
+    const hasMatch = paths.includes(file);
     if (!hasMatch) {
       logger.warn({
         message: "Request for missing file",
