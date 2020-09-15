@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/sondr3/lesebot/compare/v0.4.1...v0.4.2) (2020-09-15)
+
+### Features
+
+- add honk sound ([fbf65b1](https://github.com/sondr3/lesebot/commit/fbf65b15d09d2a3d97d18008cf73c775a439f981))
+- only play sound if it is an exact match ([577ef0c](https://github.com/sondr3/lesebot/commit/577ef0cc9e2e42ace7220575fa47d6daf5db8799)), closes [#18](https://github.com/sondr3/lesebot/issues/18)
+
 ### [0.4.1](https://github.com/sondr3/lesebot/compare/v0.4.0...v0.4.1) (2020-09-14)
 
 ### Features
