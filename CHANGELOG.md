@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://github.com/sondr3/lesebot/compare/v0.4.1...v0.4.3) (2020-09-16)
+
+### Features
+
+- add honk sound ([fbf65b1](https://github.com/sondr3/lesebot/commit/fbf65b15d09d2a3d97d18008cf73c775a439f981))
+- fetch exam information on startup ([58e7a89](https://github.com/sondr3/lesebot/commit/58e7a89cd592f74af3d3eee122823d3832f1731b)), closes [#20](https://github.com/sondr3/lesebot/issues/20)
+- only play sound if it is an exact match ([577ef0c](https://github.com/sondr3/lesebot/commit/577ef0cc9e2e42ace7220575fa47d6daf5db8799)), closes [#18](https://github.com/sondr3/lesebot/issues/18)
+
 ### [0.4.2](https://github.com/sondr3/lesebot/compare/v0.4.1...v0.4.2) (2020-09-15)
 
 ### Features
@@ -44,7 +52,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 - add GH Action to autodeploy on release ([272633f](https://github.com/sondr3/lesebot/commit/272633f7de1982e5af159391c318e4f854d33abd))
-- added [added woah and wah] ([#14](https://github.com/sondr3/lesebot/issues/14)) ([a9629dc](https://github.com/sondr3/lesebot/commit/a9629dca317a204668308e2fa773410dd3e97c50))
+- added [added woah and wah](<[#14](https://github.com/sondr3/lesebot/issues/14)>) ([a9629dc](https://github.com/sondr3/lesebot/commit/a9629dca317a204668308e2fa773410dd3e97c50))
 
 ### [0.3.3](https://github.com/sondr3/lesebot/compare/v0.3.2...v0.3.3) (2020-09-11)
 
@@ -52,7 +60,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-- added ['i did not hit her' and 'bababooey'] ([eeba473](https://github.com/sondr3/lesebot/commit/eeba473f9afae2177c85d76880d7a4b0cb303fca))
+- added ['i did not hit her' and 'bababooey'](<[eeba473](https://github.com/sondr3/lesebot/commit/eeba473f9afae2177c85d76880d7a4b0cb303fca)>)
 
 ## [0.3.0](https://github.com/sondr3/lesebot/compare/v0.2.0...v0.3.0) (2020-05-22)
 
