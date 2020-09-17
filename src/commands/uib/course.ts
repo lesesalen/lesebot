@@ -25,11 +25,11 @@ class RequestCommand extends Command {
   }
 
   run = async (message: CommandoMessage, { subject }: { subject: string }): Promise<Message | Message[]> => {
-    if (subject == undefined) {
+    if (subject === undefined || subject.trim() === "") {
       return await message.reply("You need to specify the subject to ask about");
     }
 
-    const inputSubject = subject.toUpperCase();
+    const inputSubject = subject.toUpperCase().trim();
 
     const exams = await readPage();
     if (!exams.has(inputSubject)) {
