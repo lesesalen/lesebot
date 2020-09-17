@@ -66,26 +66,25 @@ class RequestCommand extends Command {
   getCategoryChannel = (course: Course, channelCache: Collection<string, GuildChannel>): GuildChannel | undefined => {
     // Matte fag
     if (course.code.includes("MAT") || course.code.includes("STAT")) {
-      return channelCache.find((category) => category.name == "MAT");
+      return channelCache.find((category) => category.name === "MAT");
 
       // INF Fag
-    } else if (course.code.includes("INF")) {
+    } else if (course.code.substring(0, 3) === "INF") {
       switch (course.code.charAt(3)) {
         case "1":
-          return channelCache.find((category: { name: string }) => category.name == "INF1XX");
+          return channelCache.find((category) => category.id === "744961179612610700"); // INF1xx Kategori
           break;
         case "2":
-          return channelCache.find((category) => category.name == "INF2XX");
+          return channelCache.find((category) => category.id === "744961214878056449"); // INF2xx Kategori
           break;
         case "3":
-          return channelCache.find((category) => category.name == "INF3XX");
+          return channelCache.find((category) => category.id === "744961536367525948"); // INF3xx Kategori
           break;
         default:
-          return channelCache.find((category) => category.name == "Other"); // Default til other, f.eks med BINF
           break;
       }
     }
-    return channelCache.find((category) => category.name == "Other"); // Default til other, f.eks med BINF
+    return channelCache.find((category) => category.id === "744961383380287589"); // Default til other, f.eks med BINF
   };
 }
 
