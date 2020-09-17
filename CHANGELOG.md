@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.4](https://github.com/sondr3/lesebot/compare/v0.4.3...v0.4.4) (2020-09-17)
+
+### Features
+
+- :construction_worker: Added request command ([#22](https://github.com/sondr3/lesebot/issues/22)) ([d254cb2](https://github.com/sondr3/lesebot/commit/d254cb25caaa510997b06e6db30737ba1d29ee71))
+
 ### [0.4.3](https://github.com/sondr3/lesebot/compare/v0.4.1...v0.4.3) (2020-09-16)
 
 ### Features

@@ -1,6 +1,6 @@
 {
   "name": "lesebot",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "A (helpful) Discord bot",
   "main": "dist/index.js",
   "repository": "https://github.com/sondr3/lesebot",
