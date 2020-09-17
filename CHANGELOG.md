@@ -2,13 +2,65 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://github.com/sondr3/lesebot/compare/v0.4.1...v0.4.3) (2020-09-16)
+
+### Features
+
+- add honk sound ([fbf65b1](https://github.com/sondr3/lesebot/commit/fbf65b15d09d2a3d97d18008cf73c775a439f981))
+- fetch exam information on startup ([58e7a89](https://github.com/sondr3/lesebot/commit/58e7a89cd592f74af3d3eee122823d3832f1731b)), closes [#20](https://github.com/sondr3/lesebot/issues/20)
+- only play sound if it is an exact match ([577ef0c](https://github.com/sondr3/lesebot/commit/577ef0cc9e2e42ace7220575fa47d6daf5db8799)), closes [#18](https://github.com/sondr3/lesebot/issues/18)
+
+### [0.4.2](https://github.com/sondr3/lesebot/compare/v0.4.1...v0.4.2) (2020-09-15)
+
+### Features
+
+- add honk sound ([fbf65b1](https://github.com/sondr3/lesebot/commit/fbf65b15d09d2a3d97d18008cf73c775a439f981))
+- only play sound if it is an exact match ([577ef0c](https://github.com/sondr3/lesebot/commit/577ef0cc9e2e42ace7220575fa47d6daf5db8799)), closes [#18](https://github.com/sondr3/lesebot/issues/18)
+
+### [0.4.1](https://github.com/sondr3/lesebot/compare/v0.4.0...v0.4.1) (2020-09-14)
+
+### Features
+
+- allow bot on personal server too ([c5d2697](https://github.com/sondr3/lesebot/commit/c5d269785bc142419aa103c482a1912f96d27c96))
+
+## [0.4.0](https://github.com/sondr3/lesebot/compare/v0.3.5...v0.4.0) (2020-09-14)
+
+### ⚠ BREAKING CHANGES
+
+- this will make the bot less annoying
+
+### Features
+
+- you can only play sounds in #Lesesalen now ([5000c13](https://github.com/sondr3/lesebot/commit/5000c13b9422ec66e7efccfdb81da3ccf76b3523))
+
+### [0.3.5](https://github.com/sondr3/lesebot/compare/v0.3.4...v0.3.5) (2020-09-12)
+
+### Features
+
+- add !kenneth as alias for !dadjoke ([b47731a](https://github.com/sondr3/lesebot/commit/b47731abb399de64a9103f141874b7c93fb60efe))
+- add @ for !affirm command ([916d17e](https://github.com/sondr3/lesebot/commit/916d17e009aa26826fef3b7d0832d499b567d879))
+- make sodium an optional dependency, add note to README ([b12967f](https://github.com/sondr3/lesebot/commit/b12967f309667810c9aa35e94d03af5d261a62c0))
+- only deploy if build succeeds ([fbe124d](https://github.com/sondr3/lesebot/commit/fbe124dd2819cf550f41e354f24875e64d68a855))
+
+### Bug Fixes
+
+- ignore JetBrains product dotfiles ([2415522](https://github.com/sondr3/lesebot/commit/2415522a5672d946b1775974537ced27cb9dd2e1))
+- pull before running deploy.sh to catch updates to script ([1271af2](https://github.com/sondr3/lesebot/commit/1271af2e5bc56c0e9c07fef2a30f9dd2f92a05fb))
+
+### [0.3.4](https://github.com/sondr3/lesebot/compare/v0.3.3...v0.3.4) (2020-09-11)
+
+### Features
+
+- add GH Action to autodeploy on release ([272633f](https://github.com/sondr3/lesebot/commit/272633f7de1982e5af159391c318e4f854d33abd))
+- added [added woah and wah](<[#14](https://github.com/sondr3/lesebot/issues/14)>) ([a9629dc](https://github.com/sondr3/lesebot/commit/a9629dca317a204668308e2fa773410dd3e97c50))
+
 ### [0.3.3](https://github.com/sondr3/lesebot/compare/v0.3.2...v0.3.3) (2020-09-11)
 
 ### [0.3.2](https://github.com/sondr3/lesebot/compare/v0.3.1...v0.3.2) (2020-09-11)
 
 ### Features
 
-- added ['i did not hit her' and 'bababooey'] ([eeba473](https://github.com/sondr3/lesebot/commit/eeba473f9afae2177c85d76880d7a4b0cb303fca))
+- added ['i did not hit her' and 'bababooey'](<[eeba473](https://github.com/sondr3/lesebot/commit/eeba473f9afae2177c85d76880d7a4b0cb303fca)>)
 
 ## [0.3.0](https://github.com/sondr3/lesebot/compare/v0.2.0...v0.3.0) (2020-05-22)
 

@@ -5,6 +5,8 @@ on:
     branches:
       - master
       - develop
+    tags:
+      - "v*.*.*"
   pull_request:
 
 jobs:
@@ -16,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 13.x]
+        node-version: [12.x, 14.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -35,3 +37,20 @@ jobs:
 
       - name: Build
         run: yarn build
+
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/v')
+    name: Build
+    runs-on: ubuntu-latest
+    needs: pipeline
+    steps:
+      - name: Deploy application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd lesebot
+            git pull
+            ./deploy.sh

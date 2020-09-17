@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { soundSamples } from "../../utils";
 import logger from "../../utils/logger";
+import { ALLOWED_VOICE_CHANNEL } from "../../constants";
 
 class SoundCommand extends Command {
   constructor(client: CommandoClient) {
@@ -35,7 +36,7 @@ class SoundCommand extends Command {
       return await message.reply("You need to specify the file to play...");
     }
     const paths = await soundSamples();
-    const hasMatch = paths.some((p) => p.includes(file));
+    const hasMatch = paths.includes(file);
     if (!hasMatch) {
       logger.warn({
         message: "Request for missing file",
@@ -58,24 +59,34 @@ class SoundCommand extends Command {
         userId: message.author.id,
       });
 
-      return await message.reply("You need to be in a voice channel for THE GONG");
-    } else {
+      return await message.reply("You need to be in a voice channel first...");
+    }
+
+    if (!ALLOWED_VOICE_CHANNEL.includes(voiceChannel.id)) {
       logger.info({
-        message: "Sound played and users annoyed",
+        message: "User attempted to annoy in the wrong voice channel",
         userId: message.author.id,
         file: file,
       });
 
-      const connection = await voiceChannel.join();
-      const dispatcher = connection.play(fs.createReadStream(path.resolve(process.cwd(), `assets/${file}.mp3`)));
-      dispatcher.on("error", console.error);
-      dispatcher.on("start", () => console.log(`${file}.mp3 is now playing`));
-      dispatcher.on("finish", () => {
-        console.log(`${file}.mp3 is done playing`);
-        dispatcher.destroy();
-        voiceChannel.leave();
-      });
+      return await message.say(`You can only annoy others in <#${ALLOWED_VOICE_CHANNEL[0]}>, behave.`);
     }
+
+    logger.info({
+      message: "Sound played and users annoyed",
+      userId: message.author.id,
+      file: file,
+    });
+
+    const connection = await voiceChannel.join();
+    const dispatcher = connection.play(fs.createReadStream(path.resolve(process.cwd(), `assets/${file}.mp3`)));
+    dispatcher.on("error", console.error);
+    dispatcher.on("start", () => console.log(`${file}.mp3 is now playing`));
+    dispatcher.on("finish", () => {
+      console.log(`${file}.mp3 is done playing`);
+      dispatcher.destroy();
+      voiceChannel.leave();
+    });
 
     return await message.direct("I hope you're happy now...");
   };

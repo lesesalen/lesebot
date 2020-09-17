@@ -7,6 +7,7 @@ class DadJokeCommand extends Command {
   constructor(client: CommandoClient) {
     super(client, {
       name: "dadjoke",
+      aliases: ["kenneth"],
       group: "fun",
       memberName: "dadjoke",
       description: "DAD YOKE, ha ha ha",
