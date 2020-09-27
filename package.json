@@ -26,6 +26,7 @@
     "discord.js-commando": "github:discordjs/Commando#c5f4b209e89c648cb67007684468b9c51f4aa502",
     "dotenv": "^8.2.0",
     "globby": "^11.0.1",
+    "lodash": "^4.17.20",
     "winston": "^3.3.3"
   },
   "optionalDependencies": {
@@ -56,6 +57,7 @@
     "@types/cheerio": "^0.22.21",
     "@types/dateformat": "^3.0.1",
     "@types/dotenv": "^8.2.0",
+    "@types/lodash": "^4.14.161",
     "@types/node": "^14.10.0",
     "@types/ws": "^7.2.6",
     "eslint": "^7.8.1",
