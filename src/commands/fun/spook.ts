@@ -1,5 +1,5 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed, User } from "discord.js";
 import logger from "../../utils/logger";
 import axios from "axios";
 
@@ -21,10 +21,23 @@ class SpookCommand extends Command {
       group: "fun",
       memberName: "spook",
       description: "Sends a random spooky skeleton!",
+      details:
+        'Returns a random gif from giphy with the "skeleton" tag ' +
+        "and sends it in the current channel, or to an optional user " +
+        "if @target is specified.",
+      args: [
+        {
+          key: "target",
+          prompt: "An optional user to spook",
+          type: "user",
+          validate: undefined,
+          default: "",
+        },
+      ],
     });
   }
 
-  run = async (message: CommandoMessage): Promise<Message | Message[]> => {
+  run = async (message: CommandoMessage, { target }: { target: User }): Promise<Message | Message[]> => {
     const gif = await axios.get<giphyrespone>(
       "https://api.giphy.com/v1/gifs/random?tag=skeleton&api_key=oTOIF1WAus5Aftz7BcgD5RJ7MJ24mn3r",
     );
@@ -36,7 +49,8 @@ class SpookCommand extends Command {
       userId: message.author.id,
     });
 
-    return await message.say(embed);
+    if (target) return await target.send(embed.setTitle(`Spooked by ${message.author.tag}!`));
+    else return await message.say(embed);
   };
 }
 
