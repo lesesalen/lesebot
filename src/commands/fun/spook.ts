@@ -21,10 +21,9 @@ class SpookCommand extends Command {
       group: "fun",
       memberName: "spook",
       description: "Sends a random spooky skeleton!",
-      details:
-        'Returns a random gif from giphy with the "skeleton" tag ' +
-        "and sends it in the current channel, or to an optional user " +
-        "if @target is specified.",
+      details: `Returns a random gif from giphy with the "skeleton" tag \
+and sends it in the current channel, or to an optional user \
+if @target is specified.`,
       args: [
         {
           key: "target",
@@ -39,7 +38,7 @@ class SpookCommand extends Command {
 
   run = async (message: CommandoMessage, { target }: { target: User }): Promise<Message | Message[]> => {
     const gif = await axios.get<giphyrespone>(
-      "https://api.giphy.com/v1/gifs/random?tag=skeleton&api_key=oTOIF1WAus5Aftz7BcgD5RJ7MJ24mn3r",
+      `https://api.giphy.com/v1/gifs/random?tag=skeleton&api_key=${String(process.env.GIPHY_API_KEY)}`,
     );
     const url = gif.data.data.images.original.url;
     const embed = new MessageEmbed().setImage(url);
