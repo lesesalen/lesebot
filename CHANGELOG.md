@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/sondr3/lesebot/compare/v0.4.4...v0.5.0) (2020-10-07)
+
+### Features
+
+- add !slap command ([572efc3](https://github.com/sondr3/lesebot/commit/572efc3b34b45115b7f63c51f135ebc3589f7c65)), closes [#19](https://github.com/sondr3/lesebot/issues/19)
+
+### Bug Fixes
+
+- fix type errors, ignore no-default-export rule for this project ([5eb864c](https://github.com/sondr3/lesebot/commit/5eb864c06b4ea65125e3787fb260363133a3c34b))
+
 ### [0.4.4](https://github.com/sondr3/lesebot/compare/v0.4.3...v0.4.4) (2020-09-17)
 
 ### Features
