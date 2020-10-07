@@ -27,7 +27,7 @@ export interface Exam {
   system?: string;
 }
 
-const parseExams = ($: CheerioStatic, elem: Cheerio): Exam[] => {
+const parseExams = ($: cheerio.Root, elem: cheerio.Cheerio): Exam[] => {
   const exams: Exam[] = [];
 
   const tempArr: string[] = [];
@@ -61,7 +61,7 @@ const parseExams = ($: CheerioStatic, elem: Cheerio): Exam[] => {
   return exams;
 };
 
-const parseCourse = ($: CheerioStatic, elem: CheerioElement): Course => {
+const parseCourse = ($: cheerio.Root, elem: cheerio.Element): Course => {
   const course = {} as Course;
 
   const parsedTitle = $(elem).find(".exam-list-title").text();
@@ -81,7 +81,7 @@ const parseCourse = ($: CheerioStatic, elem: CheerioElement): Course => {
   return course;
 };
 
-const loadPage = async (): Promise<CheerioStatic> => {
+const loadPage = async (): Promise<cheerio.Root> => {
   const { data } = await axios.get<string>(EXAM_URL);
   return cheerio.load(data);
 };

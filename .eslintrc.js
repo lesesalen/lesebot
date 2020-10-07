@@ -3,4 +3,7 @@ module.exports = {
     project: "./tsconfig.json",
   },
   extends: ["@sondr3/typescript"],
+  rules: {
+    "import/no-default-export": "off",
+  },
 };
