@@ -3,14 +3,8 @@ import { Message, MessageEmbed, User } from "discord.js";
 import logger from "../../utils/logger";
 import axios from "axios";
 
-interface giphyrespone {
-  data: {
-    images: {
-      original: {
-        url: string;
-      };
-    };
-  };
+interface GiphyResponse {
+  data: { images: { original: { url: string } } };
 }
 
 class SpookCommand extends Command {
@@ -21,9 +15,7 @@ class SpookCommand extends Command {
       group: "fun",
       memberName: "spook",
       description: "Sends a random spooky skeleton!",
-      details: `Returns a random gif from giphy with the "skeleton" tag \
-and sends it in the current channel, or to an optional user \
-if @target is specified.`,
+      details: `Returns a random gif from giphy with the "skeleton" tag and sends it in the current channel, or to an optional user if @target is specified.`,
       args: [
         {
           key: "target",
@@ -37,7 +29,7 @@ if @target is specified.`,
   }
 
   run = async (message: CommandoMessage, { target }: { target: User }): Promise<Message | Message[]> => {
-    const gif = await axios.get<giphyrespone>(
+    const gif = await axios.get<GiphyResponse>(
       `https://api.giphy.com/v1/gifs/random?tag=skeleton&api_key=${String(process.env.GIPHY_API_KEY)}`,
     );
     const url = gif.data.data.images.original.url;
