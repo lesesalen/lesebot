@@ -40,8 +40,14 @@ class SpookCommand extends Command {
       userId: message.author.id,
     });
 
-    if (target) return await target.send(embed.setTitle(`Spooked by ${message.author.tag}!`));
-    else return await message.say(embed);
+    if (target) {
+      return await Promise.all([
+        message.direct(new MessageEmbed(embed).setTitle(`Successfully spooked ${target.tag} with this:`)) as Promise<
+          Message
+        >,
+        target.send(embed.setTitle(`Spooked by ${message.author.tag}!`)),
+      ]);
+    } else return await message.say(embed);
   };
 }
 
