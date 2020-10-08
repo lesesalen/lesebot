@@ -41,12 +41,12 @@ class SpookCommand extends Command {
     });
 
     if (target) {
-      return await Promise.all([
-        message.direct(new MessageEmbed(embed).setTitle(`Successfully spooked ${target.tag} with this:`)) as Promise<
-          Message
-        >,
-        target.send(embed.setTitle(`Spooked by ${message.author.tag}!`)),
-      ]);
+      return await Promise.resolve(
+        [
+          await message.direct(new MessageEmbed(embed).setTitle(`Successfully spooked ${target.tag} with this:`)),
+          await target.send(embed.setTitle(`Spooked by ${message.author.tag}!`)),
+        ].flat(),
+      );
     } else return await message.say(embed);
   };
 }
