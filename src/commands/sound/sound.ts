@@ -5,6 +5,7 @@ import path from "path";
 import { soundSamples } from "../../utils";
 import logger from "../../utils/logger";
 import { ALLOWED_VOICE_CHANNEL } from "../../constants";
+import { getState, setPlayingState } from "../../state";
 
 class SoundCommand extends Command {
   constructor(client: CommandoClient) {
@@ -72,6 +73,15 @@ class SoundCommand extends Command {
       return await message.say(`You can only annoy others in <#${ALLOWED_VOICE_CHANNEL[0]}>, behave.`);
     }
 
+    if (getState().playingSound) {
+      logger.info({
+        message: "Attempting to play audio multiple times, aborting",
+        userId: message.author.id,
+      });
+
+      return await message.say(`I can only do so much at a time, please wait for me to finish...`);
+    }
+
     logger.info({
       message: "Sound played and users annoyed",
       userId: message.author.id,
@@ -81,11 +91,15 @@ class SoundCommand extends Command {
     const connection = await voiceChannel.join();
     const dispatcher = connection.play(fs.createReadStream(path.resolve(process.cwd(), `assets/${file}.mp3`)));
     dispatcher.on("error", console.error);
-    dispatcher.on("start", () => console.log(`${file}.mp3 is now playing`));
+    dispatcher.on("start", () => {
+      console.log(`${file}.mp3 is now playing`);
+      setPlayingState(true);
+    });
     dispatcher.on("finish", () => {
       console.log(`${file}.mp3 is done playing`);
       dispatcher.destroy();
       voiceChannel.leave();
+      setPlayingState(false);
     });
 
     return await message.direct("I hope you're happy now...");
