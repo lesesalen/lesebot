@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/sondr3/lesebot/compare/v0.5.0...v0.5.1) (2020-11-12)
+
+### Features
+
+- added a validation if you have spooked someone ([#29](https://github.com/sondr3/lesebot/issues/29)) ([d511104](https://github.com/sondr3/lesebot/commit/d511104368d7183943ad15a0bbb955780ebb4bdc)), closes [#28](https://github.com/sondr3/lesebot/issues/28)
+- create state for bot so we can check status for things ([cd7cc68](https://github.com/sondr3/lesebot/commit/cd7cc68875fea1edabca9c79c9fc6f6bce4cf4f3))
+- list of emojies that can be used to react with ([f3dba1a](https://github.com/sondr3/lesebot/commit/f3dba1a316a200011cba1dc8ba5747b40154509a))
+
+### Bug Fixes
+
+- only play sound if the bot is not busy ([b5dc917](https://github.com/sondr3/lesebot/commit/b5dc917d76c63c457f5177a8e3dddab8f18f29b1)), closes [#23](https://github.com/sondr3/lesebot/issues/23)
+
 ## [0.5.0](https://github.com/sondr3/lesebot/compare/v0.4.4...v0.5.0) (2020-10-07)
 
 ### Features
