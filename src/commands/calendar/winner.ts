@@ -29,7 +29,8 @@ class WinnerCommand extends Command {
 
       return await message.reply("You need to be in a voice channel to use this command...");
     } else {
-      const winner = sample(voiceChannel.members.array());
+      let winner = sample(voiceChannel.members.array());
+      while (this.client.isOwner(winner)) winner = sample(voiceChannel.members.array());
 
       logger.info({
         message: "Selected a new calendar winner!",
