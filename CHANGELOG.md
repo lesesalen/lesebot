@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.2](https://github.com/sondr3/lesebot/compare/v0.5.0...v0.5.2) (2020-12-08)
+
+### Features
+
+- added a validation if you have spooked someone ([#29](https://github.com/sondr3/lesebot/issues/29)) ([d511104](https://github.com/sondr3/lesebot/commit/d511104368d7183943ad15a0bbb955780ebb4bdc)), closes [#28](https://github.com/sondr3/lesebot/issues/28)
+- added the possibility to tag a future csgo team mate ([#35](https://github.com/sondr3/lesebot/issues/35)) ([eed179c](https://github.com/sondr3/lesebot/commit/eed179cfb8c1255d446645330ebeaad7be295cdd))
+- create state for bot so we can check status for things ([0847d57](https://github.com/sondr3/lesebot/commit/0847d5757aa7d8e7b4ba0041636435ccd76db053))
+- list of emojies that can be used to react with ([f3dba1a](https://github.com/sondr3/lesebot/commit/f3dba1a316a200011cba1dc8ba5747b40154509a))
+- new quotes ([ed6117c](https://github.com/sondr3/lesebot/commit/ed6117c14af6cfbf0266845e2e320512af0ad96d))
+
+### Bug Fixes
+
+- only play sound if the bot is not busy ([d7dc572](https://github.com/sondr3/lesebot/commit/d7dc5727b77c5055b89494235cfef905b9c33ffb)), closes [#23](https://github.com/sondr3/lesebot/issues/23)
+- wrong link in inspirations ([#34](https://github.com/sondr3/lesebot/issues/34)) ([bdd331c](https://github.com/sondr3/lesebot/commit/bdd331ce8671bd00406bef831758cafea2d1f963))
+
 ### [0.5.1](https://github.com/sondr3/lesebot/compare/v0.5.0...v0.5.1) (2020-11-12)
 
 ### Features
