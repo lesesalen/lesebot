@@ -20,6 +20,8 @@
 - [Installation](#installation)
   - [Configuration](#configuration)
   - [Production](#production)
+    - [Automatically](#automatically)
+    - [Manually](#manually)
   - [Developing](#developing)
 - [Inspiration, help](#inspiration-help)
 - [License](#license)
@@ -107,7 +109,7 @@ style of commits (e.g. `feat: added foo command`).
 
 - [Eivind Dagsland Halderaker](https://github.com/Eivinddh/Discord-bots) and his
   small calendar bot.
-- [Ståle Jacobsen](https://github.com/stalejacobsen-uib/) for his quotes, week
+- [Ståle Jacobsen](https://github.com/StaleJ) for his quotes, week
   number and assorted bot.
 
 # License
