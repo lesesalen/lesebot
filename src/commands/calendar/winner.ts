@@ -1,5 +1,5 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 
 import fs from "fs";
 import path from "path";
@@ -41,7 +41,7 @@ class WinnerCommand extends Command {
       logger.info({
         message: "Selected a new calendar winner!",
         userId: message.author.id,
-        winner: winner,
+        winner: winner.user.id,
       });
 
       const connection = await voiceChannel.join();
@@ -56,7 +56,17 @@ class WinnerCommand extends Command {
         voiceChannel.leave();
       });
 
-      const reply = await message.say(`And the winner is... <@${winner.user.id}>`);
+      const embed = new MessageEmbed()
+        .setColor("#0099ff")
+        .setTitle("The Winner")
+        .setDescription(`<@${winner.user.id}>`)
+        .setThumbnail(
+          winner.user.avatarURL() ?? "https://www.dictionary.com/e/wp-content/uploads/2018/03/PogChamp-300x300.jpg",
+        )
+        .setTimestamp()
+        .setFooter("Better luck next time");
+
+      const reply = await message.say(embed);
       if (reply instanceof Message) {
         const ree = this.client.emojis.cache.find((e) => e.name === "ree");
         await reply.react(ree ?? "🔥");
