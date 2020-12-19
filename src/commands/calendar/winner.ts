@@ -4,7 +4,7 @@ import { Message } from "discord.js";
 import fs from "fs";
 import path from "path";
 
-import { sample } from "../../utils";
+import { randomNumber } from "../../utils";
 import logger from "../../utils/logger";
 
 class WinnerCommand extends Command {
@@ -29,7 +29,14 @@ class WinnerCommand extends Command {
 
       return await message.reply("You need to be in a voice channel to use this command...");
     } else {
-      const winner = sample(voiceChannel.members.array());
+      const members = voiceChannel.members.array();
+
+      if (members.length == 1) {
+        return await message.reply("Trying to win on your own, eh? You lost.");
+      }
+
+      const num = await randomNumber(0, members.length - 1);
+      const winner = members[num];
 
       logger.info({
         message: "Selected a new calendar winner!",
