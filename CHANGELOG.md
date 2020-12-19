@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.3](https://github.com/sondr3/lesebot/compare/v0.5.2...v0.5.3) (2020-12-19)
+
+### Features
+
+- add !random command for truly random numbers ([0001c83](https://github.com/sondr3/lesebot/commit/0001c83bdf02af0edc0779fb6fa78c88d0b626b8))
+- add API for random.org ([067b13e](https://github.com/sondr3/lesebot/commit/067b13e273d274c050efed22b78abe8d3ba6799f))
+- update !kalender to use truly random numbers ([5cad42c](https://github.com/sondr3/lesebot/commit/5cad42c5e13bd2dff1e43b64e098b463d8ea4502))
+
+### Bug Fixes
+
+- add validation check to random number command ([a86eca0](https://github.com/sondr3/lesebot/commit/a86eca05301b7780f25ccfaf55b230f87f7d775d))
+
 ### [0.5.2](https://github.com/sondr3/lesebot/compare/v0.5.0...v0.5.2) (2020-12-08)
 
 ### Features
