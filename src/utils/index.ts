@@ -2,6 +2,8 @@ import { promises as fs } from "fs";
 import globby from "globby";
 import path from "path";
 import logger from "./logger";
+import axios from "axios";
+import { RandomGenerateIntegers } from "../types";
 
 export const writeJson = async <T>(filePath: string, content: T): Promise<void> => {
   const filepath = path.resolve(filePath);
@@ -54,4 +56,21 @@ export const soundSamples = async (): Promise<string[]> => {
 
 export const jsonToMap = <V>(jsonStr: string): Map<string, V> => {
   return new Map(JSON.parse(jsonStr));
+};
+
+export const randomNumber = async (min: number, max: number): Promise<number> => {
+  const req = await axios.post<RandomGenerateIntegers>("https://api.random.org/json-rpc/2/invoke", {
+    jsonrpc: "2.0",
+    method: "generateIntegers",
+    params: {
+      apiKey: process.env.RANDOM_KEY,
+      n: 1,
+      min: min,
+      max: max,
+      replacement: false,
+    },
+    id: 42,
+  });
+
+  return req.data.result.random.data[0];
 };
