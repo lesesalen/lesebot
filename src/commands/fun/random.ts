@@ -29,8 +29,12 @@ class RandomNumCommand extends Command {
     });
   }
 
-  run = async (message: CommandoMessage, { min, max }: { min: string; max: string }): Promise<Message | Message[]> => {
-    const num = await randomNumber(parseInt(min), parseInt(max));
+  run = async (message: CommandoMessage, { min, max }: { min: number; max: number }): Promise<Message | Message[]> => {
+    if (min >= max || max < min) {
+      return await message.reply(`That's illegal, yo`);
+    }
+
+    const num = await randomNumber(min, max);
 
     logger.info({
       message: "A random number was generated",
