@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.4](https://github.com/sondr3/lesebot/compare/v0.5.3...v0.5.4) (2020-12-19)
+
+### Features
+
+- better formatting for !kalender winner ([57450d4](https://github.com/sondr3/lesebot/commit/57450d43bee20d30d61469dde2d14ae0ae56def1)), closes [#8](https://github.com/sondr3/lesebot/issues/8)
+
 ### [0.5.3](https://github.com/sondr3/lesebot/compare/v0.5.2...v0.5.3) (2020-12-19)
 
 ### Features
