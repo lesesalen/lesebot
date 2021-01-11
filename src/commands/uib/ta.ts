@@ -1,7 +1,8 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { DMChannel, Message, Role } from "discord.js";
-import { getCourse } from "../utils/courses";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
+
 import logger from "../../utils/logger";
+import { getCourse } from "../utils/courses";
 
 class TACommand extends Command {
   constructor(client: CommandoClient) {
@@ -35,7 +36,7 @@ class TACommand extends Command {
     }
 
     const course = await getCourse(inputSubject, message);
-    if (course === null) {
+    if (course === undefined) {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 

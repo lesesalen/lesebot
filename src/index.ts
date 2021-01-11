@@ -1,6 +1,7 @@
 import { CommandoClient } from "discord.js-commando";
 import { config } from "dotenv";
 import path from "path";
+
 import { writePage } from "./modules/exams";
 import logger from "./utils/logger";
 
@@ -28,9 +29,9 @@ client.once("ready", () => {
   void client.user?.setActivity("STUDENTS", { type: "WATCHING" });
 
   logger.info({ message: `Creating initial exam information` });
-  writePage().catch((err: Error) => {
+  writePage().catch((error: Error) => {
     logger.error({
-      message: err,
+      message: error,
     });
   });
 });

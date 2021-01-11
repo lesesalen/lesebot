@@ -1,5 +1,6 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message, User } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
+
 import logger from "../../utils/logger";
 
 class SofiaCommand extends Command {
@@ -28,9 +29,7 @@ class SofiaCommand extends Command {
       userId: message.author.id,
     });
 
-    if (target) {
-      return await target.send("cs?");
-    } else return await message.say("please cs?");
+    return await (target ? target.send("cs?") : message.say("please cs?"));
   };
 }
 

@@ -1,5 +1,5 @@
-import path from "path";
 import dateFormat from "dateformat";
+import path from "path";
 
 import { Quote } from "../types";
 import { loadJson } from "../utils";

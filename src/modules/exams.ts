@@ -2,10 +2,10 @@ import axios from "axios";
 import cheerio from "cheerio";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import path from "path";
 import { promises as fs } from "fs";
+import path from "path";
 
-import { writeJson, jsonToMap } from "../utils";
+import { jsonToMap, writeJson } from "../utils";
 
 const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences-autumn-2017";
 const EXAM_PATH = path.resolve(process.cwd(), "data/exams.json");
@@ -27,33 +27,33 @@ export interface Exam {
   system?: string;
 }
 
-const parseExams = ($: cheerio.Root, elem: cheerio.Cheerio): Exam[] => {
+const parseExams = ($: cheerio.Root, element: cheerio.Cheerio): Exam[] => {
   const exams: Exam[] = [];
 
-  const tempArr: string[] = [];
-  $(elem).each((_i, elem) => tempArr.push($(elem).text()));
-  const info = tempArr.flatMap((e) =>
-    e
+  const temporaryArray: string[] = [];
+  $(element).each((_index, element) => temporaryArray.push($(element).text()));
+  const info = temporaryArray.flatMap((element) =>
+    element
       .split("\n")
-      .map((e) => e.trim())
-      .filter((e) => e !== ""),
+      .map((item) => item.trim())
+      .filter((item) => item !== ""),
   );
 
   let exam = {} as Exam;
-  for (let i = 0; i < info.length; i++) {
-    if (info[i].toLowerCase().includes("date")) {
+  for (let index = 0; index < info.length; index++) {
+    if (info[index].toLowerCase().includes("date")) {
       if (Object.prototype.hasOwnProperty.call(exam, "date")) {
         exams.push(exam);
         exam = {} as Exam;
       }
 
-      exam.date = dayjs(info[i + 1], "DD.MM.YYYY, HH:mm").toDate();
-    } else if (info[i].toLowerCase().includes("duration")) {
-      exam.duration = info[i + 1];
-    } else if (info[i].toLowerCase().includes("examination")) {
-      exam.system = `${info[i + 1]} ${info[i + 2]}`;
-    } else if (info[i].toLowerCase().includes("location")) {
-      exam.location = info[i + 1];
+      exam.date = dayjs(info[index + 1], "DD.MM.YYYY, HH:mm").toDate();
+    } else if (info[index].toLowerCase().includes("duration")) {
+      exam.duration = info[index + 1];
+    } else if (info[index].toLowerCase().includes("examination")) {
+      exam.system = `${info[index + 1]} ${info[index + 2]}`;
+    } else if (info[index].toLowerCase().includes("location")) {
+      exam.location = info[index + 1];
     }
   }
   exams.push(exam);
@@ -61,21 +61,21 @@ const parseExams = ($: cheerio.Root, elem: cheerio.Cheerio): Exam[] => {
   return exams;
 };
 
-const parseCourse = ($: cheerio.Root, elem: cheerio.Element): Course => {
+const parseCourse = ($: cheerio.Root, element: cheerio.Element): Course => {
   const course = {} as Course;
 
-  const parsedTitle = $(elem).find(".exam-list-title").text();
+  const parsedTitle = $(element).find(".exam-list-title").text();
   const [code, title] = parsedTitle.split("/").map((s) => s.trim());
   course.code = code;
   course.title = title;
 
-  const parsedURL = $(elem).find(".exam-list-title > a").attr("href")?.trim();
+  const parsedURL = $(element).find(".exam-list-title > a").attr("href")?.trim();
   course.url = parsedURL ?? "";
 
-  const parsedAssesment = $($(elem).find("h3")[1]).text();
-  course.assessment = parsedAssesment.slice(parsedAssesment.lastIndexOf(":") + 1, parsedAssesment.length).trim();
+  const parsedAssessment = $($(element).find("h3")[1]).text();
+  course.assessment = parsedAssessment.slice(parsedAssessment.lastIndexOf(":") + 1, parsedAssessment.length).trim();
 
-  const details = $(elem).find(".uib-study-exam-assessment");
+  const details = $(element).find(".uib-study-exam-assessment");
   course.exams = parseExams($, details);
 
   return course;
@@ -90,8 +90,8 @@ export const parsePage = async (): Promise<Map<string, Course>> => {
   const $ = await loadPage();
   const courses = new Map();
 
-  $(".faculty-exam-list > li").each((_i, elem) => {
-    const course = parseCourse($, elem);
+  $(".faculty-exam-list > li").each((_index, element) => {
+    const course = parseCourse($, element);
     courses.set(course.code, course);
   });
 
@@ -100,7 +100,7 @@ export const parsePage = async (): Promise<Map<string, Course>> => {
 
 export const writePage = async (): Promise<void> => {
   const exams = await parsePage();
-  const map = Array.from(exams.entries());
+  const map = [...exams.entries()];
   await writeJson(EXAM_PATH, map);
 };
 

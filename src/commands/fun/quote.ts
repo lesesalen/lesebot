@@ -1,7 +1,7 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-import { loadMergedQuotes, formatQuote } from "../../modules/quotes";
+import { formatQuote, loadMergedQuotes } from "../../modules/quotes";
 import { sample } from "../../utils";
 import logger from "../../utils/logger";
 

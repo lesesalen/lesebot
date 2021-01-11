@@ -1,6 +1,6 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message } from "discord.js";
 import dateformat from "dateformat";
+import { Message } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import fs from "fs";
 import path from "path";
 

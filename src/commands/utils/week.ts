@@ -1,6 +1,6 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message, MessageEmbed } from "discord.js";
 import dateformat from "dateformat";
+import { Message, MessageEmbed } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
 class WeekCommand extends Command {
   constructor(client: CommandoClient) {

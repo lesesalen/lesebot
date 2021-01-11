@@ -1,7 +1,7 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-import { loadMergedQuotes, formatQuote } from "../../modules/quotes";
+import { formatQuote, loadMergedQuotes } from "../../modules/quotes";
 
 class ListQuotesCommand extends Command {
   constructor(client: CommandoClient) {
@@ -21,7 +21,7 @@ class ListQuotesCommand extends Command {
 
     await message.author.send(`You requested all of our quotes, enjoy! (its limited to the last 25 sadly)\n`);
     const reply = quotes
-      .slice(quotes.length - 25, quotes.length)
+      .slice(-25, quotes.length)
       .map((q) => `> ${formatQuote(q)}\n`)
       .join("\n");
     return await message.author.send(reply);

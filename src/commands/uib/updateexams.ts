@@ -1,8 +1,8 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-import logger from "../../utils/logger";
 import { writePage } from "../../modules/exams";
+import logger from "../../utils/logger";
 
 class UpdateExamsCommand extends Command {
   constructor(client: CommandoClient) {

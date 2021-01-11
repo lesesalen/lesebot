@@ -1,5 +1,5 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message, User } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import random from "lodash/random";
 
 import logger from "../../utils/logger";
@@ -33,7 +33,7 @@ class SlapCommand extends Command {
     });
 
     if (typeof target === "string") {
-      const randomUser = Array.from(message.member.guild.members.valueOf().values());
+      const randomUser = [...message.member.guild.members.valueOf().values()];
       let user = randomUser[random(0, randomUser.length)];
       while (user.presence.status !== "online") {
         user = randomUser[random(0, randomUser.length)];

@@ -2,7 +2,10 @@ module.exports = {
   parserOptions: {
     project: "./tsconfig.json",
   },
-  extends: ["@sondr3/typescript"],
+  globals: {
+    __dirname: true,
+  },
+  extends: ["@sondr3/eslint-config/typescript", "@sondr3/eslint-config/node"],
   rules: {
     "import/no-default-export": "off",
   },

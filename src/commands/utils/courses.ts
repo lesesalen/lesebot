@@ -1,8 +1,9 @@
-import { Course, readPage } from "../../modules/exams";
-import logger from "../../utils/logger";
 import { CommandoMessage } from "discord.js-commando";
 
-export const getCourse = async (course: string, message: CommandoMessage): Promise<Course | null> => {
+import { Course, readPage } from "../../modules/exams";
+import logger from "../../utils/logger";
+
+export const getCourse = async (course: string, message: CommandoMessage): Promise<Course | undefined> => {
   const exams = await readPage();
 
   if (!exams.has(course)) {
@@ -12,7 +13,7 @@ export const getCourse = async (course: string, message: CommandoMessage): Promi
       subject: course,
     });
 
-    return null;
+    return;
   }
 
   logger.info({

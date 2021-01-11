@@ -1,9 +1,9 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-import { Quote } from "../../types";
-import { writeJson, mergeJson } from "../../utils";
 import { ADDED_QUOTES_PATH } from "../../modules/quotes";
+import { Quote } from "../../types";
+import { mergeJson, writeJson } from "../../utils";
 import logger from "../../utils/logger";
 
 class AddQuoteCommand extends Command {

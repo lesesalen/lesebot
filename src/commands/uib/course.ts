@@ -1,5 +1,6 @@
+import { Collection, GuildChannel, Message } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message, GuildChannel, Collection } from "discord.js";
+
 import { Course } from "../../modules/exams";
 import { getCourse } from "../utils/courses";
 
@@ -32,7 +33,7 @@ class RequestCommand extends Command {
     const inputSubject = subject.toUpperCase().trim();
 
     const course = await getCourse(inputSubject, message);
-    if (course === null) {
+    if (course === undefined) {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
@@ -55,7 +56,7 @@ class RequestCommand extends Command {
       return channelCache.find((category) => category.name === "MAT");
 
       // INF Fag
-    } else if (course.code.substring(0, 3) === "INF") {
+    } else if (course.code.slice(0, 3) === "INF") {
       switch (course.code.charAt(3)) {
         case "1":
           return channelCache.find((category) => category.id === "744961179612610700"); // INF1xx Kategori

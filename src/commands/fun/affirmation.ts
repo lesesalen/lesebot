@@ -1,6 +1,7 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message, User } from "discord.js";
 import axios from "axios";
+import { Message, User } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
+
 import logger from "../../utils/logger";
 
 class AffirmationCommand extends Command {

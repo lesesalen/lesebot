@@ -1,7 +1,8 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message, MessageEmbed } from "discord.js";
-import { Course } from "../../modules/exams";
 import dateFormat from "dateformat";
+import { Message, MessageEmbed } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
+
+import { Course } from "../../modules/exams";
 import { getCourse } from "../utils/courses";
 
 class ExamCommand extends Command {
@@ -33,7 +34,7 @@ class ExamCommand extends Command {
     }
 
     const course = await getCourse(inputSubject, message);
-    if (course === null) {
+    if (course === undefined) {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 

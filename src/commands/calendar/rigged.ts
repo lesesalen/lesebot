@@ -1,5 +1,6 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
+
 import logger from "../../utils/logger";
 
 class RiggedCommand extends Command {

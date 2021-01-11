@@ -1,9 +1,10 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message, MessageEmbed } from "discord.js";
-import logger from "../../utils/logger";
-import { randomNumber } from "../../utils";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-class RandomNumCommand extends Command {
+import { randomNumber } from "../../utils";
+import logger from "../../utils/logger";
+
+class RandomNumberCommand extends Command {
   constructor(client: CommandoClient) {
     super(client, {
       name: "random",
@@ -15,15 +16,15 @@ class RandomNumCommand extends Command {
           key: "min",
           prompt: "Minimum value",
           type: "integer",
-          validate: (val: string) => parseInt(val) >= 0,
-          parse: (val: string) => parseInt(val),
+          validate: (value: string) => Number.parseInt(value) >= 0,
+          parse: (value: string) => Number.parseInt(value),
         },
         {
           key: "max",
           prompt: "Maximum value",
           type: "integer",
-          validate: (val: string) => parseInt(val) >= 0,
-          parse: (val: string) => parseInt(val),
+          validate: (value: string) => Number.parseInt(value) >= 0,
+          parse: (value: string) => Number.parseInt(value),
         },
       ],
     });
@@ -34,7 +35,7 @@ class RandomNumCommand extends Command {
       return await message.reply(`That's illegal, yo`);
     }
 
-    const num = await randomNumber(min, max);
+    const number = await randomNumber(min, max);
 
     logger.info({
       message: "A random number was generated",
@@ -45,7 +46,7 @@ class RandomNumCommand extends Command {
       .setColor("#0099ff")
       .attachFiles(["./assets/blobross.png"])
       .setTitle("Random number")
-      .setDescription(num)
+      .setDescription(number)
       .setThumbnail("attachment://blobross.png")
       .setTimestamp()
       .setFooter("Guaranteed to be random");
@@ -54,4 +55,4 @@ class RandomNumCommand extends Command {
   };
 }
 
-export default RandomNumCommand;
+export default RandomNumberCommand;

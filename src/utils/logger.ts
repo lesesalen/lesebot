@@ -1,4 +1,4 @@
-import winston, { transports, format } from "winston";
+import winston, { format, transports } from "winston";
 
 const logger = winston.createLogger({
   level: "info",

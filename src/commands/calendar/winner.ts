@@ -1,6 +1,5 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message, MessageEmbed } from "discord.js";
-
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import fs from "fs";
 import path from "path";
 
@@ -35,8 +34,8 @@ class WinnerCommand extends Command {
         return await message.reply("Trying to win on your own, eh? You lost.");
       }
 
-      const num = await randomNumber(0, members.length - 1);
-      const winner = members[num];
+      const number = await randomNumber(0, members.length - 1);
+      const winner = members[number];
 
       logger.info({
         message: "Selected a new calendar winner!",
@@ -68,7 +67,7 @@ class WinnerCommand extends Command {
 
       const reply = await message.say(embed);
       if (reply instanceof Message) {
-        const ree = this.client.emojis.cache.find((e) => e.name === "ree");
+        const ree = this.client.emojis.cache.find((emoji) => emoji.name === "ree");
         await reply.react(ree ?? "🔥");
         await reply.react("🎉");
       }

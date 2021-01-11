@@ -1,7 +1,8 @@
-import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Message, MessageEmbed, User } from "discord.js";
-import logger from "../../utils/logger";
 import axios from "axios";
+import { Message, MessageEmbed, User } from "discord.js";
+import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
+
+import logger from "../../utils/logger";
 
 interface GiphyResponse {
   data: { images: { original: { url: string } } };
@@ -40,14 +41,14 @@ class SpookCommand extends Command {
       userId: message.author.id,
     });
 
-    if (target) {
-      return await Promise.resolve(
-        [
-          await message.direct(new MessageEmbed(embed).setTitle(`Successfully spooked ${target.tag} with this:`)),
-          await target.send(embed.setTitle(`Spooked by ${message.author.tag}!`)),
-        ].flat(),
-      );
-    } else return await message.say(embed);
+    return await (target
+      ? Promise.resolve(
+          [
+            await message.direct(new MessageEmbed(embed).setTitle(`Successfully spooked ${target.tag} with this:`)),
+            await target.send(embed.setTitle(`Spooked by ${message.author.tag}!`)),
+          ].flat(),
+        )
+      : message.say(embed));
   };
 }
 
