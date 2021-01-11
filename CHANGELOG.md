@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/sondr3/lesebot/compare/v0.5.4...v0.6.0) (2021-01-11)
+
+### Features
+
+- command to add yourself as a TA to a course ([22b4fa3](https://github.com/sondr3/lesebot/commit/22b4fa3ad3ca4c4348ca468f5f050be6e735cf38))
+
 ### [0.5.4](https://github.com/sondr3/lesebot/compare/v0.5.3...v0.5.4) (2020-12-19)
 
 ### Features
