@@ -1,8 +1,8 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message, MessageEmbed } from "discord.js";
-import logger from "../../utils/logger";
-import { Course, readPage } from "../../modules/exams";
+import { Course } from "../../modules/exams";
 import dateFormat from "dateformat";
+import { getCourse } from "../utils/courses";
 
 class ExamCommand extends Command {
   constructor(client: CommandoClient) {
@@ -32,24 +32,10 @@ class ExamCommand extends Command {
       return await message.reply("You need to specify the subject to ask about");
     }
 
-    const exams = await readPage();
-    if (!exams.has(inputSubject)) {
-      logger.warn({
-        message: "Missing course",
-        userId: message.author.id,
-        subject: inputSubject,
-      });
-
+    const course = await getCourse(inputSubject, message);
+    if (course === null) {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
-
-    const course = exams.get(inputSubject) as Course;
-
-    logger.info({
-      message: "Subject was inquired about",
-      userId: message.author.id,
-      subject: inputSubject,
-    });
 
     const embed = new MessageEmbed()
       .setColor("#0099ff")

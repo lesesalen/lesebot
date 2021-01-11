@@ -1,7 +1,7 @@
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 import { Message, GuildChannel, Collection } from "discord.js";
-import logger from "../../utils/logger";
-import { Course, readPage } from "../../modules/exams";
+import { Course } from "../../modules/exams";
+import { getCourse } from "../utils/courses";
 
 class RequestCommand extends Command {
   constructor(client: CommandoClient) {
@@ -31,23 +31,10 @@ class RequestCommand extends Command {
 
     const inputSubject = subject.toUpperCase().trim();
 
-    const exams = await readPage();
-    if (!exams.has(inputSubject)) {
-      logger.warn({
-        message: "Missing course",
-        userId: message.author.id,
-        subject: inputSubject,
-      });
+    const course = await getCourse(inputSubject, message);
+    if (course === null) {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
-
-    const course = exams.get(inputSubject) as Course;
-
-    logger.info({
-      message: "Subject was inquired about",
-      userId: message.author.id,
-      subject: inputSubject,
-    });
 
     const guild = message.guild;
     const channelCache = guild.channels.cache; // Cache liste av kanaler
@@ -60,7 +47,6 @@ class RequestCommand extends Command {
       await message.guild.channels.create(course.code.toLowerCase(), { type: "text", parent: category });
       return await message.say(`A channel for ${inputSubject} has been created.`);
     }
-    return await message.say("An error has occured");
   };
 
   getCategoryChannel = (course: Course, channelCache: Collection<string, GuildChannel>): GuildChannel | undefined => {
@@ -73,13 +59,10 @@ class RequestCommand extends Command {
       switch (course.code.charAt(3)) {
         case "1":
           return channelCache.find((category) => category.id === "744961179612610700"); // INF1xx Kategori
-          break;
         case "2":
           return channelCache.find((category) => category.id === "744961214878056449"); // INF2xx Kategori
-          break;
         case "3":
           return channelCache.find((category) => category.id === "744961536367525948"); // INF3xx Kategori
-          break;
         default:
           break;
       }
