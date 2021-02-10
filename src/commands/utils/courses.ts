@@ -44,11 +44,14 @@ export const getExams = async (course: string, message: CommandoMessage): Promis
     subject: course,
   });
 
-  let c = structured.get(course);
+  const c1 = structured.get(course);
+  const c2 = exams.get(course);
 
-  if (!c?.exams || c?.exams.length < 1) {
-    c = exams.get(course);
+  if (!c1 || !c2) return;
+
+  if (c1?.exams.length < c2?.exams.length) {
+    return c2;
   }
 
-  return c;
+  return c1;
 };
