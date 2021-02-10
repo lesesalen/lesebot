@@ -50,7 +50,7 @@ class TACommand extends Command {
           mentionable: true,
           color: "RANDOM",
         },
-        reason: `${message.member.displayName} requested it`,
+        reason: `${message.member?.displayName ?? "unknown"} requested it`,
       });
 
       logger.info({
@@ -68,13 +68,13 @@ class TACommand extends Command {
       return await message.say(`Something went wrong... try again or tell an admin :'(`);
     }
 
-    if (message.member.roles.cache.has(role.id)) {
+    if (message.member?.roles.cache.has(role.id)) {
       return await message.reply(`You're already a TA in ${course.title}... now you're a double TA.`);
     } else {
-      await message.member.roles.add(role);
+      await message.member?.roles.add(role);
 
       logger.info({
-        message: `Added ${message.member.displayName} as TA to ${course.code}`,
+        message: `Added ${message.member?.displayName ?? "unknown"} as TA to ${course.code}`,
         userId: message.author.id,
       });
 

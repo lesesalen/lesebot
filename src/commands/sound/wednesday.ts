@@ -23,7 +23,7 @@ class WednesdayCommand extends Command {
       return await message.say("It is **NOT** Wednesday my Dudes");
     }
 
-    const voiceChannel = message.member.voice.channel;
+    const voiceChannel = message.member?.voice.channel;
 
     if (!voiceChannel) {
       return await message.reply("You need to be in a voice channel for wednesday");

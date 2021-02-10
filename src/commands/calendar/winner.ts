@@ -18,7 +18,7 @@ class WinnerCommand extends Command {
   }
 
   run = async (message: CommandoMessage): Promise<Message | Message[]> => {
-    const voiceChannel = message.member.voice.channel;
+    const voiceChannel = message.member?.voice.channel;
 
     if (!voiceChannel) {
       logger.warn({

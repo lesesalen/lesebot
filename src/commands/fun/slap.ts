@@ -33,7 +33,7 @@ class SlapCommand extends Command {
     });
 
     if (typeof target === "string") {
-      const randomUser = [...message.member.guild.members.valueOf().values()];
+      const randomUser = [...(message.member?.guild.members.valueOf().values() ?? [])];
       let user = randomUser[random(0, randomUser.length)];
       while (user.presence.status !== "online") {
         user = randomUser[random(0, randomUser.length)];

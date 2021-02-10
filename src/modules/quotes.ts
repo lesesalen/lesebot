@@ -19,7 +19,7 @@ export const loadMergedQuotes = async (): Promise<Quote[]> => {
   const q1 = await loadQuotes();
   const q2 = await loadAddedQuotes();
 
-  return q1.concat(q2);
+  return [...q1, ...q2];
 };
 
 export const formatQuote = (quote: Quote): string => {

@@ -53,7 +53,7 @@ class SoundCommand extends Command {
       );
     }
 
-    const voiceChannel = message.member.voice.channel;
+    const voiceChannel = message.member?.voice.channel;
 
     if (!voiceChannel) {
       logger.warn({
