@@ -27,7 +27,6 @@
     "axios": "^0.21.1",
     "cheerio": "1.0.0-rc.5",
     "dateformat": "4.5.1",
-    "dayjs": "1.10.4",
     "discord.js": "^12.5.1",
     "discord.js-commando": "^0.12.2",
     "dotenv": "^8.2.0",

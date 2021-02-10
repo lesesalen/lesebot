@@ -1,7 +1,5 @@
 import axios from "axios";
 import cheerio from "cheerio";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { promises as fs } from "fs";
 import path from "path";
 
@@ -11,8 +9,6 @@ const STRUCTURED_DATA_URL = "https://raw.githubusercontent.com/sondr3/course-exp
 const STRUCTURED_DATA_PATH = path.resolve(process.cwd(), "data/structured.json");
 const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences-autumn-2017";
 const EXAM_PATH = path.resolve(process.cwd(), "data/exams.json");
-
-dayjs.extend(customParseFormat);
 
 export interface Course {
   id: string;
