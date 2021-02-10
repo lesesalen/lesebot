@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-import { writePage } from "../../modules/exams";
+import { writeStructuredData } from "../../modules/exams";
 import logger from "../../utils/logger";
 
 class UpdateExamsCommand extends Command {
@@ -21,7 +21,7 @@ class UpdateExamsCommand extends Command {
       userId: message.author.id,
     });
 
-    await writePage();
+    await writeStructuredData();
 
     return await message.say(`Okay! Exam information updated.`);
   };

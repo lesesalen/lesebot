@@ -111,6 +111,7 @@ temp/
 
 data/added_quotes.json
 data/exams.json
+data/structured.json
 
 
 ### Created by https://www.gitignore.io

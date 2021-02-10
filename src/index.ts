@@ -2,7 +2,7 @@ import { CommandoClient } from "discord.js-commando";
 import { config } from "dotenv";
 import path from "path";
 
-import { writePage } from "./modules/exams";
+import { writeExamPage, writeStructuredData } from "./modules/exams";
 import logger from "./utils/logger";
 
 config();
@@ -29,7 +29,12 @@ client.once("ready", () => {
   void client.user?.setActivity("STUDENTS", { type: "WATCHING" });
 
   logger.info({ message: `Creating initial exam information` });
-  writePage().catch((error: Error) => {
+  writeStructuredData().catch((error: Error) => {
+    logger.error({
+      message: error,
+    });
+  });
+  writeExamPage().catch((error: Error) => {
     logger.error({
       message: error,
     });

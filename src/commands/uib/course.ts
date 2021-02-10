@@ -40,24 +40,24 @@ class RequestCommand extends Command {
     const guild = message.guild;
     const channelCache = guild.channels.cache; // Cache liste av kanaler
     // Sjekk om det finnes en kanal med samme emnekode
-    const channelExits = channelCache.some((channel) => channel.name.toLowerCase() === course.code.toLowerCase());
+    const channelExits = channelCache.some((channel) => channel.name.toLowerCase() === course.id.toLowerCase());
     if (channelExits) {
       return await message.say(`A channel for ${inputSubject} already exists.`);
     } else {
       const category = this.getCategoryChannel(course, channelCache); // Finn hvilken kategori som er parent av den nye kanalen
-      await message.guild.channels.create(course.code.toLowerCase(), { type: "text", parent: category });
+      await message.guild.channels.create(course.id.toLowerCase(), { type: "text", parent: category });
       return await message.say(`A channel for ${inputSubject} has been created.`);
     }
   };
 
   getCategoryChannel = (course: Course, channelCache: Collection<string, GuildChannel>): GuildChannel | undefined => {
     // Matte fag
-    if (course.code.includes("MAT") || course.code.includes("STAT")) {
+    if (course.id.includes("MAT") || course.id.includes("STAT")) {
       return channelCache.find((category) => category.name === "MAT");
 
       // INF Fag
-    } else if (course.code.slice(0, 3) === "INF") {
-      switch (course.code.charAt(3)) {
+    } else if (course.id.slice(0, 3) === "INF") {
+      switch (course.id.charAt(3)) {
         case "1":
           return channelCache.find((category) => category.id === "744961179612610700"); // INF1xx Kategori
         case "2":

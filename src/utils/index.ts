@@ -18,7 +18,7 @@ export const writeJson = async <T>(filePath: string, content: T): Promise<void> 
     await fs.writeFile(filepath, "");
   }
 
-  await fs.writeFile(path.resolve(filepath), JSON.stringify(content));
+  await fs.writeFile(filepath, JSON.stringify(content));
 };
 
 export const loadJson = async <T>(filePath: string): Promise<T[]> => {

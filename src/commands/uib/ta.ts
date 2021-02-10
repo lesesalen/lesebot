@@ -42,10 +42,10 @@ class TACommand extends Command {
 
     const guild = message.guild;
     let role: Role | undefined;
-    if (!guild.roles.cache.some((role) => role.name === `gruppeleder-${course.code.toLowerCase()}`)) {
+    if (!guild.roles.cache.some((role) => role.name === `gruppeleder-${course.id.toLowerCase()}`)) {
       role = await guild.roles.create({
         data: {
-          name: `gruppeleder-${course.code.toLowerCase()}`,
+          name: `gruppeleder-${course.id.toLowerCase()}`,
           hoist: true,
           mentionable: true,
           color: "RANDOM",
@@ -54,31 +54,31 @@ class TACommand extends Command {
       });
 
       logger.info({
-        message: `Created new role for ${course.code}`,
+        message: `Created new role for ${course.id}`,
         userId: message.author.id,
       });
     } else {
-      role = guild.roles.cache.find((role) => role.name === `gruppeleder-${course.code.toLowerCase()}`);
+      role = guild.roles.cache.find((role) => role.name === `gruppeleder-${course.id.toLowerCase()}`);
     }
 
     if (role === undefined) {
       logger.error({
-        message: `Could not get role for ${course.code}`,
+        message: `Could not get role for ${course.id}`,
       });
       return await message.say(`Something went wrong... try again or tell an admin :'(`);
     }
 
     if (message.member?.roles.cache.has(role.id)) {
-      return await message.reply(`You're already a TA in ${course.title}... now you're a double TA.`);
+      return await message.reply(`You're already a TA in ${course.name}... now you're a double TA.`);
     } else {
       await message.member?.roles.add(role);
 
       logger.info({
-        message: `Added ${message.member?.displayName ?? "unknown"} as TA to ${course.code}`,
+        message: `Added ${message.member?.displayName ?? "unknown"} as TA to ${course.id}`,
         userId: message.author.id,
       });
 
-      return await message.reply(`Congrats, you're now a TA in ${course.code}: ${course.title}`);
+      return await message.reply(`Congrats, you're now a TA in ${course.id}: ${course.name}`);
     }
   };
 }
