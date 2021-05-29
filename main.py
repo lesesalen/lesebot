@@ -19,7 +19,7 @@ load_dotenv()
 client = commands.Bot(
     command_prefix=os.getenv("DISCORD_PREFIX"), intents=discord.Intents.all()
 )
-client.remove_command("help")
+# client.remove_command("help")
 slash = SlashCommand(client, sync_commands=True, sync_on_cog_reload=True)
 
 
