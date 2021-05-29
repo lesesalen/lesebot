@@ -1,15 +1,13 @@
-FROM node:15
+FROM python:3.9-buster
 
 WORKDIR /usr/src/app
 
 RUN apt-get update
 RUN apt-get install ffmpeg --yes
 
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN yarn build
-
-CMD [ "node", "dist/index.js" ]
+CMD [ "python", "lesebot/lesebot.py" ]
