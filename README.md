@@ -2,6 +2,7 @@
 
 <p align="center">
    <a href="https://github.com/sondr3/lesebot/actions"><img alt="GitHub Actions Status" src="https://github.com/sondr3/lesebot/workflows/pipeline/badge.svg" /></a>
+   <a href="https://results.pre-commit.ci/latest/github/lesesalen/lesebot/master"><img alt="pre-commit.ci" src="https://results.pre-commit.ci/badge/github/lesesalen/lesebot/master.svg" /></a>
    <br />
 </p>
 
