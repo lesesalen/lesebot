@@ -64,6 +64,7 @@ If you don't have make installed, it's still very straight forward to get going:
 $ git clone git@github.com:sondr3/lesebot.git
 $ cd lesebot
 $ python -m venv .venv
+$ source .venv/bin/activate
 $ pip install -r requirements.txt
 $ pre-commit install
 ```
