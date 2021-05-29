@@ -1,6 +1,8 @@
 all:
-	@echo 'Run one of the commands (deps, test)'
+	@echo 'Run one of the commands (setup)'
 
-.PHONY: deps
-deps:
-	pip install -r requirements.txt -r requirements-dev.txt
+.PHONY: setup
+setup:
+	python -m venv .venv
+	pip install -r requirements.txt
+	pre-commit install
