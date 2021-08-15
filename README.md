@@ -49,24 +49,19 @@ expose your application secrets, so make sure it is never added to your repo.
 
 ## Developing
 
-For development, you need a good Python IDE (Visual Studio Code or Pycharm
-are my recommendations) and Python (at least Python 3.9), then simply run:
+For development, you need a good
+
+1. Python IDE (Visual Studio Code or Pycharm are my recommendations)
+2. Poetry, see https://python-poetry.org/docs/#installation
+3. Python (at least Python 3.9)
+
+Then simply run:
 
 ```sh
 $ git clone git@github.com:sondr3/lesebot.git
 $ cd lesebot
-$ make setup
-```
-
-If you don't have make installed, it's still very straight forward to get going:
-
-```shell
-$ git clone git@github.com:sondr3/lesebot.git
-$ cd lesebot
-$ python -m venv .venv
-$ source .venv/bin/activate
-$ pip install -r requirements.txt
-$ pre-commit install
+$ poetry install
+$ poetry run pre-commit install
 ```
 
 You can now start the bot by simply running `python main.py`.
@@ -78,7 +73,7 @@ and running the bot with `nodemon main.py`.
 ## Production
 
 For production, I recommend hosting the bot in a Docker container and running
-that. It is fairly straight forward:
+that. It is fairly straight forward, either run `./deploy.sh` or manually:
 
 ```sh
 $ docker build -t <name> .
