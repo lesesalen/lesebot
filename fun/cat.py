@@ -9,7 +9,7 @@ async def make(ctx):
     catUrl = res.json()[0]["url"]
     embed = discord.Embed(title="Cat")
     embed.set_image(url=catUrl)
-    await ctx.send(embed=embed)
+    return await ctx.send(embed=embed)
 
 
 class CatCommand(commands.Cog):
