@@ -1,8 +1,7 @@
 import { Message, MessageEmbed } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-import { Course } from "../../modules/exams";
-import { getExams } from "../utils/courses";
+import { Course, getCourse } from "../../utils/courses";
 
 class ExamCommand extends Command {
   constructor(client: CommandoClient) {
@@ -27,21 +26,26 @@ class ExamCommand extends Command {
 
   run = async (message: CommandoMessage, { subject }: { subject: string }): Promise<Message | Message[]> => {
     const inputSubject = subject.toUpperCase().trim();
+    const courseId = inputSubject.toLowerCase();
 
     if (inputSubject === "") {
       return await message.reply("You need to specify the subject to ask about");
     }
 
-    const course = await getExams(inputSubject, message);
+    const course = await getCourse(inputSubject, message);
     if (course === undefined) {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
+    if (course.exams.length === 0) {
+      return await message.reply(`It doesn't seem to be any exams for ${inputSubject}.`);
+    }
+
     const embed = new MessageEmbed()
       .setColor("#0099ff")
-      .setTitle(course?.id)
-      .setURL(course?.url ?? "")
-      .setDescription(course?.name);
+      .setTitle(courseId)
+      .setURL(course.url ?? "")
+      .setDescription(course.name_en);
 
     this.buildExamEmbed(course, embed);
 
