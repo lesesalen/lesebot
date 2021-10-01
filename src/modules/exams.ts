@@ -3,9 +3,9 @@ import cheerio from "cheerio";
 import { promises as fs } from "fs";
 import path from "path";
 
-import { jsonToMap, writeJson } from "../utils";
+import { jsonToMap, strToJsonTyped, writeJson } from "../utils";
 
-const STRUCTURED_DATA_URL = "https://raw.githubusercontent.com/sondr3/course-explorer/master/structured.json";
+// const STRUCTURED_DATA_URL = "https://raw.githubusercontent.com/sondr3/course-explorer/master/structured.json";
 const STRUCTURED_DATA_PATH = path.resolve(process.cwd(), "data/structured.json");
 const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences-autumn-2017";
 const EXAM_PATH = path.resolve(process.cwd(), "data/exams.json");
@@ -76,20 +76,72 @@ const parseCourse = ($: cheerio.Root, element: cheerio.Element): Course => {
   return course;
 };
 
-const loadStructuredData = async (): Promise<Record<string, Course>> => {
-  const { data } = await axios.get<Record<string, Course>>(STRUCTURED_DATA_URL, { responseType: "json" });
-  return data;
+interface RoomEntry {
+  id: string;
+  roomurl: string;
+}
+
+interface RoomApiEntry extends RoomEntry {
+  name: string;
+}
+
+interface RoomApiResponse {
+  data: RoomApiEntry[];
+}
+
+const getRooms = async (): Promise<RoomApiEntry[]> => {
+  const resp = await axios.get<RoomApiResponse>(
+    `https://tp.data.uib.no/${process.env.UIB_KEY as string}/ws/room/2.0/allrooms.php`,
+    {
+      responseType: "json",
+    },
+  );
+  const rooms: RoomApiEntry[] = resp.data.data.map((obj) => ({ id: obj.id, roomurl: obj.roomurl, name: obj.name })); // (。_。)
+  return rooms;
+};
+
+// Temporarily disabling course loading
+// const getCourses = async (): Promise<[string, Course][]> => {
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//   const { data } = await axios.get<Record<string, Course>>(STRUCTURED_DATA_URL, { responseType: "json" });
+//   // const map = [...new Map(Object.entries(data)).entries()];
+//   return {} as [string, Course][];
+// };
+
+interface StructuredData {
+  rooms: RoomApiEntry[];
+}
+
+const createStructuredData = async (): Promise<StructuredData> => {
+  // Convert room data
+  const rooms = await getRooms();
+
+  return {
+    rooms: rooms,
+  };
 };
 
 export const writeStructuredData = async (): Promise<void> => {
-  const exams = await loadStructuredData();
-  const map = [...new Map(Object.entries(exams)).entries()];
-  await writeJson(STRUCTURED_DATA_PATH, map);
+  const cachedData = await createStructuredData();
+  await writeJson(STRUCTURED_DATA_PATH, cachedData);
 };
 
-export const readStructuredData = async (): Promise<Map<string, Course>> => {
+export const readStructuredData = async (): Promise<{
+  courses: Map<string, Course>;
+  rooms: Map<string, RoomEntry>;
+}> => {
   const file = await fs.readFile(STRUCTURED_DATA_PATH);
-  return jsonToMap(file.toString());
+  const obj = strToJsonTyped<StructuredData>(file.toString());
+
+  // Discretize to map (removing duplicates)
+  const roomMap = new Map(
+    obj?.rooms.map(({ id, name, roomurl }): [string, RoomEntry] => [name, { id: id, roomurl: roomurl }]) ?? [],
+  );
+
+  return {
+    courses: new Map([]),
+    rooms: roomMap,
+  };
 };
 
 const loadExamPage = async (): Promise<cheerio.Root> => {

@@ -2,7 +2,7 @@ import { CommandoClient } from "discord.js-commando";
 import { config } from "dotenv";
 import path from "path";
 
-import { writeExamPage, writeStructuredData } from "./modules/exams";
+import { readStructuredData, writeStructuredData } from "./modules/exams";
 import logger from "./utils/logger";
 
 config();
@@ -34,7 +34,18 @@ client.once("ready", () => {
       message: error,
     });
   });
-  writeExamPage().catch((error: Error) => {
+  // writeExamPage().catch((error: Error) => {
+  //   logger.error({
+  //     message: error,
+  //   });
+  // });
+  writeStructuredData().catch((error: Error) => {
+    logger.error({
+      message: error,
+    });
+  });
+
+  readStructuredData().catch((error: Error) => {
     logger.error({
       message: error,
     });

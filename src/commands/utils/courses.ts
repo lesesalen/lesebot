@@ -6,7 +6,7 @@ import logger from "../../utils/logger";
 export const getCourse = async (course: string, message: CommandoMessage): Promise<Course | undefined> => {
   const exams = await readStructuredData();
 
-  if (!exams.has(course)) {
+  if (!exams.courses.has(course)) {
     logger.warn({
       message: "Missing course",
       userId: message.author.id,
@@ -21,7 +21,7 @@ export const getCourse = async (course: string, message: CommandoMessage): Promi
     userId: message.author.id,
     subject: course,
   });
-  return exams.get(course) as Course;
+  return exams.courses.get(course) as Course;
 };
 
 export const getExams = async (course: string, message: CommandoMessage): Promise<Course | undefined> => {
@@ -44,7 +44,7 @@ export const getExams = async (course: string, message: CommandoMessage): Promis
     subject: course,
   });
 
-  const c1 = structured.get(course);
+  const c1 = structured.courses.get(course);
   const c2 = exams.get(course);
 
   if (!c1 || !c2) return;

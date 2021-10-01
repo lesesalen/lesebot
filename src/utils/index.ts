@@ -59,6 +59,18 @@ export const jsonToMap = <V>(jsonString: string): Map<string, V> => {
   return new Map(JSON.parse(jsonString));
 };
 
+// Checks if object is instance of T (only works on non-nullable types)
+const isInterface = <T>(param: unknown): param is T => {
+  return Object.entries(param as T).every(([, value]) => value !== "undefined");
+};
+
+// Takes a typeguard and safely parses the string to json
+export const strToJsonTyped = <T>(jsonString: string): T | undefined => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const result = JSON.parse(jsonString);
+  return isInterface<T>(result) ? result : undefined;
+};
+
 export const randomNumber = async (min: number, max: number): Promise<number> => {
   const request = await axios.post<RandomGenerateIntegers>("https://api.random.org/json-rpc/2/invoke", {
     jsonrpc: "2.0",
