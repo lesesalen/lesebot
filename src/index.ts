@@ -2,7 +2,7 @@ import { CommandoClient } from "discord.js-commando";
 import { config } from "dotenv";
 import path from "path";
 
-import { readStructuredData, writeStructuredData } from "./modules/exams";
+import { readStructuredData, writeStructuredData } from "./utils/courses";
 import logger from "./utils/logger";
 
 config();

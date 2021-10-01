@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-import { writeStructuredData } from "../../modules/exams";
+import { writeStructuredData } from "../../utils/courses";
 import logger from "../../utils/logger";
 
 class UpdateExamsCommand extends Command {

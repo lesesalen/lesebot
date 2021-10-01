@@ -1,8 +1,8 @@
 import { DMChannel, Message, Role } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
+import { getCourse } from "../../utils/courses";
 import logger from "../../utils/logger";
-import { getCourse } from "../utils/courses";
 
 class TACommand extends Command {
   constructor(client: CommandoClient) {
@@ -30,6 +30,7 @@ class TACommand extends Command {
       return await message.reply(`You need to ask for a role from the requests channel.`);
     }
     const inputSubject = subject.toUpperCase().trim();
+    const courseId = inputSubject.toLowerCase();
 
     if (inputSubject === "") {
       return await message.reply("You need to specify the subject to ask about");
@@ -42,10 +43,10 @@ class TACommand extends Command {
 
     const guild = message.guild;
     let role: Role | undefined;
-    if (!guild.roles.cache.some((role) => role.name === `gruppeleder-${course.id.toLowerCase()}`)) {
+    if (!guild.roles.cache.some((role) => role.name === `gruppeleder-${courseId}`)) {
       role = await guild.roles.create({
         data: {
-          name: `gruppeleder-${course.id.toLowerCase()}`,
+          name: `gruppeleder-${courseId}`,
           hoist: true,
           mentionable: true,
           color: "RANDOM",
@@ -54,31 +55,31 @@ class TACommand extends Command {
       });
 
       logger.info({
-        message: `Created new role for ${course.id}`,
+        message: `Created new role for ${courseId}`,
         userId: message.author.id,
       });
     } else {
-      role = guild.roles.cache.find((role) => role.name === `gruppeleder-${course.id.toLowerCase()}`);
+      role = guild.roles.cache.find((role) => role.name === `gruppeleder-${courseId}`);
     }
 
     if (role === undefined) {
       logger.error({
-        message: `Could not get role for ${course.id}`,
+        message: `Could not get role for ${courseId}`,
       });
       return await message.say(`Something went wrong... try again or tell an admin :'(`);
     }
 
     if (message.member?.roles.cache.has(role.id)) {
-      return await message.reply(`You're already a TA in ${course.name}... now you're a double TA.`);
+      return await message.reply(`You're already a TA in ${courseId}... now you're a double TA.`);
     } else {
       await message.member?.roles.add(role);
 
       logger.info({
-        message: `Added ${message.member?.displayName ?? "unknown"} as TA to ${course.id}`,
+        message: `Added ${message.member?.displayName ?? "unknown"} as TA to ${courseId}`,
         userId: message.author.id,
       });
 
-      return await message.reply(`Congrats, you're now a TA in ${course.id}: ${course.name}`);
+      return await message.reply(`Congrats, you're now a TA in ${courseId}: ${course.name_en}`);
     }
   };
 }

@@ -71,6 +71,13 @@ export const strToJsonTyped = <T>(jsonString: string): T | undefined => {
   return isInterface<T>(result) ? result : undefined;
 };
 
+export const getCurrentSemester = (): string => {
+  const current = new Date();
+  const m = current.getMonth();
+  const y = current.getFullYear();
+  return `${y}${m < 6 ? "H" : "V"}`;
+};
+
 export const randomNumber = async (min: number, max: number): Promise<number> => {
   const request = await axios.post<RandomGenerateIntegers>("https://api.random.org/json-rpc/2/invoke", {
     jsonrpc: "2.0",
