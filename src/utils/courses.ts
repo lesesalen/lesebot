@@ -7,7 +7,7 @@ import path from "path";
 import { getCurrentSemester, strToJsonTyped, writeJson } from ".";
 import logger from "./logger";
 
-// const STRUCTURED_DATA_URL = "https://raw.githubusercontent.com/sondr3/course-explorer/master/structured.json";
+const STRUCTURED_DATA_URL = "https://raw.githubusercontent.com/sondr3/course-explorer/master/structured.json";
 const STRUCTURED_DATA_PATH = path.resolve(process.cwd(), "data/structured.json");
 const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences-autumn-2017";
 
@@ -16,14 +16,11 @@ export interface Course {
   name_en: string;
   url?: string;
   curriculum?: string;
-  exams: Exam[];
+  exams?: Exam[];
 }
 
-interface CourseApiEntry {
+interface ExtendedCourse extends Course {
   id: string;
-  name_no: string;
-  name_en: string;
-  curriculum?: string;
 }
 
 export interface Exam {
@@ -42,19 +39,24 @@ interface PersistentData {
 let persistentData: PersistentData | undefined;
 
 export const getPersistentData = async (): Promise<PersistentData | undefined> => {
-  // 1. Attempt to return local storage
-  if (persistentData) return Promise.resolve(persistentData);
+  try {
+    // 1. Attempt to return local storage
+    if (persistentData) return Promise.resolve(persistentData);
 
-  // 2. Attempt to read from file
-  persistentData = await readStructuredData();
-  if (persistentData) return Promise.resolve(persistentData);
+    // 2. Attempt to read from file
+    persistentData = await readStructuredData();
+    if (persistentData) return Promise.resolve(persistentData);
 
-  // 3. If that also doesn't work, regenerate info
-  await writeStructuredData();
-  persistentData = await readStructuredData();
-  if (persistentData) return Promise.resolve(persistentData);
+    // 3. If that also doesn't work, regenerate info
+    await writeStructuredData();
+    persistentData = await readStructuredData();
+    if (persistentData) return Promise.resolve(persistentData);
+  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    logger.error(`Unable to fetch course information, reason: ${error}`);
+  }
 
-  logger.error("Unable to fetch course information");
+  logger.error("Unable to fetch course information, reason unknown.");
   return undefined;
 };
 
@@ -172,12 +174,24 @@ interface RoomApiResponse {
   data: RoomApiEntry[];
 }
 
-interface CourseApiResponse {
+interface CourseAPIResponse {
   emne: {
     emnekode: string;
     url?: string;
     emnenavn_bokmal: string;
     emnenavn_engelsk: string;
+  }[];
+}
+
+interface CourseExplorerAPIResponse {
+  id: string;
+  name: string;
+  url: string;
+  exams: {
+    type: string;
+    date: string;
+    duration: string;
+    system: string;
   }[];
 }
 
@@ -192,21 +206,38 @@ const getRooms = async (): Promise<RoomApiEntry[]> => {
   return resp.data.data.map((obj) => ({ id: obj.id, roomurl: obj.roomurl, name: obj.name })); // (。_。)
 };
 
-// Temporarily disabling course loading
-const getCourses = async (): Promise<CourseApiEntry[]> => {
-  const resp = await axios.get<CourseApiResponse>(
+const getCourses = async (): Promise<ExtendedCourse[]> => {
+  const fs_resp = await axios.get<CourseAPIResponse>(
     `https://fs.data.uib.no/${process.env.UIB_OPENDATA_API_KEY ?? ""}/json/littl_emne/${getCurrentSemester()}`,
     {
       responseType: "json",
     },
   );
 
-  return resp.data.emne.map((obj) => ({
-    id: obj.emnekode,
-    name_no: obj.emnenavn_bokmal,
-    name_en: obj.emnenavn_engelsk,
-    curriculum: obj.url,
-  }));
+  const fs_courses = fs_resp.data.emne.map(
+    (obj): ExtendedCourse => ({
+      id: obj.emnekode,
+      name_no: obj.emnenavn_bokmal,
+      name_en: obj.emnenavn_engelsk,
+      curriculum: obj.url,
+    }),
+  );
+
+  const exp_resp = await axios.get<Record<string, CourseExplorerAPIResponse>>(STRUCTURED_DATA_URL, {
+    responseType: "json",
+  });
+
+  const exp_courses = Object.entries(exp_resp.data).map(
+    ([id, obj]): ExtendedCourse => ({
+      id: id,
+      name_no: "",
+      name_en: obj.name,
+      url: obj.url,
+      exams: obj.exams.length > 0 ? obj.exams : undefined,
+    }),
+  );
+
+  return [...fs_courses, ...exp_courses];
 };
 
 const getExams = async (): Promise<CourseExamInfo[]> => {
@@ -223,7 +254,7 @@ const getExams = async (): Promise<CourseExamInfo[]> => {
 
 interface StructuredData {
   rooms: RoomApiEntry[];
-  courses: CourseApiEntry[];
+  courses: ExtendedCourse[];
   exams: CourseExamInfo[];
 }
 
@@ -260,12 +291,25 @@ export const readStructuredData = async (): Promise<
       const roomMap = new Map(
         obj.rooms.map((obj): [string, RoomEntry] => [obj.name, { id: obj.id, roomurl: obj.roomurl }]),
       );
+
       const courseMap = new Map(
         obj.courses.map((obj): [string, Course] => [
           obj.id,
-          { name_no: obj.name_no, name_en: obj.name_en, curriculum: obj.curriculum, exams: [], url: undefined },
+          { name_no: obj.name_no, name_en: obj.name_en, curriculum: obj.curriculum, exams: obj.exams, url: obj.url },
         ]),
       );
+
+      // Fetch missing courses not found by getCourses()
+      const missingCourses = obj.exams.map(({ id }) => id).filter((id) => !courseMap.has(id));
+      for (const course of missingCourses) {
+        try {
+          const additionalData = await queryAdditionalCourseInfo(course);
+          courseMap.set(course, additionalData);
+        } catch (error) {
+          logger.warn(`Failed to find course ${course} with error: ${error as string}`);
+        }
+      }
+
       return {
         rooms: roomMap,
         courses: populateCoursesWithExamInfo(courseMap, obj.exams),
@@ -292,4 +336,29 @@ const populateCoursesWithExamInfo = (courses: Map<string, Course>, exams: Course
   }
 
   return courses;
+};
+
+interface SingularCourseAPIResponse {
+  emne: {
+    emnekode: string;
+    emnenavn_bokmal: string;
+    emnenavn_engelsk: string;
+  };
+}
+
+const queryAdditionalCourseInfo = async (courseId: string): Promise<Course> => {
+  const {
+    data: {
+      emne: { emnenavn_bokmal, emnenavn_engelsk },
+    },
+  } = await axios.get<SingularCourseAPIResponse>(
+    `https://fs.data.uib.no/${
+      process.env.UIB_OPENDATA_API_KEY ?? ""
+    }/json/basisinfo/emne/${courseId}/${getCurrentSemester()}`,
+    {
+      responseType: "json",
+    },
+  );
+
+  return { name_no: emnenavn_bokmal, name_en: emnenavn_engelsk };
 };

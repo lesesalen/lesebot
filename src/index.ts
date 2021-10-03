@@ -2,7 +2,7 @@ import { CommandoClient } from "discord.js-commando";
 import { config } from "dotenv";
 import path from "path";
 
-import { readStructuredData, writeStructuredData } from "./utils/courses";
+import { getPersistentData } from "./utils/courses";
 import logger from "./utils/logger";
 
 config();
@@ -29,23 +29,7 @@ client.once("ready", () => {
   void client.user?.setActivity("STUDENTS", { type: "WATCHING" });
 
   logger.info({ message: `Creating initial exam information` });
-  writeStructuredData().catch((error: Error) => {
-    logger.error({
-      message: error,
-    });
-  });
-  // writeExamPage().catch((error: Error) => {
-  //   logger.error({
-  //     message: error,
-  //   });
-  // });
-  writeStructuredData().catch((error: Error) => {
-    logger.error({
-      message: error,
-    });
-  });
-
-  readStructuredData().catch((error: Error) => {
+  getPersistentData().catch((error: Error) => {
     logger.error({
       message: error,
     });
