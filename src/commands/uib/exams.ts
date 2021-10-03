@@ -37,7 +37,7 @@ class ExamCommand extends Command {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
-    if (course.exams.length === 0) {
+    if (course.exams?.length === 0 ?? true) {
       return await message.reply(`It doesn't seem to be any exams for ${inputSubject}.`);
     }
 
@@ -53,22 +53,24 @@ class ExamCommand extends Command {
   };
 
   buildExamEmbed = (course: Course, embed: MessageEmbed): void => {
-    for (const exam of course.exams) {
-      let fields = [];
-      if (Object.prototype.hasOwnProperty.call(exam, "date")) {
-        fields.push({ name: "Dato", value: exam.date, inline: true });
+    if (course.exams) {
+      for (const exam of course.exams) {
+        let fields = [];
+        if (Object.prototype.hasOwnProperty.call(exam, "date")) {
+          fields.push({ name: "Dato", value: exam.date, inline: true });
+        }
+        if (Object.prototype.hasOwnProperty.call(exam, "duration")) {
+          fields.push({ name: "Varighet", value: exam.duration, inline: true });
+        }
+        // if (Object.prototype.hasOwnProperty.call(exam, "location")) {
+        //   fields.push({ name: "Location", value: exam.location, inline: true });
+        // }
+        if (Object.prototype.hasOwnProperty.call(exam, "system")) {
+          fields.push({ name: "Eksamensystem", value: exam.system, inline: true });
+        }
+        embed.addFields(fields);
+        fields = [];
       }
-      if (Object.prototype.hasOwnProperty.call(exam, "duration")) {
-        fields.push({ name: "Varighet", value: exam.duration, inline: true });
-      }
-      // if (Object.prototype.hasOwnProperty.call(exam, "location")) {
-      //   fields.push({ name: "Location", value: exam.location, inline: true });
-      // }
-      if (Object.prototype.hasOwnProperty.call(exam, "system")) {
-        fields.push({ name: "Eksamensystem", value: exam.system, inline: true });
-      }
-      embed.addFields(fields);
-      fields = [];
     }
   };
 }
