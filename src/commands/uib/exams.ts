@@ -37,7 +37,7 @@ class ExamCommand extends Command {
       return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
-    if (course.exams?.length === 0 ?? true) {
+    if (!course.exams?.length) {
       return await message.reply(`There doesn't seem to be any exams for ${inputSubject}.`);
     }
 
