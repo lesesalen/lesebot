@@ -31,7 +31,7 @@ class WhereRoomCommand extends Command {
 
     const data = await getPersistentData();
     if (data === undefined) {
-      return await message.reply(`Sorry, cannot find any rooms atm.`);
+      return await message.reply(`Sorry, cannot find any rooms.`);
     }
 
     const roomKeys = [...data.rooms.keys()];

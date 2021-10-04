@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 
-import { Course, getCourse } from "../../utils/courses";
+import { Exam, getCourse } from "../../utils/courses";
 
 class ExamCommand extends Command {
   constructor(client: CommandoClient) {
@@ -38,7 +38,7 @@ class ExamCommand extends Command {
     }
 
     if (course.exams?.length === 0 ?? true) {
-      return await message.reply(`It doesn't seem to be any exams for ${inputSubject}.`);
+      return await message.reply(`There doesn't seem to be any exams for ${inputSubject}.`);
     }
 
     const embed = new MessageEmbed()
@@ -47,30 +47,28 @@ class ExamCommand extends Command {
       .setURL(course.url ?? "")
       .setDescription(course.name_en);
 
-    this.buildExamEmbed(course, embed);
+    if (course.exams) this.buildExamEmbed(course.exams, embed);
 
     return await message.say(embed);
   };
 
-  buildExamEmbed = (course: Course, embed: MessageEmbed): void => {
-    if (course.exams) {
-      for (const exam of course.exams) {
-        let fields = [];
-        if (Object.prototype.hasOwnProperty.call(exam, "date")) {
-          fields.push({ name: "Dato", value: exam.date, inline: true });
-        }
-        if (Object.prototype.hasOwnProperty.call(exam, "duration")) {
-          fields.push({ name: "Varighet", value: exam.duration, inline: true });
-        }
-        // if (Object.prototype.hasOwnProperty.call(exam, "location")) {
-        //   fields.push({ name: "Location", value: exam.location, inline: true });
-        // }
-        if (Object.prototype.hasOwnProperty.call(exam, "system")) {
-          fields.push({ name: "Eksamensystem", value: exam.system, inline: true });
-        }
-        embed.addFields(fields);
-        fields = [];
+  buildExamEmbed = (exams: Exam[], embed: MessageEmbed): void => {
+    for (const exam of exams) {
+      let fields = [];
+      if (Object.prototype.hasOwnProperty.call(exam, "date")) {
+        fields.push({ name: "Dato", value: exam.date, inline: true });
       }
+      if (Object.prototype.hasOwnProperty.call(exam, "duration")) {
+        fields.push({ name: "Varighet", value: exam.duration, inline: true });
+      }
+      // if (Object.prototype.hasOwnProperty.call(exam, "location")) {
+      //   fields.push({ name: "Location", value: exam.location, inline: true });
+      // }
+      if (Object.prototype.hasOwnProperty.call(exam, "system")) {
+        fields.push({ name: "Eksamensystem", value: exam.system, inline: true });
+      }
+      embed.addFields(fields);
+      fields = [];
     }
   };
 }
