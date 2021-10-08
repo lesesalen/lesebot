@@ -10,24 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-java@v2
         with:
-          python-version: "3.9"
-      - uses: snok/install-poetry@v1
+          distribution: 'temurin'
+          java-version: '16'
+          cache: 'maven'
 
-      - uses: actions/cache@v2
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install dependencies
-        run: poetry install --no-interaction
-
-      - name: Lints
-        run: |
-          poetry run black . --check --diff
-          poetry run flake8 **/*.py
-          poetry run isort --profile black .
+      - name: Validate
+        run: mvn -B verify
 
   deploy:
     if: startsWith(github.ref, 'refs/tags/v')
