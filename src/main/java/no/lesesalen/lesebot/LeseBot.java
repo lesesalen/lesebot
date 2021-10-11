@@ -1,7 +1,9 @@
 package no.lesesalen.lesebot;
 
+import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import discord4j.gateway.intent.IntentSet;
 import discord4j.rest.RestClient;
 import no.lesesalen.lesebot.listeners.SlashCommandListener;
 import no.lesesalen.lesebot.utils.Utils;
@@ -18,8 +20,9 @@ public class LeseBot {
                 .build()
                 .run(args);
 
-        DiscordClientBuilder.create(dotenv.get("DISCORD_TOKEN"))
-                .build()
+        DiscordClient.create(dotenv.get("DISCORD_TOKEN"))
+                .gateway()
+                .setEnabledIntents(IntentSet.all())
                 .withGateway(client -> {
                     var slashCommandListener = new SlashCommandListener(springContext);
                     var onSlashCommand = client
