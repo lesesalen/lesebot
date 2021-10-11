@@ -3,12 +3,10 @@ FROM maven:3-eclipse-temurin-17 AS builder
 WORKDIR /app
 
 COPY pom.xml .
-
-RUN mvn clean install
+RUN mvn -B -e -C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
 
 COPY . .
-
-RUN mvn package -DskipTests
+RUN mvn -B -e -o package
 
 FROM eclipse-temurin:17-alpine
 
