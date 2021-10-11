@@ -3,6 +3,9 @@
 .gitignore
 .env
 .env.example
+.mvn
+mvnw
+mvnw.cmd
 target/
 CHANGELOG.md
 README.md
