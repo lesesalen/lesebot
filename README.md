@@ -50,8 +50,7 @@ expose your application secrets, so make sure it is never added to your repo.
 For development, you need a good
 
 1. Java IDE (IntelliJ IDEA)
-2. Maven (not needed if using IntelliJ)
-3. Java (at least Java 16, though earlier releases may work)
+2. Java (at least Java 16, though earlier releases may work)
 
 Then simply run:
 
@@ -61,7 +60,13 @@ $ cd lesebot
 $ idea . # or open with IntelliJ via your desktop
 ```
 
-You can now start the bot by starting `main` in `src/main/java/no/lesesalen/lesebot/LeseBot`.
+## Running locally
+
+There are two separate ways to run the bot while developing, assuming the above
+steps have been followed.
+
+1. You can now start the bot by starting `main` in `src/main/java/no/lesesalen/lesebot/LeseBot` in IDEA.
+2. Build the project with `./mwnw package` and run it with `java -jar target/lesebot-1.0-SNAPSHOT.jar`
 
 ## Production
 
