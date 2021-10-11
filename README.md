@@ -2,7 +2,6 @@
 
 <p align="center">
    <a href="https://github.com/sondr3/lesebot/actions"><img alt="GitHub Actions Status" src="https://github.com/sondr3/lesebot/workflows/pipeline/badge.svg" /></a>
-   <a href="https://results.pre-commit.ci/latest/github/lesesalen/lesebot/master"><img alt="pre-commit.ci" src="https://results.pre-commit.ci/badge/github/lesesalen/lesebot/master.svg" /></a>
    <br />
 </p>
 
@@ -40,9 +39,8 @@ single bot.
 
 Before any of the next steps, it's important to look at the `.env.example` file
 and see what you need to change. At the very least you must get a new Discord
-token. You should follow the [discord.py setup guide][discpy-setup], and then
-the [discord-py-slash-command guide][discslash-setup]. For the specific permissions
-that the bot needs, you can see the [screenshots][perms].
+token. You should follow the [Discord4J setup guide][discord4j-setup]. For the 
+specific permissions that the bot needs, you can see the [screenshots][perms].
 
 **NB:** The `.env` is ignored by `git` by default so that you never accidentally
 expose your application secrets, so make sure it is never added to your repo.
@@ -51,24 +49,19 @@ expose your application secrets, so make sure it is never added to your repo.
 
 For development, you need a good
 
-1. Python IDE (Visual Studio Code or Pycharm are my recommendations)
-2. Poetry, see https://python-poetry.org/docs/#installation
-3. Python (at least Python 3.9)
+1. Java IDE (IntelliJ IDEA)
+2. Maven (not needed if using IntelliJ)
+3. Java (at least Java 16, though earlier releases may work)
 
 Then simply run:
 
 ```sh
 $ git clone git@github.com:sondr3/lesebot.git
 $ cd lesebot
-$ poetry install
-$ poetry run pre-commit install
+$ idea . # or open with IntelliJ via your desktop
 ```
 
-You can now start the bot by simply running `python main.py`.
-
-**TIP:** It can be frustrating to have to restart the bot every time you make changes
-and want to test them, I recommend installing [`nodemon`](https://github.com/remy/nodemon)
-and running the bot with `nodemon main.py`.
+You can now start the bot by starting `main` in `src/main/java/no/lesesalen/lesebot/LeseBot`.
 
 ## Production
 
@@ -81,7 +74,7 @@ $ docker run --env-file .env -itd --restart unless-stopped --name <name> <name>
 ```
 
 **Note:** You should probably omit the `-d` flag if you are developing locally
-as this launches it headless. Otherwise you have to find the process ID and then
+as this launches it headless. Otherwise, you have to find the process ID and then
 view its logs.
 
 # Inspiration, help
@@ -95,6 +88,5 @@ view its logs.
 
 MIT.
 
-[discpy-setup]: https://discordpy.readthedocs.io/en/latest/discord.html
-[discslash-setup]: https://discord-py-slash-command.readthedocs.io/en/latest/quickstart.html
+[discord4j-setup]: https://docs.discord4j.com/discord-application-tutorial
 [perms]: https://github.com/lesesalen/lesebot/blob/python/assets/images

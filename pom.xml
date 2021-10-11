@@ -6,9 +6,10 @@
 
     <groupId>no.lesesalen</groupId>
     <artifactId>lesebot</artifactId>
-    <version>0.1.0</version>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
