@@ -3,8 +3,8 @@ package no.lesesalen.lesebot;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.rest.RestClient;
-import io.github.cdimascio.dotenv.Dotenv;
 import no.lesesalen.lesebot.listeners.SlashCommandListener;
+import no.lesesalen.lesebot.utils.Utils;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 @SpringBootApplication
 public class LeseBot {
     public static void main(String[] args) {
-        var dotenv = Dotenv.configure().load();
+        var dotenv = Utils.dotenv();
         var springContext = new SpringApplicationBuilder(LeseBot.class)
                 .build()
                 .run(args);
@@ -32,7 +32,7 @@ public class LeseBot {
 
     @Bean
     public RestClient discordRestClient() {
-        var dotenv = Dotenv.configure().load();
+        var dotenv = Utils.dotenv();
         return RestClient.create(dotenv.get("DISCORD_TOKEN"));
     }
 }
