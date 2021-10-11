@@ -1,4 +1,10 @@
-.venv/
-*.log
-*.pyc
-.direnv/
+.idea
+.git
+.gitignore
+.env
+.env.example
+target/
+CHANGELOG.md
+README.md
+Dockerfile
+deploy.sh
