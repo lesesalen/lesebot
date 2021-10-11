@@ -18,7 +18,7 @@ public class GreetCommand implements SlashCommand {
         var name = event.getOption("name")
                 .flatMap(ApplicationCommandInteractionOption::getValue)
                 .map(ApplicationCommandInteractionOptionValue::asString)
-                .get();
+                .orElseThrow();
 
         return event.reply()
                 .withEphemeral(true)
