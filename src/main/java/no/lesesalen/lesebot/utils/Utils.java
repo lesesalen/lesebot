@@ -1,5 +1,6 @@
 package no.lesesalen.lesebot.utils;
 
+import discord4j.common.util.Snowflake;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.List;
@@ -18,5 +19,9 @@ public class Utils {
 
     public static int randomBetween(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
+    }
+
+    public static String snowflakeToMention(Snowflake id) {
+        return "<@%d>".formatted(id.asLong());
     }
 }

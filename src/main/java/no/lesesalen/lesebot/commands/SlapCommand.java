@@ -1,6 +1,5 @@
 package no.lesesalen.lesebot.commands;
 
-import discord4j.core.object.entity.User;
 import no.lesesalen.lesebot.api.InteractionEvent;
 import no.lesesalen.lesebot.utils.Utils;
 import org.springframework.stereotype.Component;
@@ -15,9 +14,7 @@ public class SlapCommand implements SlashCommand {
 
     @Override
     public Mono<Void> handle(InteractionEvent event) {
-        var target = event.optionAsUser("target")
-                .map(u -> u.map(User::getId).block());
-
+        var target = event.optionUserToSnowflake("target");
         var author = event.author().orElseThrow();
 
         if (target.isPresent()) {
