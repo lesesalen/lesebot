@@ -15,4 +15,8 @@ public class Utils {
         Objects.requireNonNull(list);
         return list.get(ThreadLocalRandom.current().nextInt(list.size()));
     }
+
+    public static int randomBetween(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max);
+    }
 }
