@@ -6,6 +6,7 @@ import discord4j.discordjson.json.ApplicationCommandOptionData;
 import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.discordjson.possible.Possible;
 import discord4j.rest.RestClient;
+import no.lesesalen.lesebot.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -22,16 +23,17 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class GlobalCommandRegistrar implements ApplicationRunner {
+public class GuildCommandRegistrar implements ApplicationRunner {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final RestClient client;
+    private final long guildId;
     private final Mono<Long> applicationId;
 
-    //Use the rest client provided by our Bean
-    public GlobalCommandRegistrar(RestClient client) {
+    public GuildCommandRegistrar(RestClient client) {
         this.client = client;
         this.applicationId = client.getApplicationId().cache();
+        this.guildId = Long.parseLong(Utils.dotenv().get("DISCORD_GUILD_ID"));
     }
 
     @Override
@@ -82,20 +84,20 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
 
     private Mono<ApplicationCommandData> createCommand(ApplicationCommandRequest request) {
         return applicationId.flatMap(id -> client.getApplicationService()
-                .createGlobalApplicationCommand(id, request)
-                .doOnNext(it -> logger.info("Created global command {}", request.name())));
+                .createGuildApplicationCommand(id, guildId, request)
+                .doOnNext(it -> logger.info("Created guild command {}", request.name())));
     }
 
     private Mono<ApplicationCommandData> modifyCommand(long commandId, ApplicationCommandRequest request) {
         return applicationId.flatMap(id -> client.getApplicationService()
-                .modifyGlobalApplicationCommand(id, commandId, request)
-                .doOnNext(it -> logger.info("Updated global command {}", request.name())));
+                .modifyGuildApplicationCommand(id, guildId, commandId, request)
+                .doOnNext(it -> logger.info("Updated guild command {}", request.name())));
     }
 
     private Mono<Void> deleteCommand(long commandId, ApplicationCommandData request) {
         return applicationId.flatMap(id -> client.getApplicationService()
-                .deleteGlobalApplicationCommand(id, commandId)
-                .doOnTerminate(() -> logger.info("Deleted global command {}", request.name())));
+                .deleteGuildApplicationCommand(id, guildId, commandId)
+                .doOnTerminate(() -> logger.info("Deleted guild command {}", request.name())));
     }
 
     private boolean isChanged(ApplicationCommandData existingCommand, ApplicationCommandRequest command) {
@@ -125,7 +127,7 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
 
     private Mono<Map<String, ApplicationCommandData>> getExistingCommands() {
         return applicationId.flatMap(id -> client.getApplicationService()
-                .getGlobalApplicationCommands(id)
+                .getGuildApplicationCommands(id, guildId)
                 .collectMap(ApplicationCommandData::name));
     }
 }
