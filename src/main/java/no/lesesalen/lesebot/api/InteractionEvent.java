@@ -1,5 +1,6 @@
 package no.lesesalen.lesebot.api;
 
+import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
 import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
@@ -42,6 +43,10 @@ public record InteractionEvent(ChatInputInteractionEvent event) {
 
     public Optional<Mono<User>> optionAsUser(String name) {
         return getOption(name, ApplicationCommandInteractionOptionValue::asUser);
+    }
+
+    public Optional<Snowflake> optionUserToSnowflake(String name) {
+        return optionAsUser(name).map(u -> u.map(User::getId).block());
     }
 
     public Optional<Long> optionAsLong(String name) {
