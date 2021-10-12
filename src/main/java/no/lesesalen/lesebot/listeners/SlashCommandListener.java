@@ -2,7 +2,7 @@ package no.lesesalen.lesebot.listeners;
 
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import no.lesesalen.lesebot.api.InteractionEvent;
-import no.lesesalen.lesebot.commands.SlashCommand;
+import no.lesesalen.lesebot.commands.fun.SlashCommand;
 import org.springframework.context.ApplicationContext;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

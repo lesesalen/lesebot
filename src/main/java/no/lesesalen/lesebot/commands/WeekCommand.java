@@ -2,6 +2,7 @@ package no.lesesalen.lesebot.commands;
 
 import discord4j.core.spec.EmbedCreateSpec;
 import no.lesesalen.lesebot.api.InteractionEvent;
+import no.lesesalen.lesebot.commands.fun.SlashCommand;
 import no.lesesalen.lesebot.utils.Constants;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
