@@ -41,6 +41,10 @@ public record InteractionEvent(ChatInputInteractionEvent event) {
         return getOption(name, ApplicationCommandInteractionOptionValue::asString);
     }
 
+    public Optional<Boolean> optionAsBool(String name) {
+        return getOption(name, ApplicationCommandInteractionOptionValue::asBoolean);
+    }
+
     public Optional<Mono<User>> optionAsUser(String name) {
         return getOption(name, ApplicationCommandInteractionOptionValue::asUser);
     }
