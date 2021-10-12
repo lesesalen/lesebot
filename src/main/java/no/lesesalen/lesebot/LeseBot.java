@@ -1,7 +1,6 @@
 package no.lesesalen.lesebot;
 
 import discord4j.core.DiscordClient;
-import discord4j.core.DiscordClientBuilder;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.gateway.intent.IntentSet;
 import discord4j.rest.RestClient;
