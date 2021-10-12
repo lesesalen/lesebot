@@ -9,6 +9,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.User;
 import discord4j.core.spec.InteractionApplicationCommandCallbackReplyMono;
+import discord4j.core.spec.InteractionCallbackSpecDeferReplyMono;
+import discord4j.core.spec.InteractionReplyEditMono;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -20,6 +22,18 @@ import java.util.function.Function;
 public record InteractionEvent(ChatInputInteractionEvent event) {
     public InteractionApplicationCommandCallbackReplyMono reply() {
         return event.reply();
+    }
+
+    public InteractionCallbackSpecDeferReplyMono deferReply() {
+        return event.deferReply();
+    }
+
+    public InteractionReplyEditMono editReply() {
+        return event.editReply();
+    }
+
+    public Mono<Guild> guild() {
+        return event.getInteraction().getGuild();
     }
 
     public Interaction interaction() {
