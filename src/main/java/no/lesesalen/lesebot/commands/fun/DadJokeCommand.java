@@ -1,4 +1,4 @@
-package no.lesesalen.lesebot.commands;
+package no.lesesalen.lesebot.commands.fun;
 
 import feign.Headers;
 import feign.RequestLine;
