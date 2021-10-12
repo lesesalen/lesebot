@@ -1,8 +1,6 @@
 package no.lesesalen.lesebot.commands;
 
-import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import discord4j.core.object.command.ApplicationCommandInteractionOption;
-import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
+import no.lesesalen.lesebot.api.InteractionEvent;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -14,11 +12,8 @@ public class GreetCommand implements SlashCommand {
     }
 
     @Override
-    public Mono<Void> handle(ChatInputInteractionEvent event) {
-        var name = event.getOption("name")
-                .flatMap(ApplicationCommandInteractionOption::getValue)
-                .map(ApplicationCommandInteractionOptionValue::asString)
-                .orElseThrow();
+    public Mono<Void> handle(InteractionEvent event) {
+        var name = event.optionAsString("name").orElseThrow();
 
         return event.reply()
                 .withEphemeral(true)

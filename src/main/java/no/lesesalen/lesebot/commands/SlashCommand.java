@@ -1,6 +1,6 @@
 package no.lesesalen.lesebot.commands;
 
-import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import no.lesesalen.lesebot.api.InteractionEvent;
 import reactor.core.publisher.Mono;
 
 /**
@@ -12,5 +12,5 @@ public interface SlashCommand {
 
     String getName();
 
-    Mono<Void> handle(ChatInputInteractionEvent event);
+    Mono<Void> handle(InteractionEvent event);
 }
