@@ -4,10 +4,14 @@ import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
 import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
 import discord4j.core.object.command.Interaction;
+import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.User;
 import discord4j.core.spec.InteractionApplicationCommandCallbackReplyMono;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -17,12 +21,19 @@ public record InteractionEvent(ChatInputInteractionEvent event) {
         return event.reply();
     }
 
-    public InteractionApplicationCommandCallbackReplyMono reply(final String content) {
-        return event.reply(content);
-    }
-
     public Interaction interaction() {
         return event.getInteraction();
+    }
+
+    public Optional<Member> author() {
+        return interaction().getMember();
+    }
+
+    public Mono<List<Member>> members() {
+        return interaction()
+                .getGuild()
+                .map(Guild::getMembers)
+                .flatMap(Flux::collectList);
     }
 
     public Optional<String> optionAsString(String name) {
@@ -39,5 +50,4 @@ public record InteractionEvent(ChatInputInteractionEvent event) {
                 .flatMap(ApplicationCommandInteractionOption::getValue)
                 .map(mapper);
     }
-
 }
