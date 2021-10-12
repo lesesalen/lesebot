@@ -2,9 +2,10 @@ package no.lesesalen.lesebot;
 
 import discord4j.common.JacksonResources;
 import discord4j.discordjson.json.ApplicationCommandData;
+import discord4j.discordjson.json.ApplicationCommandOptionData;
 import discord4j.discordjson.json.ApplicationCommandRequest;
+import discord4j.discordjson.possible.Possible;
 import discord4j.rest.RestClient;
-import discord4j.rest.service.ApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -12,9 +13,12 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -22,83 +26,115 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final RestClient client;
+    private final Mono<Long> applicationId;
 
     //Use the rest client provided by our Bean
     public GlobalCommandRegistrar(RestClient client) {
         this.client = client;
+        this.applicationId = client.getApplicationId().cache();
     }
 
-    //This method will run only once on each start up and is automatically called with Spring so blocking is okay.
     @Override
     public void run(ApplicationArguments args) throws IOException {
-        //Create an ObjectMapper that supported Discord4J classes
-        final JacksonResources d4jMapper = JacksonResources.create();
-
-        // Convenience variables for the sake of easier to read code below.
-        PathMatchingResourcePatternResolver matcher = new PathMatchingResourcePatternResolver();
-        final ApplicationService applicationService = client.getApplicationService();
-        final long applicationId = client.getApplicationId().block();
-
-        //These are commands already registered with discord from previous runs of the bot.
-        Map<String, ApplicationCommandData> discordCommands = applicationService
-                .getGlobalApplicationCommands(applicationId)
-                .collectMap(ApplicationCommandData::name)
-                .block();
-
         //Get our commands json from resources as command data
-        Map<String, ApplicationCommandRequest> commands = new HashMap<>();
+        final var d4jMapper = JacksonResources.create();
+        PathMatchingResourcePatternResolver matcher = new PathMatchingResourcePatternResolver();
+        List<ApplicationCommandRequest> commandRequests = new ArrayList<>();
         for (Resource resource : matcher.getResources("commands/*.json")) {
             ApplicationCommandRequest request = d4jMapper.getObjectMapper()
                     .readValue(resource.getInputStream(), ApplicationCommandRequest.class);
 
-            commands.put(request.name(), request);
-
-            //Check if this is a new command that has not already been registered.
-            if (!discordCommands.containsKey(request.name())) {
-                //Not yet created with discord, lets do it now.
-                applicationService.createGlobalApplicationCommand(applicationId, request).block();
-
-                logger.info("Created global command: {}", request.name());
-            }
+            commandRequests.add(request);
         }
 
-        //Check if any  commands have been deleted or changed.
-        for (ApplicationCommandData discordCommand : discordCommands.values()) {
-            long discordCommandId = Long.parseLong(discordCommand.id());
-
-            ApplicationCommandRequest command = commands.get(discordCommand.name());
-
-            if (command == null) {
-                //Removed command.json, delete global command
-                applicationService.deleteGlobalApplicationCommand(applicationId, discordCommandId).block();
-
-                logger.info("Deleted global command: {}", discordCommand.name());
-                continue; //Skip further processing on this command.
-            }
-
-            //Check if the command has been changed and needs to be updated.
-            if (hasChanged(discordCommand, command)) {
-                applicationService.modifyGlobalApplicationCommand(applicationId, discordCommandId, command).block();
-
-                logger.info("Updated global command: {}", command.name());
-            }
-        }
+        this.registerCommands(commandRequests).block();
     }
 
-    private boolean hasChanged(ApplicationCommandData discordCommand, ApplicationCommandRequest command) {
-        // Compare types
-        if (!discordCommand.type().toOptional().orElse(1).equals(command.type().toOptional().orElse(1))) return true;
+    public Mono<Void> registerCommands(List<ApplicationCommandRequest> commandRequests) {
+        return getExistingCommands()
+                .flatMap(existing -> {
+                    List<Mono<?>> actions = new ArrayList<>();
+                    //Create an ObjectMapper that supported Discord4J classes
+                    var id = this.applicationId.block();
 
-        //Check if description has changed.
-        if (!discordCommand.description().equals(command.description().toOptional().orElse(""))) return true;
+                    // Convenience variables for the sake of easier to read code below.
+                    final var applicationService = client.getApplicationService();
 
-        //Check if default permissions have changed
-        boolean discordCommandDefaultPermission = discordCommand.defaultPermission().toOptional().orElse(true);
-        boolean commandDefaultPermission = command.defaultPermission().toOptional().orElse(true);
+                    //These are commands already registered with discord from previous runs of the bot.
 
-        if (discordCommandDefaultPermission != commandDefaultPermission) return true;
+                    Map<String, ApplicationCommandRequest> commands = new HashMap<>();
+                    for (ApplicationCommandRequest request : commandRequests) {
+                        commands.put(request.name(), request);
 
-        //Check and return if options have changed.
-        return !discordCommand.options().equals(command.options());
+                        if (!existing.containsKey(request.name())) {
+                            actions.add(createCommand(request));
+                        }
+                    }
+
+                    // check if any commands have been deleted or changed
+                    for (ApplicationCommandData existingCommand : existing.values()) {
+                        long existingCommandId = Long.parseLong(existingCommand.id());
+                        if (commands.containsKey(existingCommand.name())) {
+                            ApplicationCommandRequest command = commands.get(existingCommand.name());
+                            if (isChanged(existingCommand, command)) {
+                                actions.add(modifyCommand(existingCommandId, command));
+                            }
+                        } else {
+                            // removed source command, delete remote command
+                            actions.add(deleteCommand(existingCommandId, existingCommand));
+                        }
+                    }
+
+                    return Mono.when(actions);
+                });
+    }
+
+    private Mono<ApplicationCommandData> createCommand(ApplicationCommandRequest request) {
+        return applicationId.flatMap(id -> client.getApplicationService()
+                .createGlobalApplicationCommand(id, request)
+                .doOnNext(it -> logger.info("Created global command {}", request.name())));
+    }
+
+    private Mono<ApplicationCommandData> modifyCommand(long commandId, ApplicationCommandRequest request) {
+        return applicationId.flatMap(id -> client.getApplicationService()
+                .modifyGlobalApplicationCommand(id, commandId, request)
+                .doOnNext(it -> logger.info("Updated global command {}", request.name())));
+    }
+
+    private Mono<Void> deleteCommand(long commandId, ApplicationCommandData request) {
+        return applicationId.flatMap(id -> client.getApplicationService()
+                .deleteGlobalApplicationCommand(id, commandId)
+                .doOnTerminate(() -> logger.info("Deleted global command {}", request.name())));
+    }
+
+    private boolean isChanged(ApplicationCommandData existingCommand, ApplicationCommandRequest command) {
+        return command.description().toOptional().map(value -> !existingCommand.description().equals(value)).orElse(false)
+                || existingCommand.defaultPermission().toOptional().orElse(true) != command.defaultPermission().toOptional().orElse(true)
+                || !existingCommand.options().equals(buildOptions(command.options()));
+    }
+
+    private Possible<List<ApplicationCommandOptionData>> buildOptions(Possible<List<ApplicationCommandOptionData>> options) {
+        if (options.isAbsent()) {
+            return options;
+        }
+        List<ApplicationCommandOptionData> newOptions = new ArrayList<>();
+        for (ApplicationCommandOptionData optionData : options.get()) {
+            // turn required == false into absent, to fix equality checks
+            newOptions.add(ApplicationCommandOptionData.builder()
+                    .from(optionData)
+                    .required(optionData.required().toOptional()
+                            .filter(it -> it)
+                            .map(Possible::of)
+                            .orElse(Possible.absent()))
+                    .options(buildOptions(optionData.options()))
+                    .build());
+        }
+        return Possible.of(newOptions);
+    }
+
+    private Mono<Map<String, ApplicationCommandData>> getExistingCommands() {
+        return applicationId.flatMap(id -> client.getApplicationService()
+                .getGlobalApplicationCommands(id)
+                .collectMap(ApplicationCommandData::name));
     }
 }
