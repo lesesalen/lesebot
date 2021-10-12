@@ -44,6 +44,10 @@ public record InteractionEvent(ChatInputInteractionEvent event) {
         return getOption(name, ApplicationCommandInteractionOptionValue::asUser);
     }
 
+    public Optional<Long> optionAsLong(String name) {
+        return getOption(name, ApplicationCommandInteractionOptionValue::asLong);
+    }
+
     private <T> Optional<T> getOption(String name, Function<? super ApplicationCommandInteractionOptionValue, ? extends T> mapper) {
         Objects.requireNonNull(mapper);
         return event.getOption(name)

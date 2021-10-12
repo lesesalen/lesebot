@@ -3,30 +3,36 @@ package no.lesesalen.lesebot.commands;
 import discord4j.core.spec.EmbedCreateSpec;
 import no.lesesalen.lesebot.api.InteractionEvent;
 import no.lesesalen.lesebot.utils.Constants;
+import no.lesesalen.lesebot.utils.Utils;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.temporal.WeekFields;
 
 @Component
-public class WeekCommand implements SlashCommand {
+public class RandomCommand implements SlashCommand {
     @Override
     public String getName() {
-        return "week";
+        return "random";
     }
 
     @Override
     public Mono<Void> handle(InteractionEvent event) {
-        var week = LocalDate.now().get(WeekFields.ISO.weekOfYear());
+        var min = event.optionAsLong("min").orElseThrow().intValue();
+        var max = event.optionAsLong("max").orElseThrow().intValue();
+
+        if (min >= max) {
+            return event.reply().withContent("That's illegal, yo");
+        }
+
+        var number = Utils.randomBetween(min, max);
         var embed = EmbedCreateSpec.builder()
                 .color(Constants.EMBED_BLUE)
-                .title("Week number")
-                .description(Integer.toString(week))
-                .thumbnail(Constants.BLOBROSS)
+                .title("Random number")
+                .description(Integer.toString(number))
                 .timestamp(Instant.now())
-                .footer("Don't you have a calendar?", "")
+                .footer("Guaranteed to be random", "")
+                .thumbnail(Constants.BLOBROSS)
                 .build();
 
         return event.reply().withEmbeds(embed);
