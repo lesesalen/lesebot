@@ -36,7 +36,6 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws IOException {
-        //Get our commands json from resources as command data
         final var d4jMapper = JacksonResources.create();
         PathMatchingResourcePatternResolver matcher = new PathMatchingResourcePatternResolver();
         List<ApplicationCommandRequest> commandRequests = new ArrayList<>();
@@ -54,14 +53,6 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
         return getExistingCommands()
                 .flatMap(existing -> {
                     List<Mono<?>> actions = new ArrayList<>();
-                    //Create an ObjectMapper that supported Discord4J classes
-                    var id = this.applicationId.block();
-
-                    // Convenience variables for the sake of easier to read code below.
-                    final var applicationService = client.getApplicationService();
-
-                    //These are commands already registered with discord from previous runs of the bot.
-
                     Map<String, ApplicationCommandRequest> commands = new HashMap<>();
                     for (ApplicationCommandRequest request : commandRequests) {
                         commands.put(request.name(), request);
