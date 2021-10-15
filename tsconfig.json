@@ -4,8 +4,9 @@
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "skipLibCheck": true,
     "outDir": "dist",
-    "target": "es2019",
-    "module": "commonjs"
+    "target": "ESNext",
+    "module": "ESNext",
+    "sourceMap": false
   },
   "include": ["src"]
 }
