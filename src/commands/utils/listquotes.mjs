@@ -1,8 +1,8 @@
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import { formatQuote, loadMergedQuotes } from "../../modules/quotes.mjs";
 
-class ListQuotesCommand extends Command {
+class ListQuotesCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "listquotes",

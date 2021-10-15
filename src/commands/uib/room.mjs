@@ -1,9 +1,9 @@
 import { MessageEmbed } from "discord.js";
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import { getPersistentData } from "../../utils/courses.mjs";
 
-class WhereRoomCommand extends Command {
+class WhereRoomCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "where",

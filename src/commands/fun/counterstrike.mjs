@@ -1,8 +1,8 @@
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import logger from "../../utils/logger.mjs";
 
-class SofiaCommand extends Command {
+class SofiaCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "counterstrike",
@@ -28,7 +28,7 @@ class SofiaCommand extends Command {
       userId: message.author.id,
     });
 
-    return await (target ? target.send("cs?") : message.say("please cs?"));
+    return target ? target.send("cs?") : message.say("please cs?");
   }
 }
 

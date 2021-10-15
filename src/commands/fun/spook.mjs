@@ -1,10 +1,10 @@
 import axios from "axios";
 import { MessageEmbed } from "discord.js";
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import logger from "../../utils/logger.mjs";
 
-class SpookCommand extends Command {
+class SpookCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "spook",

@@ -1,8 +1,8 @@
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import logger from "../../utils/logger.mjs";
 
-class MeowCommand extends Command {
+class MeowCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "meow",

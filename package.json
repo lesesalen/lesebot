@@ -8,8 +8,8 @@
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=16",
-    "npm": "~8"
+    "node": ">=16.6.0",
+    "npm": "~8.0.0"
   },
   "scripts": {
     "dev": "nodemon --watch src --delay 2 src/index.mjs",

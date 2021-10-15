@@ -1,9 +1,9 @@
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import { soundSamples } from "../../utils/index.mjs";
 import logger from "../../utils/logger.mjs";
 
-class ListSoundCommand extends Command {
+class ListSoundCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "listsound",

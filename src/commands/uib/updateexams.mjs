@@ -1,9 +1,9 @@
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import { getPersistentData } from "../../utils/courses.mjs";
 import logger from "../../utils/logger.mjs";
 
-class UpdateExamsCommand extends Command {
+class UpdateExamsCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "updateexams",

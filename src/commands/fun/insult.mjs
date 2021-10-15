@@ -1,9 +1,9 @@
 import axios from "axios";
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import logger from "../../utils/logger.mjs";
 
-class InsultCommand extends Command {
+class InsultCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "insult",

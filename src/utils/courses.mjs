@@ -8,7 +8,7 @@ import logger from "./logger.mjs";
 
 const STRUCTURED_DATA_URL = "https://raw.githubusercontent.com/sondr3/course-explorer/master/structured.json";
 const STRUCTURED_DATA_PATH = path.resolve(process.cwd(), "data/structured.json");
-const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences-autumn-2017";
+const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences";
 
 let persistentData;
 
