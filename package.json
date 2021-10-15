@@ -12,7 +12,7 @@
     "npm": "~8"
   },
   "scripts": {
-    "dev:run": "nodemon --watch src --delay 2 src/index.mjs",
+    "dev": "nodemon --watch src --delay 2 src/index.mjs",
     "lint": "eslint --cache .",
     "style": "prettier --check ./src/**/*.ts"
   },
@@ -29,21 +29,20 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@types/cheerio": "^0.22.28",
-    "@types/dateformat": "^3.0.1",
+    "@types/cheerio": "0.22.30",
+    "@types/dateformat": "3.0.1",
     "@types/lodash": "4.14.168",
     "@types/node": "16.11.0",
     "@types/ws": "8.2.0",
     "eslint": "8.0.1",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-functional": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-node": "*",
+    "eslint-plugin-import": "2.25.2",
+    "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-simple-import-sort": "*",
+    "eslint-plugin-simple-import-sort": "7.0.0",
     "nodemon": "2.0.13",
-    "prettier": "^2.2.1",
-    "prettier-eslint": "*"
+    "prettier": "2.4.1",
+    "prettier-eslint": "13.0.0"
   },
   "optionalDependencies": {
     "sodium": "^3.0.2"

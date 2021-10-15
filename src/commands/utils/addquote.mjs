@@ -1,8 +1,8 @@
 import { Command } from "discord.js-commando";
 
-import { ADDED_QUOTES_PATH } from "../../modules/quotes";
-import { mergeJson, writeJson } from "../../utils";
-import logger from "../../utils/logger";
+import { ADDED_QUOTES_PATH } from "../../modules/quotes.mjs";
+import { mergeJson, writeJson } from "../../utils/index.mjs";
+import logger from "../../utils/logger.mjs";
 
 class AddQuoteCommand extends Command {
   constructor(client) {
@@ -21,21 +21,21 @@ class AddQuoteCommand extends Command {
         },
       ],
     });
+  }
 
-    this.run = async (message, { id }) => {
-      const lastMessage = await message.channel.messages.fetch(id);
-      const quote = { quote: lastMessage.content, author: lastMessage.author.username, date: new Date() };
-      const mergedQuotes = await mergeJson(ADDED_QUOTES_PATH, quote);
-      await writeJson(ADDED_QUOTES_PATH, mergedQuotes);
+  async run(message, { id }) {
+    const lastMessage = await message.channel.messages.fetch(id);
+    const quote = { quote: lastMessage.content, author: lastMessage.author.username, date: new Date() };
+    const mergedQuotes = await mergeJson(ADDED_QUOTES_PATH, quote);
+    await writeJson(ADDED_QUOTES_PATH, mergedQuotes);
 
-      logger.info({
-        message: `Adding a new quote from ID`,
-        userId: message.author.id,
-        messageId: id,
-      });
+    logger.info({
+      message: `Adding a new quote from ID`,
+      userId: message.author.id,
+      messageId: id,
+    });
 
-      return await message.say(`Thanks! Added a new quote to the memory bank...`);
-    };
+    return await message.say(`Thanks! Added a new quote to the memory bank...`);
   }
 }
 

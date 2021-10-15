@@ -1,6 +1,6 @@
 import { Command } from "discord.js-commando";
 
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.mjs";
 
 class SofiaCommand extends Command {
   constructor(client) {
@@ -20,15 +20,15 @@ class SofiaCommand extends Command {
         },
       ],
     });
+  }
 
-    this.run = async (message, { target }) => {
-      logger.info({
-        massage: "cs?",
-        userId: message.author.id,
-      });
+  async run(message, { target }) {
+    logger.info({
+      massage: "cs?",
+      userId: message.author.id,
+    });
 
-      return await (target ? target.send("cs?") : message.say("please cs?"));
-    };
+    return await (target ? target.send("cs?") : message.say("please cs?"));
   }
 }
 

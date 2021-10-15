@@ -1,6 +1,6 @@
 import { Command } from "discord.js-commando";
 
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.mjs";
 
 class MeowCommand extends Command {
   constructor(client) {
@@ -10,15 +10,15 @@ class MeowCommand extends Command {
       memberName: "meow",
       description: "Replies with a meaw, kitty cat",
     });
+  }
 
-    this.run = async (message) => {
-      logger.info({
-        message: "M E O W",
-        userId: message.author.id,
-      });
+  async run(message) {
+    logger.info({
+      message: "M E O W",
+      userId: message.author.id,
+    });
 
-      return await message.say("Meow!");
-    };
+    return await message.say("Meow!");
   }
 }
 

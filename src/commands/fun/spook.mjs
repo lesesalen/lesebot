@@ -2,7 +2,7 @@ import axios from "axios";
 import { MessageEmbed } from "discord.js";
 import { Command } from "discord.js-commando";
 
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.mjs";
 
 class SpookCommand extends Command {
   constructor(client) {
@@ -23,29 +23,29 @@ class SpookCommand extends Command {
         },
       ],
     });
+  }
 
-    this.run = async (message, { target }) => {
-      const gif = await axios.get(
-        `https://api.giphy.com/v1/gifs/random?tag=skeleton&api_key=${String(process.env.GIPHY_API_KEY)}`,
-      );
+  async run(message, { target }) {
+    const gif = await axios.get(
+      `https://api.giphy.com/v1/gifs/random?tag=skeleton&api_key=${String(process.env.GIPHY_API_KEY)}`,
+    );
 
-      const url = gif.data.data.images.original.url;
-      const embed = new MessageEmbed().setImage(url);
+    const url = gif.data.data.images.original.url;
+    const embed = new MessageEmbed().setImage(url);
 
-      logger.info({
-        message: `Spooked with ${url}`,
-        userId: message.author.id,
-      });
+    logger.info({
+      message: `Spooked with ${url}`,
+      userId: message.author.id,
+    });
 
-      return await (target
-        ? Promise.resolve(
-            [
-              await message.direct(new MessageEmbed(embed).setTitle(`Successfully spooked ${target.tag} with this:`)),
-              await target.send(embed.setTitle(`Spooked by ${message.author.tag}!`)),
-            ].flat(),
-          )
-        : message.say(embed));
-    };
+    return target
+      ? Promise.resolve(
+          [
+            await message.direct(new MessageEmbed(embed).setTitle(`Successfully spooked ${target.tag} with this:`)),
+            await target.send(embed.setTitle(`Spooked by ${message.author.tag}!`)),
+          ].flat(),
+        )
+      : message.say(embed);
   }
 }
 

@@ -14,10 +14,10 @@ module.exports = {
   plugins: ["simple-import-sort", "node"],
   extends: [
     "eslint:recommended",
+    "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:node/recommended-module",
-    "plugin:prettier/recommended",
   ],
   rules: {
     "import/no-default-export": "off",

@@ -1,4 +1,5 @@
-import winston, { format, transports } from "winston";
+import winston from "winston";
+const { format, transports } = winston;
 
 const logger = winston.createLogger({
   level: "info",

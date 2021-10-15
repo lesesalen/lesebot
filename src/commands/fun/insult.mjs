@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Command } from "discord.js-commando";
 
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.mjs";
 
 class InsultCommand extends Command {
   constructor(client) {
@@ -29,25 +29,25 @@ class InsultCommand extends Command {
         },
       ],
     });
+  }
 
-    this.run = async (message, { target, tts }) => {
-      const api = await axios.get(`https://insult.mattbas.org/api/insult`);
-      const insult = api.data.toLowerCase();
+  async run(message, { target, tts }) {
+    const api = await axios.get(`https://insult.mattbas.org/api/insult`);
+    const insult = api.data.toLowerCase();
 
-      logger.info({
-        message: "Someone sent an insult...",
-        userId: message.author.id,
-        targetId: target.toString(),
-        tts: tts,
-      });
+    logger.info({
+      message: "Someone sent an insult...",
+      userId: message.author.id,
+      targetId: target.toString(),
+      tts: tts,
+    });
 
-      if (typeof target === "string") {
-        return await message.say(`Wow, <@${message.author.id}>, ${insult}`);
-      } else {
-        const response = `Hey, <@${target.id}>! <@${message.author.id}> thinks ${insult}`;
-        return await message.say(response, { tts: tts });
-      }
-    };
+    if (typeof target === "string") {
+      return await message.say(`Wow, <@${message.author.id}>, ${insult}`);
+    } else {
+      const response = `Hey, <@${target.id}>! <@${message.author.id}> thinks ${insult}`;
+      return await message.say(response, { tts: tts });
+    }
   }
 }
 
