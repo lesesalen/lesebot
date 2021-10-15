@@ -1,13 +1,2 @@
-.idea
-.git
-.gitignore
-.env
-.env.example
-.mvn
-mvnw
-mvnw.cmd
-target/
-CHANGELOG.md
-README.md
-Dockerfile
-deploy.sh
+node_modules/
+*.log
