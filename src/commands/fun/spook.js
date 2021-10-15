@@ -2,7 +2,7 @@ import axios from "axios";
 import { MessageEmbed } from "discord.js";
 import Commando from "discord.js-commando";
 
-import logger from "../../utils/logger.mjs";
+import logger from "../../utils/logger.js";
 
 class SpookCommand extends Commando.Command {
   constructor(client) {

@@ -2,8 +2,8 @@ import CommandoClient from "discord.js-commando";
 import { config } from "dotenv";
 import fs from "node:fs/promises";
 
-import { getPersistentData } from "./utils/courses.mjs";
-import logger from "./utils/logger.mjs";
+import { getPersistentData } from "./utils/courses.js";
+import logger from "./utils/logger.js";
 
 config();
 

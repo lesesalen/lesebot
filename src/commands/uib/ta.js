@@ -1,8 +1,8 @@
 import { DMChannel } from "discord.js";
 import Commando from "discord.js-commando";
 
-import { getCourse } from "../../utils/courses.mjs";
-import logger from "../../utils/logger.mjs";
+import { getCourse } from "../../utils/courses.js";
+import logger from "../../utils/logger.js";
 
 class TACommand extends Commando.Command {
   constructor(client) {

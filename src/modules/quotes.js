@@ -1,7 +1,7 @@
 import dateFormat from "dateformat";
 import path from "path";
 
-import { loadJson } from "../utils/index.mjs";
+import { loadJson } from "../utils/index.js";
 
 export const QUOTES_PATH = path.resolve(process.cwd(), "data/quotes.json");
 export const ADDED_QUOTES_PATH = path.resolve(process.cwd(), "data/added_quotes.json");

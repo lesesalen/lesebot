@@ -2,7 +2,7 @@
   "name": "lesebot",
   "version": "0.6.1",
   "description": "A (helpful) Discord bot",
-  "main": "src/index.js",
+  "main": "./src/index.js",
   "repository": "https://github.com/sondr3/lesebot",
   "author": "Sondre Nilsen",
   "license": "MIT",
@@ -12,9 +12,9 @@
     "npm": "~8.0.0"
   },
   "scripts": {
-    "dev": "nodemon --watch src --delay 2 src/index.mjs",
+    "dev": "nodemon --watch src --delay 1 src/index.js",
     "lint": "eslint --cache .",
-    "style": "prettier --check ./src/**/*.ts"
+    "style": "prettier --check src"
   },
   "dependencies": {
     "@discordjs/opus": "^0.5.0",

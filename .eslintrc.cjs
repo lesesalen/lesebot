@@ -30,10 +30,5 @@ module.exports = {
     "node/no-extraneous-import": "off",
     "node/no-extraneous-require": "off",
     "node/no-unsupported-features/es-syntax": "off",
-  },
-  overrides: [
-    {
-      files: "src/**/*.{js,mjs,cjs}",
-    },
-  ],
+  }
 };

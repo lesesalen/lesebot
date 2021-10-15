@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import Commando from "discord.js-commando";
 
-import { getPersistentData } from "../../utils/courses.mjs";
+import { getPersistentData } from "../../utils/courses.js";
 
 class WhereRoomCommand extends Commando.Command {
   constructor(client) {

@@ -1,8 +1,8 @@
 import Commando from "discord.js-commando";
 
-import { formatQuote, loadMergedQuotes } from "../../modules/quotes.mjs";
-import { sample } from "../../utils/index.mjs";
-import logger from "../../utils/logger.mjs";
+import { formatQuote, loadMergedQuotes } from "../../modules/quotes.js";
+import { sample } from "../../utils/index.js";
+import logger from "../../utils/logger.js";
 
 class QuoteCommand extends Commando.Command {
   constructor(client) {

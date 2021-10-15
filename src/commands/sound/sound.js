@@ -2,10 +2,10 @@ import Commando from "discord.js-commando";
 import fs from "fs";
 import path from "path";
 
-import { ALLOWED_VOICE_CHANNEL } from "../../constants.mjs";
-import { getState, setPlayingState } from "../../state.mjs";
-import { soundSamples } from "../../utils/index.mjs";
-import logger from "../../utils/logger.mjs";
+import { ALLOWED_VOICE_CHANNEL } from "../../constants.js";
+import { getState, setPlayingState } from "../../state.js";
+import { soundSamples } from "../../utils/index.js";
+import logger from "../../utils/logger.js";
 
 class SoundCommand extends Commando.Command {
   constructor(client) {
