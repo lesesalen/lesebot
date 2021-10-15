@@ -3,8 +3,8 @@ import Commando from "discord.js-commando";
 import fs from "fs";
 import path from "path";
 
-import { randomNumber } from "../../utils/index.mjs";
-import logger from "../../utils/logger.mjs";
+import { randomNumber } from "../../utils/index.js";
+import logger from "../../utils/logger.js";
 
 class WinnerCommand extends Commando.Command {
   constructor(client) {

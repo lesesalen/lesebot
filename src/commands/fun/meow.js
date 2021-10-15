@@ -1,6 +1,6 @@
 import Commando from "discord.js-commando";
 
-import logger from "../../utils/logger.mjs";
+import logger from "../../utils/logger.js";
 
 class MeowCommand extends Commando.Command {
   constructor(client) {

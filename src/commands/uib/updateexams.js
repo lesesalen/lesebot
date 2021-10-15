@@ -1,7 +1,7 @@
 import Commando from "discord.js-commando";
 
-import { getPersistentData } from "../../utils/courses.mjs";
-import logger from "../../utils/logger.mjs";
+import { getPersistentData } from "../../utils/courses.js";
+import logger from "../../utils/logger.js";
 
 class UpdateExamsCommand extends Commando.Command {
   constructor(client) {

@@ -1,7 +1,7 @@
 import Commando from "discord.js-commando";
 
-import { soundSamples } from "../../utils/index.mjs";
-import logger from "../../utils/logger.mjs";
+import { soundSamples } from "../../utils/index.js";
+import logger from "../../utils/logger.js";
 
 class ListSoundCommand extends Commando.Command {
   constructor(client) {

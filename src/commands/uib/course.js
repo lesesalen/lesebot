@@ -1,6 +1,6 @@
 import Commando from "discord.js-commando";
 
-import { getCourse } from "../../utils/courses.mjs";
+import { getCourse } from "../../utils/courses.js";
 
 class RequestCommand extends Commando.Command {
   constructor(client) {

@@ -1,7 +1,7 @@
 import Commando from "discord.js-commando";
 import random from "lodash/random.js";
 
-import logger from "../../utils/logger.mjs";
+import logger from "../../utils/logger.js";
 
 class SlapCommand extends Commando.Command {
   constructor(client) {

@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import Commando from "discord.js-commando";
 
-import { getCourse } from "../../utils/courses.mjs";
+import { getCourse } from "../../utils/courses.js";
 
 class ExamCommand extends Commando.Command {
   constructor(client) {
