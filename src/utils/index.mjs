@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 import globby from "globby";
 import path from "path";
 
-import logger from "./logger";
+import logger from "./logger.mjs";
 
 export const writeJson = async (filePath, content) => {
   const filepath = path.resolve(filePath);

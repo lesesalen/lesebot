@@ -1,13 +1,13 @@
-import { CommandoClient } from "discord.js-commando";
+import CommandoClient from "discord.js-commando";
 import { config } from "dotenv";
 import path from "path";
 
-import { getPersistentData } from "./utils/courses";
-import logger from "./utils/logger";
+import { getPersistentData } from "./utils/courses.mjs";
+import logger from "./utils/logger.mjs";
 
 config();
 
-const client = new CommandoClient({
+const client = new CommandoClient.CommandoClient({
   commandPrefix: process.env.DISCORD_PREFIX,
   owner: "217316187032256512",
 });

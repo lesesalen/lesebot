@@ -1,7 +1,7 @@
 import { Command } from "discord.js-commando";
 
-import { getPersistentData } from "../../utils/courses";
-import logger from "../../utils/logger";
+import { getPersistentData } from "../../utils/courses.mjs";
+import logger from "../../utils/logger.mjs";
 
 class UpdateExamsCommand extends Command {
   constructor(client) {
@@ -12,17 +12,17 @@ class UpdateExamsCommand extends Command {
       description: "Update the JSON file for exam information",
       hidden: true,
     });
+  }
 
-    this.run = async (message) => {
-      logger.info({
-        message: `Updating exam database`,
-        userId: message.author.id,
-      });
+  async run(message) {
+    logger.info({
+      message: `Updating exam database`,
+      userId: message.author.id,
+    });
 
-      await getPersistentData();
+    await getPersistentData();
 
-      return await message.say(`Okay! Exam information updated.`);
-    };
+    return await message.say(`Okay! Exam information updated.`);
   }
 }
 

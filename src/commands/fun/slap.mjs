@@ -1,7 +1,7 @@
 import { Command } from "discord.js-commando";
 import random from "lodash/random";
 
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.mjs";
 
 class SlapCommand extends Command {
   constructor(client) {
@@ -22,27 +22,27 @@ class SlapCommand extends Command {
         },
       ],
     });
+  }
 
-    this.run = async (message, { target }) => {
-      logger.info({
-        message: "Slapping some poor sod...",
-        userId: message.author.id,
-        targetId: target.toString,
-      });
+  async run(message, { target }) {
+    logger.info({
+      message: "Slapping some poor sod...",
+      userId: message.author.id,
+      targetId: target.toString,
+    });
 
-      if (typeof target === "string") {
-        const randomUser = [...(message.member?.guild.members.valueOf().values() ?? [])];
-        let user = randomUser[random(0, randomUser.length)];
+    if (typeof target === "string") {
+      const randomUser = [...(message.member?.guild.members.valueOf().values() ?? [])];
+      let user = randomUser[random(0, randomUser.length)];
 
-        while (user.presence.status !== "online") {
-          user = randomUser[random(0, randomUser.length)];
-        }
-
-        return await message.say(`<@${message.author.id}> slaps <@${user.id}>! Ouch...`);
-      } else {
-        return await message.say(`<@${message.author.id}> slaps <@${target.id}>! Ouch...`);
+      while (user.presence.status !== "online") {
+        user = randomUser[random(0, randomUser.length)];
       }
-    };
+
+      return await message.say(`<@${message.author.id}> slaps <@${user.id}>! Ouch...`);
+    } else {
+      return await message.say(`<@${message.author.id}> slaps <@${target.id}>! Ouch...`);
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Command } from "discord.js-commando";
 
-import logger from "../../utils/logger";
+import logger from "../../utils/logger.mjs";
 
 class DadJokeCommand extends Command {
   constructor(client) {
@@ -12,23 +12,23 @@ class DadJokeCommand extends Command {
       memberName: "dadjoke",
       description: "DAD YOKE, ha ha ha",
     });
+  }
 
-    this.run = async (message) => {
-      const api = await axios.get(`https://icanhazdadjoke.com/`, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
+  async run(message) {
+    const api = await axios.get(`https://icanhazdadjoke.com/`, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
 
-      const joke = api.data.joke;
+    const joke = api.data.joke;
 
-      logger.info({
-        message: "Dad joke, ha ha",
-        userId: message.author.id,
-      });
+    logger.info({
+      message: "Dad joke, ha ha",
+      userId: message.author.id,
+    });
 
-      return await message.say(joke);
-    };
+    return await message.say(joke);
   }
 }
 

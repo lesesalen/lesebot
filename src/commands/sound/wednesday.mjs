@@ -15,33 +15,33 @@ class WednesdayCommand extends Command {
         duration: 10,
       },
     });
+  }
 
-    this.run = async (message) => {
-      if (dateformat(new Date(), "dddd").toLowerCase() !== "wednesday") {
-        return await message.say("It is **NOT** Wednesday my Dudes");
-      }
+  async run(message) {
+    if (dateformat(new Date(), "dddd").toLowerCase() !== "wednesday") {
+      return await message.say("It is **NOT** Wednesday my Dudes");
+    }
 
-      const voiceChannel = message.member?.voice.channel;
-      if (!voiceChannel) {
-        return await message.reply("You need to be in a voice channel for wednesday");
-      } else {
-        const connection = await voiceChannel.join();
+    const voiceChannel = message.member?.voice.channel;
+    if (!voiceChannel) {
+      return await message.reply("You need to be in a voice channel for wednesday");
+    } else {
+      const connection = await voiceChannel.join();
 
-        const dispatcher = connection.play(
-          fs.createReadStream(path.resolve(process.cwd(), "assets/restricted/wednesday.mp3")),
-        );
+      const dispatcher = connection.play(
+        fs.createReadStream(path.resolve(process.cwd(), "assets/restricted/wednesday.mp3")),
+      );
 
-        dispatcher.on("error", console.error);
-        dispatcher.on("start", () => console.log("wednesday.mp3 is now playing"));
-        dispatcher.on("finish", () => {
-          console.log("wednesday.mp3 is done playing");
-          dispatcher.destroy();
-          voiceChannel.leave();
-        });
+      dispatcher.on("error", console.error);
+      dispatcher.on("start", () => console.log("wednesday.mp3 is now playing"));
+      dispatcher.on("finish", () => {
+        console.log("wednesday.mp3 is done playing");
+        dispatcher.destroy();
+        voiceChannel.leave();
+      });
 
-        return await message.say("It is Wednesday my Dudes");
-      }
-    };
+      return await message.say("It is Wednesday my Dudes");
+    }
   }
 }
 

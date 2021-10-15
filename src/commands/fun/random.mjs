@@ -1,8 +1,8 @@
 import { MessageEmbed } from "discord.js";
 import { Command } from "discord.js-commando";
 
-import { randomNumber } from "../../utils";
-import logger from "../../utils/logger";
+import { randomNumber } from "../../utils/index.mjs";
+import logger from "../../utils/logger.mjs";
 
 class RandomNumberCommand extends Command {
   constructor(client) {
@@ -28,30 +28,30 @@ class RandomNumberCommand extends Command {
         },
       ],
     });
+  }
 
-    this.run = async (message, { min, max }) => {
-      if (min >= max || max < min) {
-        return await message.reply(`That's illegal, yo`);
-      }
+  async run(message, { min, max }) {
+    if (min >= max || max < min) {
+      return await message.reply(`That's illegal, yo`);
+    }
 
-      const number = await randomNumber(min, max);
+    const number = await randomNumber(min, max);
 
-      logger.info({
-        message: "A random number was generated",
-        userId: message.author.id,
-      });
+    logger.info({
+      message: "A random number was generated",
+      userId: message.author.id,
+    });
 
-      const embed = new MessageEmbed()
-        .setColor("#0099ff")
-        .attachFiles(["./assets/blobross.png"])
-        .setTitle("Random number")
-        .setDescription(number)
-        .setThumbnail("attachment://blobross.png")
-        .setTimestamp()
-        .setFooter("Guaranteed to be random");
+    const embed = new MessageEmbed()
+      .setColor("#0099ff")
+      .attachFiles(["./assets/blobross.png"])
+      .setTitle("Random number")
+      .setDescription(number)
+      .setThumbnail("attachment://blobross.png")
+      .setTimestamp()
+      .setFooter("Guaranteed to be random");
 
-      return await message.say(embed);
-    };
+    return await message.say(embed);
   }
 }
 

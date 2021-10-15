@@ -11,19 +11,19 @@ class WeekCommand extends Command {
       memberName: "week",
       description: "What week is it again? Man, I wish I had a calendar",
     });
+  }
 
-    this.run = async (message) => {
-      const embed = new MessageEmbed()
-        .setColor("#0099ff")
-        .attachFiles(["./assets/blobross.png"])
-        .setTitle("Week number")
-        .setDescription(dateformat(new Date(), "W"))
-        .setThumbnail("attachment://blobross.png")
-        .setTimestamp()
-        .setFooter("Don't you have a calendar?");
+  async run(message) {
+    const embed = new MessageEmbed()
+      .setColor("#0099ff")
+      .attachFiles(["./assets/blobross.png"])
+      .setTitle("Week number")
+      .setDescription(dateformat(new Date(), "W"))
+      .setThumbnail("attachment://blobross.png")
+      .setTimestamp()
+      .setFooter("Don't you have a calendar?");
 
-      return await message.say(embed);
-    };
+    return await message.say(embed);
   }
 }
 
