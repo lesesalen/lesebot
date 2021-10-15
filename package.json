@@ -7,8 +7,12 @@
   "author": "Sondre Nilsen",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=16",
+    "npm": "~8"
+  },
   "scripts": {
-    "dev:run": "nodemon --watch src --delay 2 src/index.js",
+    "dev:run": "nodemon --watch src --delay 2 src/index.mjs",
     "lint": "eslint --cache .",
     "style": "prettier --check ./src/**/*.ts"
   },
@@ -28,16 +32,16 @@
     "@types/cheerio": "^0.22.28",
     "@types/dateformat": "^3.0.1",
     "@types/lodash": "4.14.168",
-    "@types/node": "15.0.2",
-    "@types/ws": "^7.4.2",
-    "eslint": "^7.26.0",
+    "@types/node": "16.11.0",
+    "@types/ws": "8.2.0",
+    "eslint": "8.0.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-functional": "*",
     "eslint-plugin-import": "*",
     "eslint-plugin-node": "*",
-    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-simple-import-sort": "*",
-    "nodemon": "2.0.7",
+    "nodemon": "2.0.13",
     "prettier": "^2.2.1",
     "prettier-eslint": "*"
   },
