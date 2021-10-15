@@ -13,20 +13,26 @@
 <summary>Table of Contents</summary>
 <br />
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+
 **Table of Contents**
 
 - [Installation](#installation)
   - [Configuration](#configuration)
-  - [Developing](#developing)
   - [Production](#production)
+    - [Automatically](#automatically)
+    - [Manually](#manually)
+  - [Developing](#developing)
 - [Inspiration, help](#inspiration-help)
 - [License](#license)
+
+<!-- markdown-toc end -->
 
 </details>
 
 ## What
 
-Because of the global COVID-19 crisis our university shut down our reading halls,
+Because of the global Covid19 crisis our university shut down our reading halls
 and I decided to create my own virtual reading hall ~with blackjack and
 hookers~. As the server has grown we've added a couple utility bots here and
 there, some doing this and some doing that. I figured instead of having a
@@ -39,39 +45,31 @@ single bot.
 
 Before any of the next steps, it's important to look at the `.env.example` file
 and see what you need to change. At the very least you must get a new Discord
-token. You should follow the [Discord4J setup guide][discord4j-setup]. For the 
-specific permissions that the bot needs, you can see the [screenshots][perms].
+token. You can follow this
+[guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
+and copy the `.env.example` file to `.env`. Then you can simply change the token
+in the file from `abcde` to your actual key.
 
 **NB:** The `.env` is ignored by `git` by default so that you never accidentally
 expose your application secrets, so make sure it is never added to your repo.
 
-## Developing
-
-For development, you need a good
-
-1. Java IDE (IntelliJ IDEA)
-2. Java (at least Java 16, though earlier releases may work)
-
-Then simply run:
-
-```sh
-$ git clone git@github.com:sondr3/lesebot.git
-$ cd lesebot
-$ idea . # or open with IntelliJ via your desktop
-```
-
-## Running locally
-
-There are two separate ways to run the bot while developing, assuming the above
-steps have been followed.
-
-1. You can now start the bot by starting `main` in `src/main/java/no/lesesalen/lesebot/LeseBot` in IDEA.
-2. Build the project with `./mwnw package` and run it with `java -jar target/lesebot-1.0-SNAPSHOT.jar`
-
 ## Production
 
-For production, I recommend hosting the bot in a Docker container and running
-that. It is fairly straight forward, either run `./deploy.sh` or manually:
+### Automatically
+
+For a very quick and easy deploy of your bot, you can quickly edit the
+`deploy.sh` file and change the name from `lesebot` to whatever you want it to
+be and then just run it from the command line `./deploy.sh`.
+
+**NOTE:** This bot is automatically deployed whenever a tag is pushed, so to
+automatically deploy simply run `yarn release` and then `git push` and it'll
+automagically be updated in about five minutes (depending on whether it has to
+reinstall dependencies).
+
+### Manually
+
+For production I recommend hosting the bot in a Docker container and running
+that. It is fairly straight forward:
 
 ```sh
 $ docker build -t <name> .
@@ -79,8 +77,33 @@ $ docker run --env-file .env -itd --restart unless-stopped --name <name> <name>
 ```
 
 **Note:** You should probably omit the `-d` flag if you are developing locally
-as this launches it headless. Otherwise, you have to find the process ID and then
+as this launches it headless. Otherwise you have to find the process ID and then
 view its logs.
+
+## Developing
+
+For development you need a good TypeScript IDE (Visual Studio Code or WebStorm
+are my recommendations) and Node (version 12 and above), then simply run:
+
+```sh
+$ git clone git@github.com:sondr3/lesebot.git
+$ cd lesebot
+$ yarn install
+```
+
+**NOTE:** If you don't care about the test bot being able to run voice commands
+you can install it without the optional dependency `sodium` like so: `yarn install --ignore-optional`.
+
+Once you have everything installed you can start developing. The easiest way to
+do this is to start the TypeScript compiler with `yarn dev` to automatically
+compile your code and then in a separate terminal window run `yarn dev:run` to
+actually run the Discord bot. This will compile and reload the bot whenever the
+compiled code changes.
+
+Once you are satisified with your work you can commit it to this repo, however
+note that to commit something you need to follow the
+[commitlint-conventional](https://github.com/conventional-changelog/commitlint/blob/master/%40commitlint/config-conventional/README.md)
+style of commits (e.g. `feat: added foo command`).
 
 # Inspiration, help
 
@@ -92,6 +115,3 @@ view its logs.
 # License
 
 MIT.
-
-[discord4j-setup]: https://docs.discord4j.com/discord-application-tutorial
-[perms]: https://github.com/lesesalen/lesebot/blob/python/assets/images
