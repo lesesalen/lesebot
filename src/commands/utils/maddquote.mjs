@@ -1,10 +1,10 @@
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import { ADDED_QUOTES_PATH } from "../../modules/quotes.mjs";
 import { mergeJson, writeJson } from "../../utils/index.mjs";
 import logger from "../../utils/logger.mjs";
 
-class ManuallyAddQuoteCommand extends Command {
+class ManuallyAddQuoteCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "maddquote",

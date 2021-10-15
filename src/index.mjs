@@ -1,11 +1,22 @@
 import CommandoClient from "discord.js-commando";
 import { config } from "dotenv";
-import path from "path";
+import fs from "node:fs/promises";
 
 import { getPersistentData } from "./utils/courses.mjs";
 import logger from "./utils/logger.mjs";
 
 config();
+
+const registerCommands = async (discordClient) => {
+  const groups = await fs.readdir(new URL("commands", import.meta.url).pathname);
+  for (const group of groups) {
+    const commands = await fs.readdir(new URL(`commands/${group}`, import.meta.url).pathname);
+    for (const command of commands.filter((dir) => dir.endsWith(".mjs"))) {
+      const it = await import(`./commands/${group}/${command}`);
+      discordClient.registry.registerCommand(it.default);
+    }
+  }
+};
 
 const client = new CommandoClient.CommandoClient({
   commandPrefix: process.env.DISCORD_PREFIX,
@@ -20,8 +31,9 @@ client.registry
     ["uib", "Useful commands related to UiB"],
   ])
   .registerDefaultGroups()
-  .registerDefaultCommands()
-  .registerCommandsIn(path.join(__dirname, "commands"));
+  .registerDefaultCommands();
+
+void registerCommands(client);
 
 client.once("ready", () => {
   if (!client.user) throw new Error("User not authenticated");

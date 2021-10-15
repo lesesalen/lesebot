@@ -1,9 +1,9 @@
-import { Command } from "discord.js-commando";
-import random from "lodash/random";
+import Commando from "discord.js-commando";
+import random from "lodash/random.js";
 
 import logger from "../../utils/logger.mjs";
 
-class SlapCommand extends Command {
+class SlapCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "slap",

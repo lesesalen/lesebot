@@ -1,9 +1,9 @@
 import { MessageEmbed } from "discord.js";
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import { getCourse } from "../../utils/courses.mjs";
 
-class ExamCommand extends Command {
+class ExamCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "exam",

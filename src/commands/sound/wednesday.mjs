@@ -1,9 +1,9 @@
 import dateformat from "dateformat";
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 import fs from "fs";
 import path from "path";
 
-class WednesdayCommand extends Command {
+class WednesdayCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "wednesday",

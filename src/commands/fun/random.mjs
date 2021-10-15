@@ -1,10 +1,10 @@
 import { MessageEmbed } from "discord.js";
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import { randomNumber } from "../../utils/index.mjs";
 import logger from "../../utils/logger.mjs";
 
-class RandomNumberCommand extends Command {
+class RandomNumberCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "random",

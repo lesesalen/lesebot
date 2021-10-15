@@ -1,9 +1,9 @@
 import axios from "axios";
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import logger from "../../utils/logger.mjs";
 
-class DadJokeCommand extends Command {
+class DadJokeCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "dadjoke",
@@ -17,6 +17,7 @@ class DadJokeCommand extends Command {
   async run(message) {
     const api = await axios.get(`https://icanhazdadjoke.com/`, {
       headers: {
+        "User-Agent": "lesebot (https://github.com/lesesale/lesebot)",
         Accept: "application/json",
       },
     });

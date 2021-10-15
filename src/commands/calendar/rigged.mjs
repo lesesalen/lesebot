@@ -1,8 +1,8 @@
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 
 import logger from "../../utils/logger.mjs";
 
-class RiggedCommand extends Command {
+class RiggedCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "rigged",

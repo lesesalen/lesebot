@@ -1,4 +1,4 @@
-import { Command } from "discord.js-commando";
+import Commando from "discord.js-commando";
 import fs from "fs";
 import path from "path";
 
@@ -7,7 +7,7 @@ import { getState, setPlayingState } from "../../state.mjs";
 import { soundSamples } from "../../utils/index.mjs";
 import logger from "../../utils/logger.mjs";
 
-class SoundCommand extends Command {
+class SoundCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "sound",
