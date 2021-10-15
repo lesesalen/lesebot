@@ -11,7 +11,8 @@ const registerCommands = async (discordClient) => {
   const groups = await fs.readdir(new URL("commands", import.meta.url).pathname);
   for (const group of groups) {
     const commands = await fs.readdir(new URL(`commands/${group}`, import.meta.url).pathname);
-    for (const command of commands.filter((dir) => dir.endsWith(".mjs"))) {
+    for (const command of commands) {
+      logger.debug(`Importing command from './commands/${group}/${command}`);
       const it = await import(`./commands/${group}/${command}`);
       discordClient.registry.registerCommand(it.default);
     }
