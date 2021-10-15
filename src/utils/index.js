@@ -1,6 +1,6 @@
 import axios from "axios";
 import { promises as fs } from "fs";
-import globby from "globby";
+import { globby } from "globby";
 import path from "path";
 
 import logger from "./logger.js";
@@ -48,6 +48,7 @@ export const mergeJson = async (filePath, content) => {
 export const sample = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
+
 export const soundSamples = async () => {
   const paths = await globby(`${path.resolve(process.cwd(), "assets")}/*.mp3`);
   return paths.map((p) => {
