@@ -29,10 +29,12 @@ jobs:
         run: npm ci --no-optional
 
       - name: Lint
-        continue-on-error: true
         run: |
           npm run style
           npm run lint
+
+      - name: Build
+        run: npm run build
 
   deploy:
     if: startsWith(github.ref, 'refs/tags/v')
