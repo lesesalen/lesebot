@@ -4,7 +4,10 @@ import { globby } from "globby";
 import path from "path";
 
 import { RandomGenerateIntegers } from "../types";
-import logger from "./logger";
+import { logger } from "./logger";
+
+export * from "./courses";
+export * from "./logger";
 
 export const writeJson = async <T>(filePath: string, content: T): Promise<void> => {
   const filepath = path.resolve(filePath);

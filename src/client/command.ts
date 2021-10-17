@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionData, ChatInputApplicationCommandData, CommandInteraction } from "discord.js";
 import { ApplicationCommandTypes } from "discord.js/typings/enums";
 
-import { DiscordClient } from "./client";
+import { DiscordClient } from ".";
 
 export type CommandData = ChatInputApplicationCommandData;
 export type CommandConstructor = { default: { new (): SlashCommand } };

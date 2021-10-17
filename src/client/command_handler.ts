@@ -3,10 +3,9 @@ import { Routes } from "discord-api-types/v9";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import logger from "../utils/logger";
-import { DiscordClient } from "./client";
-import { CommandConstructor, SlashCommand } from "./command";
-import { Handler } from "./handler";
+import { logger } from "@/utils";
+
+import { CommandConstructor, DiscordClient, Handler, SlashCommand } from ".";
 
 export class CommandHandler implements Handler<CommandInteraction> {
   private commands: Map<string, SlashCommand>;
