@@ -1,9 +1,11 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2021,
     sourceType: "module",
+    requireConfigFile: false,
   },
+  parser: "@babel/eslint-parser",
   env: {
     es6: true,
     node: true,
@@ -30,5 +32,5 @@ module.exports = {
     "node/no-extraneous-import": "off",
     "node/no-extraneous-require": "off",
     "node/no-unsupported-features/es-syntax": "off",
-  }
+  },
 };
