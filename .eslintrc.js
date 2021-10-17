@@ -22,7 +22,6 @@ module.exports = {
     "plugin:node/recommended-module",
   ],
   rules: {
-    "import/no-default-export": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "sort-imports": "off",
@@ -40,7 +39,7 @@ module.exports = {
     "no-unused-vars": "off",
     // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/FAQ.md#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
     "no-undef": "off",
-    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
   },
   overrides: [
     {

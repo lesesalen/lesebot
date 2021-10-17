@@ -15,7 +15,7 @@
     "build": "tsc",
     "clean": "rm -rf dist/ .cache/ .coverage/",
     "dev": "tsc --watch --incremental",
-    "dev:run": "nodemon --watch src --delay 1 src/index.js",
+    "start": "node-dev src/main.ts",
     "lint": "eslint --cache .",
     "style": "prettier --check src"
   },
@@ -48,9 +48,10 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
-    "nodemon": "2.0.13",
+    "node-dev": "7.0.0",
     "prettier": "2.4.1",
     "prettier-eslint": "13.0.0",
+    "ts-node": "10.3.0",
     "typescript": "4.4.4"
   },
   "optionalDependencies": {
