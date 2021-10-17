@@ -4,12 +4,12 @@ import { Routes } from "discord-api-types/v9";
 import fs from "node:fs/promises";
 import path from "path";
 
-import { Command } from "./command";
+import { CommandConstructor, SlashCommand } from "./command";
 import { Config } from "./config";
 import logger from "./utils/logger";
 
 export class DiscordClient extends Client {
-  private commands: Map<string, Command>;
+  private commands: Map<string, SlashCommand>;
   private restClient: REST;
   private readonly config: Config;
 
@@ -29,11 +29,9 @@ export class DiscordClient extends Client {
     const groups = await fs.readdir(path.join(__dirname, "commands"));
     for (const group of groups) {
       const commands = await fs.readdir(path.join(__dirname, `commands/${group}`));
-      for (const name of commands) {
-        console.log(name);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const { default: Command } = (await import(`./commands/${group}/${name}`)) as { default: Command };
-        const command = new Command();
+      for (const name of commands.filter((file) => file.endsWith(".js"))) {
+        const { default: Constructor } = (await import(`./commands/${group}/${name}`)) as CommandConstructor;
+        const command: SlashCommand = new Constructor();
         logger.debug(`Importing command from './commands/${group}/${name}`);
         this.commands.set(command.name.toLowerCase(), command);
       }
