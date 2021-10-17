@@ -1,54 +1,75 @@
-import CommandoClient from "discord.js-commando";
+import { REST } from "@discordjs/rest";
+import { Client, Intents } from "discord.js";
+import { Routes } from "discord-api-types/v9";
 import { config } from "dotenv";
-import fs from "node:fs/promises";
+import fs from "fs/promises";
 
-import { getPersistentData } from "./utils/courses.js";
 import logger from "./utils/logger.js";
+
+class DiscordClient extends Client {
+  #commands;
+  #rest;
+
+  /**
+   * @param {import("discord.js").ClientOptions} options
+   */
+  constructor(options) {
+    super(options);
+    this.#commands = new Map();
+  }
+
+  async init() {
+    this.#rest = new REST({ version: "9" }).setToken(process.env.DISCORD_TOKEN);
+    await this.loadCommands();
+    await this.registerCommands();
+  }
+
+  async loadCommands() {
+    const groups = await fs.readdir(new URL("commands", import.meta.url).pathname);
+    for (const group of groups) {
+      const commands = await fs.readdir(new URL(`commands/${group}`, import.meta.url).pathname);
+      for (const name of commands) {
+        const it = await import(`./commands/${group}/${name}`);
+        const data = it.data.toJSON();
+        logger.debug(`Importing command from './commands/${group}/${name}`);
+        this.#commands.set(data.name.toLowerCase(), data);
+      }
+    }
+  }
+
+  async registerCommands() {
+    try {
+      console.log(`Started refreshing application (/) commands.`);
+
+      await this.#rest.put(Routes.applicationGuildCommands(process.env.DISCORD_APP_ID, process.env.DISCORD_GUILD_ID), {
+        body: [...this.#commands.values()],
+      });
+
+      console.log(`Successfully refreshed application (/) commands.`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async runCommand(interaction) {
+    if (!this.#commands.has(interaction.commandName.toLowerCase())) return;
+
+    return interaction.reply("Meow!");
+  }
+}
 
 config();
 
-const registerCommands = async (discordClient) => {
-  const groups = await fs.readdir(new URL("commands", import.meta.url).pathname);
-  for (const group of groups) {
-    const commands = await fs.readdir(new URL(`commands/${group}`, import.meta.url).pathname);
-    for (const command of commands) {
-      logger.debug(`Importing command from './commands/${group}/${command}`);
-      const it = await import(`./commands/${group}/${command}`);
-      discordClient.registry.registerCommand(it.default);
-    }
-  }
-};
+const client = new DiscordClient({ intents: [Intents.FLAGS.GUILDS] });
+await client.init();
 
-const client = new CommandoClient.CommandoClient({
-  commandPrefix: process.env.DISCORD_PREFIX,
-  owner: "217316187032256512",
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.registry
-  .registerDefaultTypes()
-  .registerGroups([
-    ["fun", "Small, fun commands"],
-    ["sound", "Cover your earholes"],
-    ["uib", "Useful commands related to UiB"],
-  ])
-  .registerDefaultGroups()
-  .registerDefaultCommands();
+client.login(process.env.DISCORD_TOKEN);
 
-void registerCommands(client);
-
-client.once("ready", () => {
-  if (!client.user) throw new Error("User not authenticated");
-  console.log(`Logged in as ${client.user?.tag}! (${client.user?.id})`);
-  void client.user?.setActivity("STUDENTS", { type: "WATCHING" });
-
-  logger.info({ message: `Creating initial exam information` });
-  getPersistentData().catch((error) => {
-    logger.error({
-      message: error,
-    });
-  });
+client.on("interactionCreate", (interaction) => {
+  if (!interaction.isCommand()) return;
+  client.runCommand(interaction);
 });
-
-client.on("error", console.error);
-
-void client.login(process.env.DISCORD_TOKEN);
