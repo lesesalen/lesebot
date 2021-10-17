@@ -3,6 +3,7 @@ import { ApplicationCommandTypes } from "discord.js/typings/enums";
 
 import { DiscordClient } from "./client";
 
+export type CommandData = ChatInputApplicationCommandData;
 export type CommandConstructor = { default: { new (): SlashCommand } };
 
 export interface SlashCommand extends ChatInputApplicationCommandData {
@@ -10,7 +11,7 @@ export interface SlashCommand extends ChatInputApplicationCommandData {
   toJson(): ChatInputApplicationCommandData;
 }
 
-export abstract class CommandHandler implements SlashCommand {
+export abstract class SlashCommandHandler implements SlashCommand {
   name!: string;
   description!: string;
   type?: "CHAT_INPUT" | ApplicationCommandTypes.CHAT_INPUT | undefined;
@@ -23,7 +24,7 @@ export abstract class CommandHandler implements SlashCommand {
 
   public abstract handle(interaction: CommandInteraction, client: DiscordClient): Promise<void>;
 
-  public toJson(): ChatInputApplicationCommandData {
+  public toJson(): CommandData {
     return {
       name: this.name.toLowerCase(),
       description: this.description,
