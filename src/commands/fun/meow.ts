@@ -1,9 +1,8 @@
 import { CommandInteraction } from "discord.js";
 
-import { DiscordClient } from "../../client";
-import { CommandHandler } from "../../command";
+import { DiscordClient, SlashCommandHandler } from "../../client";
 
-export default class MeowCommand extends CommandHandler {
+export default class MeowCommand extends SlashCommandHandler {
   constructor() {
     super({
       name: "Meow",
