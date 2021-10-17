@@ -6,13 +6,16 @@
   "repository": "https://github.com/sondr3/lesebot",
   "author": "Sondre Nilsen",
   "license": "MIT",
-  "type": "module",
   "engines": {
     "node": "~16",
     "npm": "~8"
   },
   "scripts": {
-    "dev": "nodemon --watch src --delay 1 src/index.js",
+    "prebuild": "rm -rf dist/",
+    "build": "tsc",
+    "clean": "rm -rf dist/ .cache/ .coverage/",
+    "dev": "tsc --watch --incremental",
+    "dev:run": "nodemon --watch src --delay 1 src/index.js",
     "lint": "eslint --cache .",
     "style": "prettier --check src"
   },
@@ -26,20 +29,19 @@
     "dateformat": "5.0.1",
     "discord-api-types": "0.24.0",
     "discord.js": "13.2.0",
-    "discord.js-commando": "0.12.3",
     "dotenv": "10.0.0",
     "globby": "12.0.2",
     "lodash": "4.17.21",
     "winston": "3.3.3"
   },
   "devDependencies": {
-    "@babel/core": "7.15.8",
-    "@babel/eslint-parser": "7.15.8",
     "@types/cheerio": "0.22.30",
     "@types/dateformat": "3.0.1",
     "@types/lodash": "4.14.175",
     "@types/node": "16.11.0",
     "@types/ws": "8.2.0",
+    "@typescript-eslint/eslint-plugin": "5.0.0",
+    "@typescript-eslint/parser": "5.0.0",
     "eslint": "8.0.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.25.2",
@@ -48,7 +50,8 @@
     "eslint-plugin-simple-import-sort": "7.0.0",
     "nodemon": "2.0.13",
     "prettier": "2.4.1",
-    "prettier-eslint": "13.0.0"
+    "prettier-eslint": "13.0.0",
+    "typescript": "4.4.4"
   },
   "optionalDependencies": {
     "sodium": "^3.0.2"
