@@ -15,7 +15,7 @@
     "build": "tsc",
     "clean": "rm -rf dist/ .cache/ .coverage/",
     "dev": "tsc --watch --incremental",
-    "start": "node-dev src/main.ts",
+    "start": "node-dev --notify=false src/main.ts",
     "lint": "eslint --cache .",
     "style": "prettier --check src"
   },
