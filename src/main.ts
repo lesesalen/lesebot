@@ -1,7 +1,7 @@
 import { Intents } from "discord.js";
 import { config } from "dotenv";
 
-import { DiscordClient, getConfig } from "@/client";
+import { DiscordClient, getConfig } from "./client";
 
 config();
 

@@ -1,6 +1,6 @@
 import winston, { format, transports } from "winston";
 
-export const logger = winston.createLogger({
+const logger = winston.createLogger({
   level: "info",
   format: format.combine(format.timestamp(), format.errors({ stack: true }), format.splat(), format.json()),
   defaultMeta: { service: "lesebot" },
@@ -17,3 +17,6 @@ if (process.env.NODE_ENV !== "production") {
     }),
   );
 }
+
+// eslint-disable-next-line import/no-default-export
+export default logger;

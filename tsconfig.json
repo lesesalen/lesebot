@@ -21,13 +21,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "ES2020",
-    "baseUrl": "src",
-    "paths": {
-      "@/client": ["./client"],
-      "@/commands": ["./commands"],
-      "@/utils": ["./utils"]
-    }
+    "target": "ES2020"
   },
   "exclude": ["js"],
   "include": ["src"]

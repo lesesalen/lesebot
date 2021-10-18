@@ -1,7 +1,8 @@
 import { REST } from "@discordjs/rest";
 import { Client, ClientOptions } from "discord.js";
 
-import { CommandHandler, Config } from ".";
+import { CommandHandler } from "./command_handler";
+import { Config } from "./config";
 
 export class DiscordClient extends Client {
   private commandHandler: CommandHandler;
