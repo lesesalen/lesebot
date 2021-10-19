@@ -9,27 +9,21 @@ export type SlashCommandData = SlashCommandBuilder | Omit<SlashCommandBuilder, "
 export type CommandConstructor = { default: { new (): SlashCommand } };
 
 export interface SlashCommand {
-  data(): SlashCommandData;
+  builder: SlashCommandData;
   handle(interaction: CommandInteraction, client: DiscordClient): Promise<void>;
   toJSON(): CommandData;
   getName(): string;
 }
 
 export abstract class SlashCommandHandler implements SlashCommand {
-  private readonly name: string;
-
-  protected constructor(name: string) {
-    this.name = name.toLowerCase();
-  }
-
-  public abstract data(): SlashCommandData;
+  public abstract builder: SlashCommandData;
   public abstract handle(interaction: CommandInteraction, client: DiscordClient): Promise<void>;
 
-  public getName(): string {
-    return this.name;
+  getName(): string {
+    return this.builder.name.toLowerCase();
   }
 
   public toJSON(): CommandData {
-    return this.data().toJSON();
+    return this.builder.toJSON();
   }
 }
