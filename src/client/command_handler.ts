@@ -37,7 +37,7 @@ export class CommandHandler implements Handler<CommandInteraction> {
         const { default: Constructor } = (await import(`../commands/${group}/${name}`)) as CommandConstructor;
         const command: SlashCommand = new Constructor();
         logger.debug(`Importing command from './commands/${group}/${name}`);
-        this.commands.set(command.name.toLowerCase(), command);
+        this.commands.set(command.getName(), command);
       }
     }
   }
@@ -49,7 +49,7 @@ export class CommandHandler implements Handler<CommandInteraction> {
       await this.client.restClient.put(
         Routes.applicationGuildCommands(this.client.config.discord.appId, this.client.config.discord.guildId),
         {
-          body: [...this.commands.values()].map((it) => it.toJson()),
+          body: [...this.commands.values()].map((it) => it.toJSON()),
         },
       );
 
