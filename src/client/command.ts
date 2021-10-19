@@ -5,29 +5,31 @@ import type { RESTPostAPIApplicationCommandsJSONBody } from "discord-api-types/v
 import { DiscordClient } from "./client";
 
 export type CommandData = RESTPostAPIApplicationCommandsJSONBody;
+export type SlashCommandData = SlashCommandBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
 export type CommandConstructor = { default: { new (): SlashCommand } };
 
 export interface SlashCommand {
-  data: SlashCommandBuilder;
+  data(): SlashCommandData;
   handle(interaction: CommandInteraction, client: DiscordClient): Promise<void>;
   toJSON(): CommandData;
   getName(): string;
 }
 
 export abstract class SlashCommandHandler implements SlashCommand {
-  data: SlashCommandBuilder;
+  private readonly name: string;
 
-  protected constructor(data: SlashCommandBuilder) {
-    this.data = data;
+  protected constructor(name: string) {
+    this.name = name.toLowerCase();
   }
 
+  public abstract data(): SlashCommandData;
   public abstract handle(interaction: CommandInteraction, client: DiscordClient): Promise<void>;
 
   public getName(): string {
-    return this.data.name.toLowerCase();
+    return this.name;
   }
 
   public toJSON(): CommandData {
-    return this.data.toJSON();
+    return this.data().toJSON();
   }
 }
