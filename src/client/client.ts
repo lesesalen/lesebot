@@ -1,6 +1,7 @@
 import { REST } from "@discordjs/rest";
 import { Client, ClientOptions } from "discord.js";
 
+import logger from "../utils/logger";
 import { CommandHandler } from "./command_handler";
 import { Config } from "./config";
 
@@ -20,7 +21,7 @@ export class DiscordClient extends Client {
     await this.commandHandler.init();
 
     this.on("ready", () => {
-      console.log(`Logged in as ${this?.user?.tag ?? "unknown"}!`);
+      logger.info(`Logged in as ${this?.user?.tag ?? "unknown"}!`);
     });
 
     await this.login(this.config.discord.token);
