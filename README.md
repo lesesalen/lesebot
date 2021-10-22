@@ -19,7 +19,6 @@
   - [Configuration](#configuration)
   - [Production](#production)
     - [Automatically](#automatically)
-    - [Manually](#manually)
   - [Developing](#developing)
 - [Inspiration, help](#inspiration-help)
 - [License](#license)
@@ -51,21 +50,19 @@ expose your application secrets, so make sure it is never added to your repo.
 
 ## Production
 
+**NOTE:** This bot is automatically deployed whenever a new commit is pushed to
+`main`, and once it is built and the Docker image is pushed the changes go live.
+This takes approximately four minutes from when a commit lands on `main`.
+
 ### Automatically
 
-For a very quick and easy deploy of your bot, you can quickly edit the
-`deploy.sh` file and change the name from `lesebot` to whatever you want it to
-be and then just run it from the command line `./deploy.sh`.
-
-**NOTE:** This bot is automatically deployed whenever a tag is pushed, so to
-automatically deploy simply run create a new tag and then `git push` and it'll
-automagically be updated in about five minutes (depending on whether it has to
-reinstall dependencies).
-
-### Manually
-
 For production, I recommend hosting the bot in a Docker container and running
-that. It is fairly straight forward:
+that. It is fairly straight forward: edit the `deploy.sh` file and change the 
+name from `lesebot` to whatever you want it to be and then just run it from 
+the command line `./deploy.sh`.
+
+If you want to do this manually you can look at the commands that are run in 
+`deploy.sh` and run them yourself, just remembe to build the bot locally first:
 
 ```sh
 $ docker build -t <name> .
@@ -92,7 +89,7 @@ $ npm ci
 you can install it without the optional dependency `sodium` like so: `npm ci --no-optional`.
 
 Once you have everything installed you can start developing. The easiest way to
-do this is to start the bot with `npm run dev` to automatically reload the bot 
+do this is to start the bot with `npm start` to automatically reload the bot 
 whenever the code changes.
 
 # Inspiration, help
