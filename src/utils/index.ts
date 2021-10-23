@@ -84,7 +84,7 @@ export const randomNumber = async (min: number, max: number): Promise<number> =>
     jsonrpc: "2.0",
     method: "generateIntegers",
     params: {
-      apiKey: process.env.RANDOM_KEY,
+      apiKey: process.env.RANDOM_ORG_KEY,
       n: 1,
       min: min,
       max: max,

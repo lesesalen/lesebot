@@ -1,4 +1,15 @@
-# Contributing
+# Contributing <!-- omit in toc -->
+
+<details>
+<summary>Table of Contents</summary>
+<br />
+
+- [Pre-requisite knowledge](#pre-requisite-knowledge)
+- [Resources](#resources)
+- [`.env` and its options](#env-and-its-options)
+- [Creating a new command](#creating-a-new-command)
+
+</details>
 
 ## Pre-requisite knowledge
 
@@ -10,6 +21,39 @@ implementing commands.
 
 - [Discord.js Guide](https://discordjs.guide/)
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
+
+## `.env` and its options
+
+<details>
+<summary>Available settings</summary>
+<br />
+
+```sh
+DISCORD_TOKEN=abcdefgh
+DISCORD_APP_ID=12345
+DISCORD_GUILD_ID=12345
+DISCORD_PREFIX=?
+TZ=Europe/Oslo
+NODE_ENV=production
+RANDOM_ORG_KEY=abcdefgh
+UIB_OPENDATA_API_KEY=abcdefgh
+GIPHY_API_KEY=abcdefgh
+```
+
+1. **DISCORD_TOKEN:** The token used by the bot to connect to the Discord API.
+1. **DISCORD_APP_ID:** The application ID for your bot.
+1. **DISCORD_GUILD_ID:** ID of the guild the bot is deployed against.
+1. **DISCORD_PREFIX:** Legacy for old `!help` style commands
+1. **TZ:** Timezone for the bot, used to display correct dates etc
+1. **NODE_ENV:** Should be set to `PRODUCTION` when deploying, can be ignored otherwise
+1. **RANDOM_ORG_KEY:** API key used to get random number, can be omitted
+1. **UIB_OPENDATA_API_KEY:** API key used to get UiB information, can be omitted
+1. **GIPHY_API_KEY:** API key used to get GIFs from Giphy, can be omitted
+
+The only required options are the three first, the rest can be ignored unless you
+are working on that feature/need it to run.
+
+</details>
 
 ## Creating a new command
 

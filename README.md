@@ -39,11 +39,9 @@ single bot.
 ## Configuration
 
 Before any of the next steps, it's important to look at the `.env.example` file
-and see what you need to change. At the very least you must get a new Discord
-token. You can follow this
-[guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
-and copy the `.env.example` file to `.env`. Then you can simply change the token
-in the file from `abcde` to your actual key.
+and see what you need to change, for more details look at the [CONTRIBUTING](CONTRIBUTING.md)
+documentation. You can follow this [guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html) and copy the `.env.example` file to `.env`. Then you can simply change what
+you need to.
 
 **NB:** The `.env` is ignored by `git` by default so that you never accidentally
 expose your application secrets, so make sure it is never added to your repo.
