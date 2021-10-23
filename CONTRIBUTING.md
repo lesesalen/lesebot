@@ -40,6 +40,8 @@ UIB_OPENDATA_API_KEY=abcdefgh
 GIPHY_API_KEY=abcdefgh
 ```
 
+</details>
+
 1. **DISCORD_TOKEN:** The token used by the bot to connect to the Discord API.
 1. **DISCORD_APP_ID:** The application ID for your bot.
 1. **DISCORD_GUILD_ID:** ID of the guild the bot is deployed against.
@@ -53,7 +55,6 @@ GIPHY_API_KEY=abcdefgh
 The only required options are the three first, the rest can be ignored unless you
 are working on that feature/need it to run.
 
-</details>
 
 ## Creating a new command
 
