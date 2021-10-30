@@ -10,4 +10,3 @@ const botIntents = [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.F
 const client = new DiscordClient(getConfig(), { intents: botIntents });
 
 void client.init();
-void client.start();

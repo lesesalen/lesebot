@@ -1,4 +1,5 @@
 import { REST } from "@discordjs/rest";
+import { AudioPlayer, createAudioPlayer } from "@discordjs/voice";
 import { Client, ClientOptions, Guild } from "discord.js";
 
 import logger from "../utils/logger";
@@ -10,30 +11,30 @@ export class DiscordClient extends Client {
   public restClient: REST;
   public readonly config: Config;
   public guild!: Guild;
+  public audioPlayer: AudioPlayer;
 
   constructor(config: Config, options: ClientOptions) {
     super(options);
     this.config = config;
     this.restClient = new REST({ version: "9" }).setToken(this.config.discord.token);
     this.commandHandler = new CommandHandler(this);
+    this.audioPlayer = createAudioPlayer();
   }
 
-  async init() {
-    await this.commandHandler.init();
-    this.guild = await this.guilds.fetch(this.config.discord.guildId);
+  init() {
+    void this.login(this.config.discord.token);
 
-    this.on("ready", () => {
+    this.on("ready", async () => {
       logger.info(`Logged in as ${this?.user?.tag ?? "unknown"}!`);
+
+      await this.commandHandler.init();
+      this.guild = await this.guilds.fetch(this.config.discord.guildId);
     });
 
-    await this.login(this.config.discord.token);
-  }
-
-  start() {
-    this.on("interactionCreate", (interaction) => {
+    this.on("interactionCreate", async (interaction) => {
       if (!interaction.isCommand()) return;
       logger.debug(`Received command ${interaction.commandName}`);
-      void this.commandHandler.handle(interaction);
+      await this.commandHandler.handle(interaction);
     });
   }
 }
