@@ -3,8 +3,8 @@ import cheerio from "cheerio";
 import { promises as fs } from "fs";
 import path from "path";
 
-import { getCurrentSemester, strToJsonTyped, writeJson } from ".";
 import logger from "./logger";
+import { getCurrentSemester, strToJsonTyped, writeJson } from "./utils";
 
 const STRUCTURED_DATA_URL = "https://raw.githubusercontent.com/sondr3/course-explorer/master/structured.json";
 const STRUCTURED_DATA_PATH = path.resolve(process.cwd(), "data/structured.json");
