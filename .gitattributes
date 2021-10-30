@@ -1,0 +1,2 @@
+# Automatically tells Git to convert all CRLF line endings to LF on commit
+* text=auto
