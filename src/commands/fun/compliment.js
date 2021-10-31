@@ -1,51 +1,33 @@
+import { SlashCommandBuilder, userMention } from "@discordjs/builders";
 import axios from "axios";
-import Commando from "discord.js-commando";
+import { GuildMember } from "discord.js";
 
-import logger from "../../utils/logger.js";
+import { SlashCommandHandler } from "../../client";
 
-class ComplimentCommand extends Commando.Command {
-  constructor(client) {
-    super(client, {
-      name: "compliment",
-      group: "fun",
-      memberName: "compliment",
-      description: "Give your dear friends a nice little compliment",
-      argsPromptLimit: 0,
-      args: [
-        {
-          key: "target",
-          prompt: "The user to target",
-          type: "user",
-          validate: undefined,
-          default: "",
-        },
-      ],
-    });
-  }
+export default class ComplimentCommand extends SlashCommandHandler {
+  builder = new SlashCommandBuilder()
+    .setName("compliment")
+    .setDescription("Give your dear friends a nice little compliment")
+    .addUserOption((option) => option.setName("user").setDescription("The user to target").setRequired(false));
 
-  async run(message, { target }) {
-    const api = await axios.get(`https://complimentr.com/api`);
+  handle(interaction, _client) {
+    axios.get(`https://complimentr.com/api`).then((resp) => {
+      let compliment = resp.data.compliment.toLowerCase();
+      compliment = compliment.charAt(0).toUpperCase() + compliment.slice(1);
 
-    let compliment = api.data.compliment.toLowerCase();
-    compliment = compliment.charAt(0).toUpperCase() + compliment.slice(1);
-
-    logger.info({
-      message: "A compliment was sent...",
-      userId: message.author.id,
-      targetId: target.toString(),
-    });
-
-    if (typeof target === "string") {
-      return await message.say(`Wow, <@${message.author.id}>, ${compliment.toLowerCase()}`);
-    } else {
-      if (target.id === message.author.id) {
-        return await message.reply("Wow, you're really fishing for compliments...");
+      const user = interaction.options.getMember("user", false);
+      const authorTag = userMention(interaction.user.id);
+      
+      if (user instanceof GuildMember) {
+        const userTag = userMention(user.id);
+        if (user.id === interaction.user.id)
+          interaction.reply("Wow, you're really fishing for compliments...");
+        else
+          interaction.reply(`Hey, ${userTag}! ${compliment}. (from ${authorTag})`);
+      } else {
+        interaction.reply(`Wow, ${authorTag}, ${compliment.toLowerCase()}`);
       }
-
-      const response = `Hey, <@${target.id}>! ${compliment}. (from <@${message.author.id}>)`;
-      return await message.say(response);
-    }
+    });
   }
 }
 
-export default ComplimentCommand;
