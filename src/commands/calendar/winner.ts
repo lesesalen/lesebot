@@ -12,7 +12,7 @@ export default class WinnerCommand extends SlashCommandHandler {
     .setName("calendar")
     .setDescription("Choose a random member of your voice channel to win!"); //.setAlias("kalender")
 
-  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, client: DiscordClient): Promise<void> {
     if (!interaction.guild) return;
 
     if (interaction.member instanceof GuildMember) {
@@ -32,13 +32,13 @@ export default class WinnerCommand extends SlashCommandHandler {
 
         // Play audio:
         try {
-          await playSong(_client.audioPlayer, path.resolve(process.cwd(), "assets/restricted/hes_the_winner.mp3"));
+          await playSong(client.audioPlayer, path.resolve(process.cwd(), "assets/restricted/hes_the_winner.mp3"));
 
           const connection = await createVoiceChannelConnection(voiceChannel);
-          connection.subscribe(_client.audioPlayer);
+          connection.subscribe(client.audioPlayer);
 
-          _client.audioPlayer.on(AudioPlayerStatus.Idle, () => {
-            _client.audioPlayer.stop();
+          client.audioPlayer.on(AudioPlayerStatus.Idle, () => {
+            client.audioPlayer.stop();
             if (connection && connection.state.status != VoiceConnectionStatus.Destroyed) connection.destroy();
           });
         } catch (err) {
@@ -61,7 +61,7 @@ export default class WinnerCommand extends SlashCommandHandler {
         // Add reactions:
         const message = await interaction.fetchReply();
         if (message instanceof Message) {
-          const ree = _client.emojis.cache.find((emoji) => emoji.name === "ree");
+          const ree = client.emojis.cache.find((emoji) => emoji.name === "ree");
           await message.react(ree ?? "🔥");
           await message.react("🎉");
         }
