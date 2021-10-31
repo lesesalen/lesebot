@@ -32,4 +32,4 @@ class MemeCommand extends Commando.Command {
   }
 }
 
-export default DadJokeCommand;
+export default MemeCommand;
