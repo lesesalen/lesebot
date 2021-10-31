@@ -1,8 +1,10 @@
 import { REST } from "@discordjs/rest";
-import { AudioPlayer, createAudioPlayer } from "@discordjs/voice";
-import { Client, ClientOptions, Guild } from "discord.js";
+import { AudioPlayer, AudioPlayerStatus, createAudioPlayer } from "@discordjs/voice";
+import { Client, ClientOptions, Guild, VoiceChannel } from "discord.js";
+import path from "path";
 
 import logger from "../utils/logger";
+import { createVoiceChannelConnection, playSong } from "../utils/utils";
 import { CommandHandler } from "./command_handler";
 import { Config } from "./config";
 
