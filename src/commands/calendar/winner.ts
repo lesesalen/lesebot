@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { AudioPlayerStatus } from "@discordjs/voice";
+import { AudioPlayerStatus, VoiceConnectionStatus } from "@discordjs/voice";
 import { CommandInteraction, GuildMember, Message, MessageEmbed, VoiceChannel } from "discord.js";
 import path from "path";
 
@@ -13,13 +13,10 @@ export default class WinnerCommand extends SlashCommandHandler {
     .setDescription("Choose a random member of your voice channel to win!"); //.setAlias("kalender")
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
-    await interaction.reply("Command is temporarily disabled. :(");
-    return;
     if (!interaction.guild) return;
 
     if (interaction.member instanceof GuildMember) {
       const voiceChannel = interaction.member.voice.channel;
-      console.log(voiceChannel);
       if (voiceChannel && voiceChannel instanceof VoiceChannel) {
         const members = Array.from(voiceChannel.members.values());
 
@@ -31,25 +28,19 @@ export default class WinnerCommand extends SlashCommandHandler {
         const number = 0;
         const winner = members[number];
 
+        // Wait with reply so we can send result and audio at the same time
         await interaction.deferReply();
 
         // Play audio:
         try {
+          await playSong(_client.audioPlayer, path.resolve(process.cwd(), "assets/restricted/hes_the_winner.mp3"));
+
           const connection = await createVoiceChannelConnection(voiceChannel);
-          const sub = connection.subscribe(_client.audioPlayer);
-          if (!sub || _client.audioPlayer === undefined || _client.audioPlayer.state === undefined) throw "What?";
+          connection.subscribe(_client.audioPlayer);
 
-          console.log(_client.audioPlayer.state);
-          const player = await playSong(
-            _client.audioPlayer,
-            path.resolve(process.cwd(), "assets/restricted/hes_the_winner.mp3"),
-          );
-          logger.debug(`Player state: ${player.state.status}`);
-
-          player.on(AudioPlayerStatus.Idle, () => {
-            logger.debug("Player stopped!");
-            player.stop();
-            connection.destroy();
+          _client.audioPlayer.on(AudioPlayerStatus.Idle, () => {
+            _client.audioPlayer.stop();
+            if (connection && connection.state.status != VoiceConnectionStatus.Destroyed) connection.destroy();
           });
         } catch (err) {
           logger.error(err);

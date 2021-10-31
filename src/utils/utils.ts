@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { VoiceChannel } from "discord.js";
 import { promises as fs } from "fs";
+import { reject } from "lodash";
 import path from "path";
 
 import { RandomGenerateIntegers } from "../types";
@@ -113,40 +114,22 @@ export const createVoiceChannelConnection = async (voiceChannel: VoiceChannel): 
     channelId: voiceChannel.id,
     guildId: voiceChannel.guild.id,
     adapterCreator: createDiscordJSAdapter(voiceChannel),
-    debug: true,
   });
 
-  console.log(connection.state);
-
   try {
-    /**
-     * Allow ourselves 30 seconds to join the voice channel. If we do not join within then,
-     * an error is thrown.
-     */
     await entersState(connection, VoiceConnectionStatus.Ready, 30e3);
-    /**
-     * At this point, the voice connection is ready within 30 seconds! This means we can
-     * start playing audio in the voice channel. We return the connection so it can be
-     * used by the caller.
-     */
     return connection;
   } catch (error) {
-    /**
-     * At this point, the voice connection has not entered the Ready state. We should make
-     * sure to destroy it, and propagate the error by throwing it, so that the calling function
-     * is aware that we failed to connect to the channel.
-     */
     connection.destroy();
     throw error;
   }
 };
 
-export const playSong = (player: AudioPlayer, songpath: string) => {
+export const playSong = (player: AudioPlayer, songpath: string): Promise<AudioPlayer> => {
   const resource = createAudioResource(songpath, {
     inputType: StreamType.Arbitrary,
   });
-  if (!resource || !resource.readable) throw `Cannot read ${songpath}`;
+  if (!resource || !resource.readable) return Promise.reject(`Cannot read ${songpath}`);
   player.play(resource);
-  console.log(player.checkPlayable());
   return entersState(player, AudioPlayerStatus.Playing, 5e3);
 };
