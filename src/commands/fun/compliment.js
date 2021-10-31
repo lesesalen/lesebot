@@ -17,17 +17,14 @@ export default class ComplimentCommand extends SlashCommandHandler {
 
       const user = interaction.options.getMember("user", false);
       const authorTag = userMention(interaction.user.id);
-      
+
       if (user instanceof GuildMember) {
         const userTag = userMention(user.id);
-        if (user.id === interaction.user.id)
-          interaction.reply("Wow, you're really fishing for compliments...");
-        else
-          interaction.reply(`Hey, ${userTag}! ${compliment}. (from ${authorTag})`);
+        if (user.id === interaction.user.id) interaction.reply("Wow, you're really fishing for compliments...");
+        else interaction.reply(`Hey, ${userTag}! ${compliment}. (from ${authorTag})`);
       } else {
         interaction.reply(`Wow, ${authorTag}, ${compliment.toLowerCase()}`);
       }
     });
   }
 }
-
