@@ -5,7 +5,7 @@ import path from "path";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
 import logger from "../../utils/logger";
-import { createVoiceChannelConnection, playSong } from "../../utils/utils";
+import { createVoiceChannelConnection, playSong, randomNumber } from "../../utils/utils";
 
 export default class WinnerCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
@@ -20,12 +20,11 @@ export default class WinnerCommand extends SlashCommandHandler {
       if (voiceChannel && voiceChannel instanceof VoiceChannel) {
         const members = Array.from(voiceChannel.members.values());
 
-        // if (members.length === 1) {
-        //   return await interaction.reply("Trying to win on your own, eh? You lost.");
-        // }
+        if (members.length === 1) {
+          return await interaction.reply("Trying to win on your own, eh? You lost.");
+        }
 
-        // const number = await randomNumber(0, members.length - 1);
-        const number = 0;
+        const number = await randomNumber(0, members.length - 1);
         const winner = members[number];
 
         // Wait with reply so we can send result and audio at the same time
@@ -46,6 +45,7 @@ export default class WinnerCommand extends SlashCommandHandler {
           logger.error(err);
         }
 
+        // Fancy message embed:
         const embed = new MessageEmbed()
           .setColor("#0099ff")
           .setTitle("The Winner")

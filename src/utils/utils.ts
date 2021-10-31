@@ -11,7 +11,6 @@ import {
 import axios from "axios";
 import { VoiceChannel } from "discord.js";
 import { promises as fs } from "fs";
-import { reject } from "lodash";
 import path from "path";
 
 import { RandomGenerateIntegers } from "../types";
