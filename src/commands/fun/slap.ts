@@ -16,7 +16,7 @@ export default class SlapCommand extends SlashCommandHandler {
     if (user === null) {
       let randomUser = client.guild.members.cache.random();
 
-      while (randomUser.presence?.status !== "online" || randomUser.id === interaction.user.id) {
+      while (randomUser?.presence?.status !== "online" || randomUser.id === interaction.user.id) {
         randomUser = client.guild.members.cache.random();
       }
 

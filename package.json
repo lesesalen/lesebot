@@ -7,8 +7,8 @@
   "author": "Sondre Nilsen",
   "license": "MIT",
   "engines": {
-    "node": "~16",
-    "npm": "~8"
+    "node": ">=16",
+    "npm": ">=8"
   },
   "scripts": {
     "prebuild": "rm -rf dist/",
