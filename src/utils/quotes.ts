@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import path from "path";
 
 import { Quote } from "../types";
@@ -21,9 +22,8 @@ export const loadMergedQuotes = async (): Promise<Quote[]> => {
   return [...q1, ...q2];
 };
 
-export const formatQuote = async (quote: Quote): Promise<string> => {
-  const dateFormat = (await import("dateformat")).default;
-  const date = dateFormat(new Date(quote.date), "fullDate");
+export const formatQuote = (quote: Quote): string => {
+  const date = format(new Date(quote.date), "do MMMM yyyy");
 
   return `${quote.quote} -- ${quote.author} (${date})`;
 };
