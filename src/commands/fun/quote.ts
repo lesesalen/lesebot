@@ -14,6 +14,6 @@ export default class QuoteCommand extends SlashCommandHandler {
     const quotes = await loadMergedQuotes();
     const quote = sample(quotes);
 
-    return await interaction.reply(quote !== undefined ? await formatQuote(quote) : "¯\\_(ツ)_/¯");
+    return await interaction.reply(quote !== undefined ? formatQuote(quote) : "¯\\_(ツ)_/¯");
   }
 }

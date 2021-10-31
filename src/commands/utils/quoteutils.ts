@@ -68,7 +68,7 @@ const listQuotes = async (interaction: CommandInteraction): Promise<void> => {
 
   const reply = `You requested all of our quotes, enjoy! (its limited to the last 25 sadly)\n${quotes
     .slice(-25, quotes.length)
-    .map(async (q) => `> ${await formatQuote(q)}\n`)
+    .map((q) => `> ${formatQuote(q)}\n`)
     .join("\n")}`;
 
   return await interaction.reply({ content: reply, ephemeral: true });
