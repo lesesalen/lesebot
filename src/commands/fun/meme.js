@@ -14,21 +14,19 @@ class MemeCommand extends Commando.Command {
   }
 
   async run(message) {
-    const api = await axios.get(`https://meme-api.herokuapp.com/gimme`, {
+    const data = await axios.get(`https://meme-api.herokuapp.com/gimme`, {
       headers: {
         "User-Agent": "lesebot (https://github.com/lesesale/lesebot)",
         Accept: "application/json",
       },
     });
 
-    const joke = api.data.url;
-
     logger.info({
       message: "Funny meme, ha ha",
       userId: message.author.id,
     });
 
-    return await message.say(url);
+    return await message.say(data.url);
   }
 }
 
