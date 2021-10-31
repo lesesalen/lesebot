@@ -12,8 +12,8 @@ export default class RandomNumberCommand extends SlashCommandHandler {
     .addIntegerOption((option) => option.setName("max").setDescription("Maximum value").setRequired(true));
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
-    const min = interaction.options.getInteger("min");
-    const max = interaction.options.getInteger("max");
+    const min = interaction.options.getInteger("min") ?? 0;
+    const max = interaction.options.getInteger("max") ?? 0;
 
     if (min >= max || max < min) {
       return await interaction.reply({ content: `That's illegal, yo`, ephemeral: true });

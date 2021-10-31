@@ -15,8 +15,8 @@ interface SpookyApiResponse {
   };
 }
 
-const getNickname = (guild: Guild, user: User): string => {
-  return guild.members.resolve(user)?.nickname ?? user.username;
+const getNickname = (guild: Guild | null, user: User): string => {
+  return guild?.members.resolve(user)?.nickname ?? user.username;
 };
 
 export default class SpookCommand extends SlashCommandHandler {
