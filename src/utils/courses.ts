@@ -59,10 +59,9 @@ export const getPersistentData = async (): Promise<PersistentData | undefined> =
   return undefined;
 };
 
-export const getCourse = async (course: string, message: unknown): Promise<Course | undefined> => {
+export const getCourse = async (course: string): Promise<Course | undefined> => {
   const courseinfo = await getPersistentData();
   const courseResult = courseinfo?.courses.get(course);
-  console.log(message);
 
   if (courseResult === undefined) {
     logger.warn({
