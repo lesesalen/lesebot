@@ -1,6 +1,7 @@
 import { REST } from "@discordjs/rest";
 import { AudioPlayer, createAudioPlayer } from "@discordjs/voice";
 import { Client, ClientOptions, Guild } from "discord.js";
+import { getPersistentData } from "../utils/courses";
 
 import logger from "../utils/logger";
 import { CommandHandler } from "./command_handler";
@@ -29,6 +30,9 @@ export class DiscordClient extends Client {
 
       await this.commandHandler.init();
       this.guild = await this.guilds.fetch(this.config.discord.guildId);
+
+      // Explicitly call getter of persistent data to force rebuilding of database
+      void getPersistentData();
     });
 
     this.on("interactionCreate", (interaction) => {
