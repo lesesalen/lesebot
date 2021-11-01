@@ -1,8 +1,8 @@
 import { REST } from "@discordjs/rest";
 import { AudioPlayer, createAudioPlayer } from "@discordjs/voice";
 import { Client, ClientOptions, Guild } from "discord.js";
-import { getPersistentData } from "../utils/courses";
 
+import { getPersistentData } from "../utils/courses";
 import logger from "../utils/logger";
 import { CommandHandler } from "./command_handler";
 import { Config } from "./config";

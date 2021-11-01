@@ -24,13 +24,17 @@ export default class TACommand extends SlashCommandHandler {
     }
 
     const guild = interaction.guild;
+    if (!guild) {
+      logger.error("Command was somehow performed outside of guild");
+      return;
+    }
     const user = interaction.member;
     if (!(user instanceof GuildMember)) {
-      logger.error("User is somehow not a guild member...");
+      logger.error("User is somehow not a guild member");
       return;
     }
 
-    let role: Role;
+    let role: Role | undefined;
     if (!guild.roles.cache.some((role) => role.name === `gruppeleder-${courseId}`)) {
       role = await guild.roles.create({
         name: `gruppeleder-${courseId}`,
