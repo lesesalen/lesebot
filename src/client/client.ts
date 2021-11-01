@@ -31,10 +31,10 @@ export class DiscordClient extends Client {
       this.guild = await this.guilds.fetch(this.config.discord.guildId);
     });
 
-    this.on("interactionCreate", async (interaction) => {
+    this.on("interactionCreate", (interaction) => {
       if (!interaction.isCommand()) return;
       logger.debug(`Received command ${interaction.commandName}`);
-      await this.commandHandler.handle(interaction);
+      void this.commandHandler.handle(interaction);
     });
   }
 }

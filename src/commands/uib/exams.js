@@ -29,16 +29,16 @@ class ExamCommand extends Commando.Command {
     const courseId = inputSubject.toLowerCase();
 
     if (inputSubject === "") {
-      return await message.reply("You need to specify the subject to ask about");
+      return message.reply("You need to specify the subject to ask about");
     }
 
     const course = await getCourse(inputSubject, message);
     if (course === undefined) {
-      return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
+      return message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
     if (!course.exams?.length) {
-      return await message.reply(`There doesn't seem to be any exams for ${inputSubject}.`);
+      return message.reply(`There doesn't seem to be any exams for ${inputSubject}.`);
     }
 
     const embed = new MessageEmbed()
@@ -49,7 +49,7 @@ class ExamCommand extends Commando.Command {
 
     if (course.exams) this.buildExamEmbed(course.exams, embed);
 
-    return await message.say(embed);
+    return message.say(embed);
   }
 
   buildExamEmbed(exams, embed) {

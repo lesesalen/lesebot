@@ -18,13 +18,13 @@ export default class AffirmationCommand extends SlashCommandHandler {
     const {
       data: { affirmation },
     } = await axios.get<AffirmationApiResponse>(`https://www.affirmations.dev/`);
-    const user = interaction.options.getMember("user", false);
+    const user = interaction.options.getMember("user");
 
     if (user instanceof GuildMember) {
       const userTag = userMention(user.id);
-      return await interaction.reply(`Need a little lift, ${userTag}? ${affirmation}.`);
+      await interaction.reply(`Need a little lift, ${userTag}? ${affirmation}.`);
     } else {
-      return await interaction.reply(affirmation);
+      await interaction.reply(affirmation);
     }
   }
 }

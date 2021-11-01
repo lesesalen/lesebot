@@ -34,7 +34,7 @@ class SoundCommand extends Commando.Command {
 
   async run(message, { file }) {
     if (file === "") {
-      return await message.reply("You need to specify the file to play...");
+      return message.reply("You need to specify the file to play...");
     }
 
     const paths = await soundSamples();
@@ -47,7 +47,7 @@ class SoundCommand extends Commando.Command {
         file: file,
       });
 
-      return await message.reply(
+      return message.reply(
         `No matching sound clip found, try again!\nFor a look at the list of samples see \`${
           process.env.DISCORD_PREFIX ?? "!"
         } listsound\``,
@@ -60,7 +60,7 @@ class SoundCommand extends Commando.Command {
         message: "User was not in sound channel for sound request",
         userId: message.author.id,
       });
-      return await message.reply("You need to be in a voice channel first...");
+      return message.reply("You need to be in a voice channel first...");
     }
 
     if (!ALLOWED_VOICE_CHANNEL.includes(voiceChannel.id)) {
@@ -70,7 +70,7 @@ class SoundCommand extends Commando.Command {
         file: file,
       });
 
-      return await message.say(`You can only annoy others in <#${ALLOWED_VOICE_CHANNEL[0]}>, behave.`);
+      return message.say(`You can only annoy others in <#${ALLOWED_VOICE_CHANNEL[0]}>, behave.`);
     }
 
     if (getState().playingSound) {
@@ -79,7 +79,7 @@ class SoundCommand extends Commando.Command {
         userId: message.author.id,
       });
 
-      return await message.say(`I can only do so much at a time, please wait for me to finish...`);
+      return message.say(`I can only do so much at a time, please wait for me to finish...`);
     }
 
     logger.info({
@@ -103,7 +103,7 @@ class SoundCommand extends Commando.Command {
       setPlayingState(false);
     });
 
-    return await message.direct("I hope you're happy now...");
+    return message.direct("I hope you're happy now...");
   }
 }
 

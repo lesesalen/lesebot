@@ -26,12 +26,12 @@ class WhereRoomCommand extends Commando.Command {
 
   async run(message, { room }) {
     if (room === "") {
-      return await message.reply("You need to specify the room to locate");
+      return message.reply("You need to specify the room to locate");
     }
 
     const data = await getPersistentData();
     if (data === undefined) {
-      return await message.reply(`Sorry, cannot find any rooms.`);
+      return message.reply(`Sorry, cannot find any rooms.`);
     }
 
     const roomKeys = [...data.rooms.keys()];
@@ -47,12 +47,12 @@ class WhereRoomCommand extends Commando.Command {
 
     const roomEntry = [...data.rooms.entries()].find(([key]) => key.toUpperCase() === roomKey);
     if (roomEntry === undefined) {
-      return await message.reply(`Sorry, couldn't find the room "${room}".`);
+      return message.reply(`Sorry, couldn't find the room "${room}".`);
     }
 
     const embed = new MessageEmbed().setColor("#0099ff").setTitle(roomEntry[0]).setURL(roomEntry[1].roomurl);
 
-    return await message.say(embed);
+    return message.say(embed);
   }
 }
 

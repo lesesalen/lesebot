@@ -16,14 +16,14 @@ export default class InsultCommand extends SlashCommandHandler {
     insult = insult.toLowerCase();
 
     const authorTag = userMention(interaction.user.id);
-    const user = interaction.options.getMember("user", false);
-    const tts = interaction.options.getBoolean("tts") ?? false;
+    const user = interaction.options.getMember("user");
+    const tts = interaction.options.getBoolean("tts") ?? undefined;
 
     if (user instanceof GuildMember) {
       const userTag = userMention(user.id);
-      return await interaction.reply({ content: `Hey, ${userTag}! ${authorTag} thinks ${insult}`, tts: tts });
+      await interaction.reply({ content: `Hey, ${userTag}! ${authorTag} thinks ${insult}`, tts: tts });
     } else {
-      return await interaction.reply({ content: `Wow, ${authorTag}, ${insult}`, tts: tts });
+      await interaction.reply({ content: `Wow, ${authorTag}, ${insult}`, tts: tts });
     }
   }
 }

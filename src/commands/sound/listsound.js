@@ -27,7 +27,7 @@ class ListSoundCommand extends Commando.Command {
 
     await message.direct(reply);
 
-    return await message.reply(`To run do ${process.env.DISCORD_PREFIX ?? "!"}sound <name>`);
+    return message.reply(`To run do ${process.env.DISCORD_PREFIX ?? "!"}sound <name>`);
   }
 }
 
