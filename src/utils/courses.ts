@@ -37,6 +37,10 @@ interface PersistentData {
 
 let persistentData: PersistentData | undefined;
 
+export const deletePersistenData = (): void => {
+  persistentData = undefined;
+};
+
 export const getPersistentData = async (): Promise<PersistentData | undefined> => {
   try {
     // 1. Attempt to return local storage
