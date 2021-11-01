@@ -1,5 +1,5 @@
 {
   "printWidth": 120,
-  "endOfLine": "auto",
+  "endOfLine": "lf",
   "trailingComma": "all"
 }
