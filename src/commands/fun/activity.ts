@@ -20,7 +20,7 @@ export default class ActivityCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
     .setName("activity")
     .setDescription("Generate discord together activity invite")
-    .addStringOption((option) => option.setName("name").setDescription("The activity name").addChoices([["Watch Together", "youtube"], ["Poker Night", "poker"], ["Betrayal.io", "betrayal"], ["Chess In The Park", "chess"], ["Fishington.io", "fishing"], ["Poker Night", "poker"], ["Lettertile", "lettertile"], ["Wordsnack", "wordsnack"], ["Doodlecrew", "doodlecrew"], ["Awkword", "awkword"], ["Spellcast", "spellcast"]]).setRequired(true));
+    .addStringOption((option) => option.setName("name").setDescription("The activity name").addChoices([["Watch Together", "youtube"], ["Poker Night", "poker"], ["Betrayal.io", "betrayal"], ["Chess In The Park", "chess"], ["Fishington.io", "fishing"], ["Poker Night", "poker"], ["Lettertile", "lettertile"], ["Wordsnack", "wordsnack"], ["Doodlecrew", "doodlecrew"], ["Awkword", "awkword"], ["Spellcast", "spellcast"]]).setRequired(true))
     .addChannelOption((option) => option.setName(channel").setDescription("The voice channel").setRequired(false));
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
