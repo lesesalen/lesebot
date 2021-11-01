@@ -32,11 +32,11 @@ export default class QuoteModCommand extends SlashCommandHandler {
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
     switch (interaction.options.getSubcommand()) {
       case "list":
-        return await listQuotes(interaction);
+        return listQuotes(interaction);
       case "add":
-        return await addQuote(interaction);
+        return addQuote(interaction);
       default:
-        return await manuallyAddQuote(interaction);
+        return manuallyAddQuote(interaction);
     }
   }
 }
@@ -57,7 +57,7 @@ const addQuote = async (interaction: CommandInteraction): Promise<void> => {
       await interaction.editReply({ content: "Couldn't find user's last message :(" });
     }
   } else {
-    return await interaction.reply({ content: "Could'nt find user. :(", ephemeral: true });
+    await interaction.reply({ content: "Could'nt find user. :(", ephemeral: true });
   }
 };
 
@@ -71,7 +71,7 @@ const listQuotes = async (interaction: CommandInteraction): Promise<void> => {
     .map((q) => `> ${formatQuote(q)}\n`)
     .join("\n")}`;
 
-  return await interaction.reply({ content: reply, ephemeral: true });
+  await interaction.reply({ content: reply, ephemeral: true });
 };
 
 const manuallyAddQuote = async (interaction: CommandInteraction): Promise<void> => {
@@ -87,11 +87,9 @@ const manuallyAddQuote = async (interaction: CommandInteraction): Promise<void> 
 
     await interaction.editReply({ content: `Thanks! Added a new quote to the memory bank...` });
   } else {
-    return await interaction.reply({
+    await interaction.reply({
       content: "You need to specify authors AND text, neither can be empty.",
       ephemeral: true,
     });
   }
-
-  return await interaction.reply('"Madd"');
 };

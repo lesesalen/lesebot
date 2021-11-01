@@ -10,7 +10,7 @@ export default class SlapCommand extends SlashCommandHandler {
     .addUserOption((option) => option.setName("user").setDescription("The user to target").setRequired(false));
 
   async handle(interaction: CommandInteraction, client: DiscordClient): Promise<void> {
-    const user = interaction.options.getMember("user", false);
+    const user = interaction.options.getMember("user");
     const authorId = userMention(interaction.user.id);
 
     if (user === null) {

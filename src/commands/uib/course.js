@@ -25,7 +25,7 @@ class RequestCommand extends Commando.Command {
 
   async run(message, { subject }) {
     if (subject === undefined || subject.trim() === "") {
-      return await message.reply("You need to specify the subject to ask about");
+      return message.reply("You need to specify the subject to ask about");
     }
 
     const inputSubject = subject.toUpperCase().trim();
@@ -33,7 +33,7 @@ class RequestCommand extends Commando.Command {
     const course = await getCourse(inputSubject, message);
 
     if (course === undefined) {
-      return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
+      return message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
     const guild = message.guild;
@@ -43,11 +43,11 @@ class RequestCommand extends Commando.Command {
     const channelExits = channelCache.some((channel) => channel.name.toLowerCase() === courseId);
 
     if (channelExits) {
-      return await message.say(`A channel for ${inputSubject} already exists.`);
+      return message.say(`A channel for ${inputSubject} already exists.`);
     } else {
       const category = this.getCategoryChannel(inputSubject, channelCache); // Finn hvilken kategori som er parent av den nye kanalen
       await message.guild.channels.create(courseId, { type: "text", parent: category });
-      return await message.say(`A channel for ${inputSubject} has been created.`);
+      return message.say(`A channel for ${inputSubject} has been created.`);
     }
   }
 

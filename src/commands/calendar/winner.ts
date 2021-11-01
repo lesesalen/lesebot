@@ -1,6 +1,6 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { SlashCommandBuilder, userMention } from "@discordjs/builders";
 import { AudioPlayerStatus, VoiceConnectionStatus } from "@discordjs/voice";
-import { CommandInteraction, GuildMember, Message, MessageEmbed, VoiceChannel } from "discord.js";
+import { CommandInteraction, GuildMember, Message, MessageAttachment, MessageEmbed, VoiceChannel } from "discord.js";
 import path from "path";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
@@ -21,7 +21,7 @@ export default class WinnerCommand extends SlashCommandHandler {
         const members = Array.from(voiceChannel.members.values());
 
         if (members.length === 1) {
-          return await interaction.reply("Trying to win on your own, eh? You lost.");
+          return interaction.reply("Trying to win on your own, eh? You lost.");
         }
 
         const number = await randomNumber(0, members.length - 1);
@@ -46,17 +46,20 @@ export default class WinnerCommand extends SlashCommandHandler {
         }
 
         // Fancy message embed:
+        const avatar = winner.user.avatarURL();
+        const attachments =
+          avatar === undefined
+            ? [new MessageAttachment(path.resolve(process.cwd(), "assets/pogchamp.jpg"))]
+            : undefined;
         const embed = new MessageEmbed()
           .setColor("#0099ff")
           .setTitle("The Winner")
-          .setDescription(`<@${winner.user.id}>`)
-          .setThumbnail(
-            winner.user.avatarURL() ?? "https://www.dictionary.com/e/wp-content/uploads/2018/03/PogChamp-300x300.jpg",
-          )
+          .setDescription(userMention(winner.user.id))
+          .setThumbnail(avatar ?? "attachment://pogchamp.jpg")
           .setTimestamp()
           .setFooter("Better luck next time");
 
-        await interaction.editReply({ embeds: [embed] });
+        await interaction.editReply({ embeds: [embed], files: attachments });
 
         // Add reactions:
         const message = await interaction.fetchReply();
@@ -66,10 +69,13 @@ export default class WinnerCommand extends SlashCommandHandler {
           await message.react("🎉");
         }
       } else {
-        await interaction.reply("You need to be in a voice channel to use this command...");
+        await interaction.reply({
+          content: "You need to be in a voice channel to use this command...",
+          ephemeral: true,
+        });
       }
     } else {
-      await interaction.reply("You're somehow not a member of the Server???");
+      await interaction.reply({ content: "You're somehow not a member of the Server???", ephemeral: true });
     }
   }
 }

@@ -15,6 +15,6 @@ export default class CatFactsCommand extends SlashCommandHandler {
     const {
       data: { fact },
     } = await axios.get<CatFactApiRespone>(`https://catfact.ninja/fact`);
-    return interaction.reply(`Did you know? ${fact}`);
+    await interaction.reply(`Did you know? ${fact}`);
   }
 }

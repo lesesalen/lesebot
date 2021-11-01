@@ -19,12 +19,12 @@ class WednesdayCommand extends Commando.Command {
 
   async run(message) {
     if (dateformat(new Date(), "dddd").toLowerCase() !== "wednesday") {
-      return await message.say("It is **NOT** Wednesday my Dudes");
+      return message.say("It is **NOT** Wednesday my Dudes");
     }
 
     const voiceChannel = message.member?.voice.channel;
     if (!voiceChannel) {
-      return await message.reply("You need to be in a voice channel for wednesday");
+      return message.reply("You need to be in a voice channel for wednesday");
     } else {
       const connection = await voiceChannel.join();
 
@@ -40,7 +40,7 @@ class WednesdayCommand extends Commando.Command {
         voiceChannel.leave();
       });
 
-      return await message.say("It is Wednesday my Dudes");
+      return message.say("It is Wednesday my Dudes");
     }
   }
 }

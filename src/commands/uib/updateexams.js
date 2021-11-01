@@ -22,7 +22,7 @@ class UpdateExamsCommand extends Commando.Command {
 
     await getPersistentData();
 
-    return await message.say(`Okay! Exam information updated.`);
+    return message.say(`Okay! Exam information updated.`);
   }
 }
 
