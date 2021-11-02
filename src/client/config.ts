@@ -6,7 +6,7 @@ export interface Config {
   };
 }
 
-const getEnvVar = (name: string): string => {
+export const getEnvVar = (name: string): string => {
   const value = process.env[name];
   if (!value) throw new Error(`Could not find environment variable ${name}`);
 

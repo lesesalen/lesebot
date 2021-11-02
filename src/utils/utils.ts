@@ -1,9 +1,20 @@
+import {
+  AudioPlayer,
+  AudioPlayerStatus,
+  createAudioResource,
+  entersState,
+  joinVoiceChannel,
+  StreamType,
+  VoiceConnection,
+  VoiceConnectionStatus,
+} from "@discordjs/voice";
 import axios from "axios";
+import { VoiceChannel } from "discord.js";
 import { promises as fs } from "fs";
-import { globby } from "globby";
 import path from "path";
 
 import { RandomGenerateIntegers } from "../types";
+import { createDiscordJSAdapter } from "./adapter";
 import logger from "./logger";
 
 export const writeJson = async <T>(filePath: string, content: T): Promise<void> => {
@@ -47,12 +58,13 @@ export const sample = <T>(array: T[]): T => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
+const getPathsByExtension = async (folder: string, extension: string): Promise<string[]> => {
+  const dir = await fs.readdir(folder);
+  return dir.filter((p) => path.extname(p) === extension).map((p) => path.resolve(process.cwd(), folder, p));
+};
+
 export const soundSamples = async (): Promise<string[]> => {
-  const paths = await globby(`${path.resolve(process.cwd(), "assets")}/*.mp3`);
-  return paths.map((p) => {
-    const { name } = path.parse(p);
-    return name;
-  });
+  return getPathsByExtension("assets", ".mp3");
 };
 
 export const jsonToMap = <V>(jsonString: string): Map<string, V> => {
@@ -94,4 +106,29 @@ export const randomNumber = async (min: number, max: number): Promise<number> =>
   });
 
   return request.data.result.random.data[0];
+};
+
+export const createVoiceChannelConnection = async (voiceChannel: VoiceChannel): Promise<VoiceConnection> => {
+  const connection = joinVoiceChannel({
+    channelId: voiceChannel.id,
+    guildId: voiceChannel.guild.id,
+    adapterCreator: createDiscordJSAdapter(voiceChannel),
+  });
+
+  try {
+    await entersState(connection, VoiceConnectionStatus.Ready, 30e3);
+    return connection;
+  } catch (error) {
+    connection.destroy();
+    throw error;
+  }
+};
+
+export const playSong = (player: AudioPlayer, songpath: string): Promise<AudioPlayer> => {
+  const resource = createAudioResource(songpath, {
+    inputType: StreamType.Arbitrary,
+  });
+  if (!resource || !resource.readable) return Promise.reject(`Cannot read ${songpath}`);
+  player.play(resource);
+  return entersState(player, AudioPlayerStatus.Playing, 5e3);
 };

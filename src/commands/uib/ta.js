@@ -27,19 +27,19 @@ class TACommand extends Commando.Command {
 
   async run(message, { subject }) {
     if (message.channel instanceof DMChannel) {
-      return await message.reply(`You need to ask for a role from the requests channel.`);
+      return message.reply(`You need to ask for a role from the requests channel.`);
     }
 
     const inputSubject = subject.toUpperCase().trim();
     const courseId = inputSubject.toLowerCase();
 
     if (inputSubject === "") {
-      return await message.reply("You need to specify the subject to ask about");
+      return message.reply("You need to specify the subject to ask about");
     }
 
     const course = await getCourse(inputSubject, message);
     if (course === undefined) {
-      return await message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
+      return message.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
     const guild = message.guild;
@@ -68,11 +68,11 @@ class TACommand extends Commando.Command {
       logger.error({
         message: `Could not get role for ${courseId}`,
       });
-      return await message.say(`Something went wrong... try again or tell an admin :'(`);
+      return message.say(`Something went wrong... try again or tell an admin :'(`);
     }
 
     if (message.member?.roles.cache.has(role.id)) {
-      return await message.reply(`You're already a TA in ${courseId}... now you're a double TA.`);
+      return message.reply(`You're already a TA in ${courseId}... now you're a double TA.`);
     } else {
       await message.member?.roles.add(role);
 
@@ -81,7 +81,7 @@ class TACommand extends Commando.Command {
         userId: message.author.id,
       });
 
-      return await message.reply(`Congrats, you're now a TA in ${courseId}: ${course.name_en}`);
+      return message.reply(`Congrats, you're now a TA in ${courseId}: ${course.name_en}`);
     }
   }
 }
