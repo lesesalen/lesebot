@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed, Permissions } from "discord.js";
+import { CommandInteraction, GuildMember, MessageActionRow, MessageButton, MessageEmbed, Permissions} from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
 
-const allApplications = {
+const allApplications: Record<string, string> = {
   youtube: "880218394199220334",
   poker: "755827207812677713",
   betrayal: "773336526917861400",
@@ -21,15 +21,15 @@ export default class ActivityCommand extends SlashCommandHandler {
     .setName("activity")
     .setDescription("Generate discord together activity invite")
     .addStringOption((option) => option.setName("name").setDescription("The activity name").addChoices([["Watch Together", "youtube"], ["Poker Night", "poker"], ["Betrayal.io", "betrayal"], ["Chess In The Park", "chess"], ["Fishington.io", "fishing"], ["Poker Night", "poker"], ["Lettertile", "lettertile"], ["Wordsnack", "wordsnack"], ["Doodlecrew", "doodlecrew"], ["Awkword", "awkword"], ["Spellcast", "spellcast"]]).setRequired(true))
-    .addChannelOption((option) => option.setName(channel").setDescription("The voice channel").setRequired(false));
+    .addChannelOption((option) => option.setName("channel").setDescription("The voice channel").setRequired(false));
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
     const name = interaction.options.getString("name", true);
-    const channel = interaction.options.getChannel("channel", false) ?? interaction.member?.voice?.channel;
+    const channel = interaction.options.getChannel("channel", false) ?? (interaction.member instanceof GuildMember ? interaction.member : undefined)?.voice?.channel;
 
     const applicationId = allApplications[name];
 
-    if (!channel)
+    if (!(channel instanceof VoiceChannel))
       return interaction.reply("You have to join or mention a voice channel.");
 
     if (!channel.viewable)
@@ -49,14 +49,13 @@ export default class ActivityCommand extends SlashCommandHandler {
     const button = new MessageButton()
       .setLabel("Join")
       .setStyle("LINK")
-      .setURL(`${invite.url}`)
-      ]);
+      .setURL(`${invite.url}`);
 
     const row = new MessageActionRow().addComponents([button]);
 
     const embed = new MessageEmbed()
       .setColor("#0099ff")
-      .setTitle(`Successfully setup **${name}** game activity to **${channel.name}** channel.`);
+      .setTitle(`Successfully setup **${name}** game activity to **${channel.name}** channel.`)
       .setURL(`${invite.url}`);
 
     return interaction.reply({ embeds: [embed], components: [row] }).catch(console.error);
