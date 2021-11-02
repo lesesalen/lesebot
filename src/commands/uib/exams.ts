@@ -12,20 +12,20 @@ export default class ExamCommand extends SlashCommandHandler {
       option.setName("subject").setDescription("Subject to inquire about").setRequired(true),
     );
 
-  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<unknown> {
     const inputSubject = interaction.options.getString("subject", true).toUpperCase().trim();
     const courseId = inputSubject.toLowerCase();
 
     const course = await getCourse(inputSubject);
     if (!course) {
-      return await interaction.reply({
+      return interaction.reply({
         content: `Sorry, no course with the code ${inputSubject} found... try again`,
         ephemeral: true,
       });
     }
 
     if (!course.exams?.length) {
-      return await interaction.reply({
+      return interaction.reply({
         content: `There doesn't seem to be any exams for ${inputSubject}.`,
         ephemeral: true,
       });
@@ -41,7 +41,7 @@ export default class ExamCommand extends SlashCommandHandler {
 
     this.buildExamEmbed(course.exams, embed);
 
-    await interaction.editReply({ embeds: [embed] });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   buildExamEmbed(exams: Exam[], embed: MessageEmbed) {

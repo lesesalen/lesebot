@@ -13,33 +13,34 @@ export default class SoundCommand extends SlashCommandHandler {
     .setDescription("Play some nice, calming sounds for your channel")
     .addStringOption((option) => option.setName("file").setDescription("MP3 to play").setRequired(true));
 
-  async handle(interaction: CommandInteraction, client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, client: DiscordClient): Promise<unknown> {
     const file = interaction.options.getString("file");
     if (file === null || file === "")
-      return await interaction.reply({ content: "You need to specify the file to play...", ephemeral: true });
+      return interaction.reply({ content: "You need to specify the file to play...", ephemeral: true });
 
     const paths = await soundSamples();
     const match = paths.map((p) => path.basename(p)).find((el) => el.toUpperCase().includes(file.toUpperCase()));
 
     if (!match) {
-      return await interaction.reply({
+      return interaction.reply({
         content: `No matching sound clip found, try again!\nFor a look at the list of samples see \`/listsound\``,
         ephemeral: true,
       });
     }
 
     if (!(interaction.member instanceof GuildMember)) {
-      throw "Member is somehow not a member of the server...";
+      logger.error("Member is somehow not a member of the server...");
+      return interaction.reply({ content: "You're somehow not a member of the server?", ephemeral: true });
     }
 
     const voiceChannel = interaction.member.voice.channel;
     if (!voiceChannel || !(voiceChannel instanceof VoiceChannel)) {
-      return await interaction.reply({ content: "You need to be in a voice channel first...", ephemeral: true });
+      return interaction.reply({ content: "You need to be in a voice channel first...", ephemeral: true });
     }
 
     const allowedSoundChannel = process.env["SOUND_ALLOWED_VOICE_CHANNEL_ID"];
     if (allowedSoundChannel && allowedSoundChannel !== voiceChannel.id) {
-      return await interaction.reply({
+      return interaction.reply({
         content: `You can only annoy others in \`${
           (await interaction.guild?.channels.fetch(allowedSoundChannel))?.name ?? "NO CHANNELS"
         }\`, behave.`,
@@ -48,7 +49,7 @@ export default class SoundCommand extends SlashCommandHandler {
     }
 
     if (client.audioPlayer.state.status === AudioPlayerStatus.Playing) {
-      return await interaction.reply({
+      return interaction.reply({
         content: `I can only do so much at a time, please wait for me to finish...`,
         ephemeral: true,
       });
@@ -70,8 +71,9 @@ export default class SoundCommand extends SlashCommandHandler {
       });
     } catch (err) {
       logger.error(err);
+      return interaction.editReply("Failed to play sound. :(");
     }
 
-    await interaction.editReply("I hope you're happy now...");
+    return interaction.editReply("I hope you're happy now...");
   }
 }

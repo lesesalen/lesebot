@@ -11,22 +11,23 @@ import { createVoiceChannelConnection, playSong } from "../../utils/utils";
 export default class WednesdayCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder().setName("wednesday").setDescription("It is Wednesday my Dudes");
 
-  async handle(interaction: CommandInteraction, client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, client: DiscordClient): Promise<unknown> {
     if (format(new Date(), "EEEE") !== "Wednesday") {
-      return await interaction.reply({ content: "It is **NOT** Wednesday my Dudes", ephemeral: true });
+      return interaction.reply({ content: "It is **NOT** Wednesday my Dudes", ephemeral: true });
     }
 
     if (!(interaction.member instanceof GuildMember)) {
-      throw "Member is somehow not a member of the server...";
+      logger.error("Member is somehow not a member of the server...");
+      return interaction.reply({ content: "You're somehow not a member of the server?", ephemeral: true });
     }
 
     const voiceChannel = interaction.member.voice.channel;
     if (!voiceChannel || !(voiceChannel instanceof VoiceChannel)) {
-      return await interaction.reply({ content: "You need to be in a voice channel for wednesday", ephemeral: true });
+      return interaction.reply({ content: "You need to be in a voice channel for wednesday", ephemeral: true });
     }
 
     if (client.audioPlayer.state.status === AudioPlayerStatus.Playing) {
-      return await interaction.reply({
+      return interaction.reply({
         content: "Please wait until Jimmy's done screaming.",
         ephemeral: true,
       });
@@ -46,8 +47,9 @@ export default class WednesdayCommand extends SlashCommandHandler {
       });
     } catch (err) {
       logger.error(err);
+      return interaction.editReply("Failed to play wednesday. :(");
     }
 
-    await interaction.editReply("It is Wednesday my Dudes");
+    return interaction.editReply("It is Wednesday my Dudes");
   }
 }

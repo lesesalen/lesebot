@@ -17,7 +17,7 @@ export default class WhereRoomCommand extends SlashCommandHandler {
     const data = await getPersistentData();
     if (!data) {
       logger.error("Cannot find any rooms data...");
-      return await interaction.reply({ content: `Sorry, cannot find any rooms.`, ephemeral: true });
+      return interaction.reply({ content: `Sorry, cannot find any rooms.`, ephemeral: true });
     }
 
     const roomKeys = [...data.rooms.keys()];
@@ -32,11 +32,11 @@ export default class WhereRoomCommand extends SlashCommandHandler {
 
     const roomEntry = [...data.rooms.entries()].find(([key]) => key.toUpperCase() === roomKey);
     if (!roomEntry) {
-      return await interaction.reply({ content: `Sorry, couldn't find the room "${room}".`, ephemeral: true });
+      return interaction.reply({ content: `Sorry, couldn't find the room "${room}".`, ephemeral: true });
     }
 
     const embed = new MessageEmbed().setColor("#0099ff").setTitle(roomEntry[0]).setURL(roomEntry[1].roomurl);
 
-    return await interaction.reply({ embeds: [embed] });
+    return interaction.reply({ embeds: [embed] });
   }
 }

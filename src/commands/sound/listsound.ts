@@ -8,7 +8,7 @@ import { soundSamples } from "../../utils/utils";
 export default class ListSoundCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder().setName("listsound").setDescription("List of all the available 'sounds'");
 
-  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<unknown> {
     const paths = await soundSamples();
     await interaction.reply({ content: "Here are all the sound files:", ephemeral: true });
     const replies = splitToSnippets(
@@ -17,7 +17,7 @@ export default class ListSoundCommand extends SlashCommandHandler {
     );
     for (const reply of replies) await interaction.followUp({ content: reply, ephemeral: true });
 
-    await interaction.followUp({ content: "To run do `/sound <name>`", ephemeral: true });
+    return interaction.followUp({ content: "To run do `/sound <name>`", ephemeral: true });
   }
 }
 
