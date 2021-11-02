@@ -13,6 +13,6 @@ export default class UpdateExamsCommand extends SlashCommandHandler {
     deletePersistenData();
     await getPersistentData();
 
-    return await interaction.reply({ content: `Okay! Exam information updated.`, ephemeral: true });
+    return interaction.reply({ content: `Okay! Exam information updated.`, ephemeral: true });
   }
 }

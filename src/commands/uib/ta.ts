@@ -17,7 +17,7 @@ export default class TACommand extends SlashCommandHandler {
 
     const course = await getCourse(inputSubject);
     if (!course) {
-      return await interaction.reply({
+      return interaction.reply({
         content: `Sorry, no course with the code ${inputSubject} found... try again`,
         ephemeral: true,
       });
@@ -53,20 +53,20 @@ export default class TACommand extends SlashCommandHandler {
       logger.error({
         message: `Could not get role for ${courseId}`,
       });
-      return await interaction.reply({
+      return interaction.reply({
         content: `Something went wrong... try again or tell an admin :'(`,
         ephemeral: true,
       });
     }
 
     if (user.roles.cache.has(role.id)) {
-      return await interaction.reply(`You're already a TA in ${courseId}... now you're a double TA!`);
+      return interaction.reply(`You're already a TA in ${courseId}... now you're a double TA!`);
     } else {
       await user.roles.add(role);
 
       logger.info(`Added ${user.displayName} as TA to ${courseId}`);
 
-      return await interaction.reply(`Congrats, you're now a TA in ${courseId}: ${course.name_en}`);
+      return interaction.reply(`Congrats, you're now a TA in ${courseId}: ${course.name_en}`);
     }
   }
 }

@@ -13,7 +13,7 @@ export default class RequestCommand extends SlashCommandHandler {
       option.setName("subject").setDescription("The course you need a text channel for").setRequired(true),
     );
 
-  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<unknown> {
     const subject = interaction.options.getString("subject", true);
 
     const inputSubject = subject.toUpperCase().trim();
@@ -21,7 +21,7 @@ export default class RequestCommand extends SlashCommandHandler {
     const course = await getCourse(inputSubject);
 
     if (!course) {
-      return await interaction.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
+      return interaction.reply(`Sorry, no course with the code ${inputSubject} found... try again`);
     }
 
     const guild = interaction.guild;
@@ -31,20 +31,21 @@ export default class RequestCommand extends SlashCommandHandler {
       const channelExits = channelCache.some((channel) => channel.name.toLowerCase() === courseId);
 
       if (channelExits) {
-        return await interaction.reply(`A channel for ${inputSubject} already exists.`);
+        return interaction.reply({ content: `A channel for ${inputSubject} already exists.`, ephemeral: true });
       } else {
         const category = getCategoryChannel(inputSubject, channelCache); // Finn hvilken kategori som er parent av den nye kanalen
         if (category) {
           await interaction.deferReply();
           await interaction.guild?.channels.create(courseId, { type: "GUILD_TEXT", parent: category });
-          await interaction.editReply(`A channel for ${inputSubject} has been created.`);
+          return interaction.editReply(`A channel for ${inputSubject} has been created.`);
         } else {
           logger.error(`Could'nt find channel category for channel ${inputSubject}`);
-          return await interaction.reply(`Failed to create channel for ${inputSubject}. :(`);
+          return interaction.reply({ content: `Failed to create channel for ${inputSubject}. :(`, ephemeral: true });
         }
       }
     } else {
-      throw "Could'nt fetch guild channels";
+      logger.error("Could'nt fetch guild channels");
+      return interaction.reply({ content: "Couldn't fetch guild channels for some reason? Sorry.", ephemeral: true });
     }
   }
 }
