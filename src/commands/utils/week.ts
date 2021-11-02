@@ -20,6 +20,6 @@ export default class WeekCommand extends SlashCommandHandler {
       .setTimestamp()
       .setFooter("Don't you have a calendar?");
 
-    await interaction.reply({ embeds: [embed], files: [attachment] });
+    return interaction.reply({ embeds: [embed], files: [attachment] });
   }
 }

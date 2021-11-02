@@ -31,6 +31,6 @@ export default class RandomNumberCommand extends SlashCommandHandler {
       .setTimestamp()
       .setFooter("Guaranteed to be random");
 
-    await interaction.reply({ embeds: [embed], files: [attachment] });
+    return interaction.reply({ embeds: [embed], files: [attachment] });
   }
 }

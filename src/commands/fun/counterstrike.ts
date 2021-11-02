@@ -14,7 +14,7 @@ export default class SofiaCommand extends SlashCommandHandler {
 
     if (user instanceof GuildMember) {
       await user.send("cs?");
-      await interaction.reply({ content: ";)", ephemeral: true });
-    } else await interaction.reply("please cs?");
+      return interaction.reply({ content: ";)", ephemeral: true });
+    } else return interaction.reply("please cs?");
   }
 }

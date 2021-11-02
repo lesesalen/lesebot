@@ -20,6 +20,6 @@ export default class DadJokeCommand extends SlashCommandHandler {
         Accept: "application/json",
       },
     });
-    await interaction.reply(joke);
+    return interaction.reply(joke);
   }
 }

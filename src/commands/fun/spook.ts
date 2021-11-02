@@ -25,7 +25,7 @@ export default class SpookCommand extends SlashCommandHandler {
     .setDescription("Sends a random spooky skeleton!")
     .addUserOption((option) => option.setName("user").setDescription("Optional user to spook").setRequired(false));
 
-  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<unknown> {
     const user = interaction.options.getMember("user");
 
     // Fetching and building embed may take some time, so tell the user we're doing stuff:
@@ -48,18 +48,17 @@ export default class SpookCommand extends SlashCommandHandler {
         });
       } catch (err) {
         logger.error(err);
-        await interaction.editReply({
+        return interaction.editReply({
           embeds: [
             embed.setColor("#fe2644").setTitle(`Was going to spook ${userNickname} with this, but it failed. :(`),
           ],
         });
-        return;
       }
-      await interaction.editReply({
+      return interaction.editReply({
         embeds: [embed.setTitle(`Successfully spooked ${userNickname} with this:`)],
       });
     } else {
-      await interaction.editReply({ embeds: [embed] });
+      return interaction.editReply({ embeds: [embed] });
     }
   }
 }

@@ -29,7 +29,7 @@ export default class QuoteModCommand extends SlashCommandHandler {
         .addStringOption((option) => option.setName("text").setDescription("The authors glorious quote")),
     );
 
-  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<unknown> {
     switch (interaction.options.getSubcommand()) {
       case "list":
         return listQuotes(interaction);
@@ -41,7 +41,7 @@ export default class QuoteModCommand extends SlashCommandHandler {
   }
 }
 
-const addQuote = async (interaction: CommandInteraction): Promise<void> => {
+const addQuote = async (interaction: CommandInteraction): Promise<unknown> => {
   const user = interaction.options.getUser("user");
   if (user) {
     await interaction.deferReply();
@@ -52,16 +52,16 @@ const addQuote = async (interaction: CommandInteraction): Promise<void> => {
       const mergedQuotes = await mergeJson(ADDED_QUOTES_PATH, quote);
       await writeJson(ADDED_QUOTES_PATH, mergedQuotes);
 
-      await interaction.editReply({ content: `Thanks! Added a new quote to the memory bank...` });
+      return interaction.editReply({ content: `Thanks! Added a new quote to the memory bank...` });
     } else {
-      await interaction.editReply({ content: "Couldn't find user's last message :(" });
+      return interaction.editReply({ content: "Couldn't find user's last message :(" });
     }
   } else {
-    await interaction.reply({ content: "Could'nt find user. :(", ephemeral: true });
+    return interaction.reply({ content: "Could'nt find user. :(", ephemeral: true });
   }
 };
 
-const listQuotes = async (interaction: CommandInteraction): Promise<void> => {
+const listQuotes = async (interaction: CommandInteraction): Promise<unknown> => {
   const quotes = await loadMergedQuotes();
 
   await interaction.deferReply({ ephemeral: true });
@@ -71,10 +71,10 @@ const listQuotes = async (interaction: CommandInteraction): Promise<void> => {
     .map((q) => `> ${formatQuote(q)}\n`)
     .join("\n")}`;
 
-  await interaction.reply({ content: reply, ephemeral: true });
+  return interaction.editReply(reply);
 };
 
-const manuallyAddQuote = async (interaction: CommandInteraction): Promise<void> => {
+const manuallyAddQuote = async (interaction: CommandInteraction): Promise<unknown> => {
   const authors = interaction.options.getString("authors");
   const text = interaction.options.getString("text");
 
@@ -85,9 +85,9 @@ const manuallyAddQuote = async (interaction: CommandInteraction): Promise<void> 
     const mergedQuotes = await mergeJson(ADDED_QUOTES_PATH, quote);
     await writeJson(ADDED_QUOTES_PATH, mergedQuotes);
 
-    await interaction.editReply({ content: `Thanks! Added a new quote to the memory bank...` });
+    return interaction.editReply({ content: `Thanks! Added a new quote to the memory bank...` });
   } else {
-    await interaction.reply({
+    return interaction.reply({
       content: "You need to specify authors AND text, neither can be empty.",
       ephemeral: true,
     });

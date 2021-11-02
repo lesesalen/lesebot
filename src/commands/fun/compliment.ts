@@ -24,10 +24,10 @@ export default class ComplimentCommand extends SlashCommandHandler {
 
     if (user instanceof GuildMember) {
       const userTag = userMention(user.id);
-      if (user.id === interaction.user.id) await interaction.reply("Wow, you're really fishing for compliments...");
-      else await interaction.reply(`Hey, ${userTag}! ${compliment}. (from ${authorTag})`);
+      if (user.id === interaction.user.id) return interaction.reply("Wow, you're really fishing for compliments...");
+      else return interaction.reply(`Hey, ${userTag}! ${compliment}. (from ${authorTag})`);
     } else {
-      await interaction.reply(`Wow, ${authorTag}, ${compliment.toLowerCase()}`);
+      return interaction.reply(`Wow, ${authorTag}, ${compliment.toLowerCase()}`);
     }
   }
 }
