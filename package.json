@@ -7,15 +7,16 @@
   "author": "Sondre Nilsen",
   "license": "MIT",
   "engines": {
-    "node": "~16.6",
-    "npm": "~8"
+    "node": ">=16.6",
+    "npm": ">=8"
   },
   "scripts": {
     "prebuild": "rm -rf dist/",
     "build": "tsc",
     "clean": "rm -rf dist/ .cache/ .coverage/",
-    "dev": "tsc --watch --incremental",
-    "start": "node-dev --notify=false dist/main.js",
+    "compile": "tsc --watch --incremental",
+    "dev": "node-dev --notify=false src/main.ts",
+    "start": "node dist/main.js",
     "lint": "eslint --cache .",
     "style": "prettier --check src"
   },
