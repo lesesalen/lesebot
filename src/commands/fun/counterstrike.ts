@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, GuildMember } from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
+import logger from "../../utils/logger";
 
 export default class SofiaCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
@@ -13,8 +14,13 @@ export default class SofiaCommand extends SlashCommandHandler {
     const user = interaction.options.getMember("user");
 
     if (user instanceof GuildMember) {
-      await user.send("cs?");
-      return interaction.reply({ content: ";)", ephemeral: true });
+      try {
+        await user.send("cs?");
+        return interaction.reply({ content: ";)", ephemeral: true });
+      } catch (err) {
+        logger.error(err);
+        return interaction.reply({ content: ":(", ephemeral: true });
+      }
     } else return interaction.reply("please cs?");
   }
 }
