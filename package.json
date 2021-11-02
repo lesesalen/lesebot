@@ -2,8 +2,8 @@
   "name": "lesebot",
   "version": "0.6.1",
   "description": "A (helpful) Discord bot",
-  "main": "./src/index.js",
-  "repository": "https://github.com/sondr3/lesebot",
+  "main": "./src/main.ts",
+  "repository": "https://github.com/lesesalen/lesebot",
   "author": "Sondre Nilsen",
   "license": "MIT",
   "engines": {
