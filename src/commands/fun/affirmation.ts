@@ -22,9 +22,9 @@ export default class AffirmationCommand extends SlashCommandHandler {
 
     if (user instanceof GuildMember) {
       const userTag = userMention(user.id);
-      await interaction.reply(`Need a little lift, ${userTag}? ${affirmation}.`);
+      return interaction.reply(`Need a little lift, ${userTag}? ${affirmation}.`);
     } else {
-      await interaction.reply(affirmation);
+      return interaction.reply(affirmation);
     }
   }
 }

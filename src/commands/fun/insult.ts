@@ -21,9 +21,9 @@ export default class InsultCommand extends SlashCommandHandler {
 
     if (user instanceof GuildMember) {
       const userTag = userMention(user.id);
-      await interaction.reply({ content: `Hey, ${userTag}! ${authorTag} thinks ${insult}`, tts: tts });
+      return interaction.reply({ content: `Hey, ${userTag}! ${authorTag} thinks ${insult}`, tts: tts });
     } else {
-      await interaction.reply({ content: `Wow, ${authorTag}, ${insult}`, tts: tts });
+      return interaction.reply({ content: `Wow, ${authorTag}, ${insult}`, tts: tts });
     }
   }
 }

@@ -13,14 +13,14 @@ export type CommandConstructor = { default: { new (): SlashCommand } };
 
 export interface SlashCommand {
   builder: SlashCommandData;
-  handle(interaction: CommandInteraction, client: DiscordClient): Promise<void>;
+  handle(interaction: CommandInteraction, client: DiscordClient): Promise<unknown>;
   toJSON(): CommandData;
   getName(): string;
 }
 
 export abstract class SlashCommandHandler implements SlashCommand {
   public abstract builder: SlashCommandData;
-  public abstract handle(interaction: CommandInteraction, client: DiscordClient): Promise<void>;
+  public abstract handle(interaction: CommandInteraction, client: DiscordClient): Promise<unknown>;
 
   getName(): string {
     return this.builder.name.toLowerCase();

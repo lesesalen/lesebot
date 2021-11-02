@@ -12,7 +12,7 @@ export default class WinnerCommand extends SlashCommandHandler {
     .setName("calendar")
     .setDescription("Choose a random member of your voice channel to win!"); //.setAlias("kalender")
 
-  async handle(interaction: CommandInteraction, client: DiscordClient): Promise<void> {
+  async handle(interaction: CommandInteraction, client: DiscordClient): Promise<unknown> {
     if (!interaction.guild) return;
 
     if (interaction.member instanceof GuildMember) {
@@ -59,23 +59,23 @@ export default class WinnerCommand extends SlashCommandHandler {
           .setTimestamp()
           .setFooter("Better luck next time");
 
-        await interaction.editReply({ embeds: [embed], files: attachments });
+        const message = await interaction.editReply({ embeds: [embed], files: attachments });
 
         // Add reactions:
-        const message = await interaction.fetchReply();
         if (message instanceof Message) {
           const ree = client.emojis.cache.find((emoji) => emoji.name === "ree");
           await message.react(ree ?? "🔥");
-          await message.react("🎉");
+          return message.react("🎉");
         }
+        return;
       } else {
-        await interaction.reply({
+        return interaction.reply({
           content: "You need to be in a voice channel to use this command...",
           ephemeral: true,
         });
       }
     } else {
-      await interaction.reply({ content: "You're somehow not a member of the Server???", ephemeral: true });
+      return interaction.reply({ content: "You're somehow not a member of the Server???", ephemeral: true });
     }
   }
 }
