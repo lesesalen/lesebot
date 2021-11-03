@@ -138,7 +138,7 @@ export const playSong = (player: AudioPlayer, songpath: string): Promise<AudioPl
  * Essentially takes every element, compares itself to the previous one, and if the combined length
  * is less than `length`, it concatines them into one.
  * [[a],b,c] => if a.length + b.length <= length+1 then [[a,b],c] else [[a],[b],c]
- * 
+ *
  * @param args list of strings to be concatinated with '\n'
  * @param length Max length of each resulting string segment
  * @returns List of strings where each string is no longer than `length`
