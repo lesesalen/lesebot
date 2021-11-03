@@ -4,6 +4,9 @@ export interface Config {
     appId: string;
     guildId: string;
   };
+  guild: {
+    adminRoles: string[];
+  };
 }
 
 export const getEnvVar = (name: string): string => {
@@ -19,6 +22,9 @@ export const getConfig = (): Config => {
       token: getEnvVar("DISCORD_TOKEN"),
       appId: getEnvVar("DISCORD_APP_ID"),
       guildId: getEnvVar("DISCORD_GUILD_ID"),
+    },
+    guild: {
+      adminRoles: ["Admin", "Orakel"],
     },
   };
 };

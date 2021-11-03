@@ -9,6 +9,7 @@ export default class QuoteModCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
     .setName("quotemod") // .setAlias("dagenssitat")
     .setDescription("Modify and/or settings related to quotes")
+    .setDefaultPermission(false)
     .addSubcommand((command) => command.setName("list").setDescription("List all quotes said by our users"))
     .addSubcommand((command) =>
       command

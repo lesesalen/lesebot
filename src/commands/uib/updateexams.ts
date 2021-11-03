@@ -7,7 +7,8 @@ import { deletePersistenData, getPersistentData } from "../../utils/courses";
 export default class UpdateExamsCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
     .setName("updateexams")
-    .setDescription("Update the JSON file for exam information");
+    .setDescription("Update the JSON file for exam information")
+    .setDefaultPermission(false);
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
     deletePersistenData();

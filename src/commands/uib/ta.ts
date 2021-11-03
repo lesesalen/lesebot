@@ -3,7 +3,7 @@ import { CommandInteraction, GuildMember, Role } from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
 import { getCourse } from "../../utils/courses";
-import logger from "../../utils/logger.js";
+import logger from "../../utils/logger";
 
 export default class TACommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
