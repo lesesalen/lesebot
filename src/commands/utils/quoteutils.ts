@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
-import { ADDED_QUOTES_PATH, formatQuote, loadMergedQuotes } from "../../utils/quotes";
+import { ADDED_QUOTES_PATH } from "../../utils/quotes";
 import { mergeJson, writeJson } from "../../utils/utils";
 
 export default class QuoteModCommand extends SlashCommandHandler {
@@ -10,7 +10,6 @@ export default class QuoteModCommand extends SlashCommandHandler {
     .setName("quotemod") // .setAlias("dagenssitat")
     .setDescription("Modify and/or settings related to quotes")
     .setDefaultPermission(false)
-    .addSubcommand((command) => command.setName("list").setDescription("List all quotes said by our users"))
     .addSubcommand((command) =>
       command
         .setName("add")
@@ -32,8 +31,6 @@ export default class QuoteModCommand extends SlashCommandHandler {
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<unknown> {
     switch (interaction.options.getSubcommand()) {
-      case "list":
-        return listQuotes(interaction);
       case "add":
         return addQuote(interaction);
       default:
@@ -60,19 +57,6 @@ const addQuote = async (interaction: CommandInteraction): Promise<unknown> => {
   } else {
     return interaction.reply({ content: "Could'nt find user. :(", ephemeral: true });
   }
-};
-
-const listQuotes = async (interaction: CommandInteraction): Promise<unknown> => {
-  const quotes = await loadMergedQuotes();
-
-  await interaction.deferReply({ ephemeral: true });
-
-  const reply = `You requested all of our quotes, enjoy! (its limited to the last 25 sadly)\n${quotes
-    .slice(-25, quotes.length)
-    .map((q) => `> ${formatQuote(q)}\n`)
-    .join("\n")}`;
-
-  return interaction.editReply(reply);
 };
 
 const manuallyAddQuote = async (interaction: CommandInteraction): Promise<unknown> => {
