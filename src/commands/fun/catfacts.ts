@@ -4,7 +4,7 @@ import { CommandInteraction } from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
 
-interface CatFactApiRespone {
+interface CatFactApiResponse {
   fact: string;
 }
 
@@ -14,7 +14,7 @@ export default class CatFactsCommand extends SlashCommandHandler {
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
     const {
       data: { fact },
-    } = await axios.get<CatFactApiRespone>(`https://catfact.ninja/fact`);
+    } = await axios.get<CatFactApiResponse>(`https://catfact.ninja/fact`);
     return interaction.reply(`Did you know? ${fact}`);
   }
 }

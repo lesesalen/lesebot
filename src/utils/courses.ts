@@ -37,7 +37,7 @@ interface PersistentData {
 
 let persistentData: PersistentData | undefined;
 
-export const deletePersistenData = (): void => {
+export const deletePersistentData = (): void => {
   persistentData = undefined;
 };
 
@@ -64,8 +64,8 @@ export const getPersistentData = async (): Promise<PersistentData | undefined> =
 };
 
 export const getCourse = async (course: string): Promise<Course | undefined> => {
-  const courseinfo = await getPersistentData();
-  const courseResult = courseinfo?.courses.get(course);
+  const courseInfo = await getPersistentData();
+  const courseResult = courseInfo?.courses.get(course);
 
   if (courseResult === undefined) {
     logger.warn({
@@ -86,8 +86,8 @@ export const getCourse = async (course: string): Promise<Course | undefined> => 
 };
 
 export const getCourseExams = async (course: string, message: unknown): Promise<Exam[] | undefined> => {
-  const courseinfo = await getPersistentData();
-  const exams = courseinfo?.courses.get(course)?.exams;
+  const courseInfo = await getPersistentData();
+  const exams = courseInfo?.courses.get(course)?.exams;
   console.log(message);
 
   if (exams === undefined) {
@@ -156,8 +156,7 @@ const parseCourse = ($: cheerio.Root, element: cheerio.Element): CourseExamInfo 
   const [code] = parsedTitle.split("/").map((s) => s.trim());
   course.id = code;
 
-  const parsedURL = $(element).find(".exam-list-title > a").attr("href")?.trim();
-  course.url = parsedURL;
+  course.url = $(element).find(".exam-list-title > a").attr("href")?.trim();
 
   const details = $(element).find(".uib-study-exam-assessment");
   course.exams = parseExams($, details);

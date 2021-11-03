@@ -32,7 +32,7 @@ export class DiscordClient extends Client {
       this.guild = await this.guilds.fetch(this.config.discord.guildId);
 
       // Explicitly call getter of persistent data to force rebuilding of database
-      void getPersistentData();
+      await getPersistentData();
     });
 
     this.on("interactionCreate", (interaction) => {

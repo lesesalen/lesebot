@@ -1,5 +1,5 @@
 /**
- * Adapter.ts respecfully stolen from https://github.com/discordjs/voice/blob/main/examples/basic/adapter.ts
+ * Adapter.ts respectfully stolen from https://github.com/discordjs/voice/blob/main/examples/basic/adapter.ts
  */
 
 import { DiscordGatewayAdapterCreator, DiscordGatewayAdapterLibraryMethods } from "@discordjs/voice";

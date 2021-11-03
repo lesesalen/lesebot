@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
-import { deletePersistenData, getPersistentData } from "../../utils/courses";
+import { deletePersistentData, getPersistentData } from "../../utils/courses";
 
 export default class UpdateExamsCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
@@ -11,7 +11,7 @@ export default class UpdateExamsCommand extends SlashCommandHandler {
     .setDefaultPermission(false);
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
-    deletePersistenData();
+    deletePersistentData();
     await getPersistentData();
 
     return interaction.reply({ content: `Okay! Exam information updated.`, ephemeral: true });
