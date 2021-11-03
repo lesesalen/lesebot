@@ -2,8 +2,8 @@
 
 echo "Redeploying lesebot!"
 
-echo "Building new docker container..."
-docker build -t lesebot .
+echo "Getting latest Docker container"
+docker pull ghcr.io/lesesalen/lesebot:latest
 
 echo "Stopping bot..."
 docker stop lesebot
@@ -12,6 +12,6 @@ echo "Removing old container..."
 docker container rm lesebot
 
 echo "Redeploying bot"
-docker run --env-file .env -itd --restart unless-stopped --name lesebot lesebot
+docker run --env-file .env --pull always -itd --restart unless-stopped --name lesebot ghcr.io/lesesalen/lesebot:latest
 
 echo "And we're live again!"

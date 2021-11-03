@@ -57,10 +57,11 @@ This takes approximately four minutes from when a commit lands on `main`.
 For production, I recommend hosting the bot in a Docker container and running
 that. It is fairly straight forward: edit the `deploy.sh` file and change the 
 name from `lesebot` to whatever you want it to be and then just run it from 
-the command line `./deploy.sh`.
+the command line `./deploy.sh`. This will pull the latest version of the bot
+from the GitHub Docker Registry and deploy it.
 
 If you want to do this manually you can look at the commands that are run in 
-`deploy.sh` and run them yourself, just remembe to build the bot locally first:
+`deploy.sh` and run them yourself, just remember to build the bot locally first:
 
 ```sh
 $ docker build -t <name> .
