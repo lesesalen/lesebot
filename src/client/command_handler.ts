@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ApplicationCommandPermissionData, CommandInteraction } from "discord.js";
 import { Routes } from "discord-api-types/v9";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -52,6 +52,25 @@ export class CommandHandler implements Handler<CommandInteraction> {
           body: [...this.commands.values()].map((it) => it.toJSON()),
         },
       );
+
+      // Permissions:
+      const guild = this.client.guilds.cache.get(this.client.config.discord.guildId);
+      const roles = (await guild?.roles?.fetch())?.filter((role) =>
+        this.client.config.guild.adminRoles.includes(role.name.toUpperCase()),
+      );
+      const rolePermissions: ApplicationCommandPermissionData[] =
+        roles?.map((role) => ({
+          id: role.id,
+          type: "ROLE",
+          permission: true,
+        })) ?? [];
+
+      const restrictedCommands = Array.from(
+        (await guild?.commands?.fetch())?.filter((value) => !value.defaultPermission).values() ?? [],
+      );
+      for (const command of restrictedCommands) {
+        await command.permissions.add({ permissions: rolePermissions });
+      }
 
       logger.info(`Successfully refreshed application (/) commands.`);
     } catch (error) {

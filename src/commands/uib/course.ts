@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CategoryChannel, Collection, CommandInteraction, GuildChannel, ThreadChannel } from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
-import { getCourse } from "../../utils/courses.js";
+import { getCourse } from "../../utils/courses";
 import logger from "../../utils/logger";
 
 export default class RequestCommand extends SlashCommandHandler {
