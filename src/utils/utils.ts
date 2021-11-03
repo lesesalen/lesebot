@@ -133,7 +133,16 @@ export const playSong = (player: AudioPlayer, songpath: string): Promise<AudioPl
   return entersState(player, AudioPlayerStatus.Playing, 5e3);
 };
 
-// Concatinates a list of strings into string sequences which are no longer than length
+/**
+ * Concatinates a list of strings into string sequences which are no longer than length.
+ * Essentially takes every element, compares itself to the previous one, and if the combined length
+ * is less than `length`, it concatines them into one.
+ * [[a],b,c] => if a.length + b.length <= length+1 then [[a,b],c] else [[a],[b],c]
+ * 
+ * @param args list of strings to be concatinated with '\n'
+ * @param length Max length of each resulting string segment
+ * @returns List of strings where each string is no longer than `length`
+ */
 export const concatToMaxLengthSegments = (args: string[], length: number): string[] =>
   args.reduce((prev: string[], curr: string) => {
     if (prev.length !== 0 && (prev.at(-1)?.length ?? 0) + curr.length + 1 < length) {
