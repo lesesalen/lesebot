@@ -276,6 +276,7 @@ const createStructuredData = async (): Promise<StructuredData> => {
 
 export const writeStructuredData = async (): Promise<void> => {
   const cachedData = await createStructuredData();
+  await fs.mkdir(path.resolve(process.cwd(), "data"), { recursive: true });
   await writeJson(STRUCTURED_DATA_PATH, cachedData);
 };
 
