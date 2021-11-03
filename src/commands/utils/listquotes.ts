@@ -3,6 +3,7 @@ import { CommandInteraction } from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
 import { formatQuote, loadMergedQuotes } from "../../utils/quotes";
+import { concatToMaxLengthSegments } from "../../utils/utils";
 
 export default class ListQuotesCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder().setName("listquotes").setDescription("List all quotes said by our users");
@@ -12,11 +13,16 @@ export default class ListQuotesCommand extends SlashCommandHandler {
 
     await interaction.deferReply({ ephemeral: true });
 
-    const reply = `You requested all of our quotes, enjoy! (its limited to the last 25 sadly)\n${quotes
-      .slice(-25, quotes.length)
-      .map((q) => `> ${formatQuote(q)}\n`)
-      .join("\n")}`;
+    const formattedQuotes = concatToMaxLengthSegments(
+      quotes.map((q) => `> ${formatQuote(q)}`),
+      2000,
+    );
 
-    return interaction.editReply(reply);
+    await interaction.editReply(`You requested all of our quotes, enjoy!`);
+    const messageResults = formattedQuotes.map(
+      async (message) => await interaction.followUp({ content: message, ephemeral: true }),
+    );
+
+    return messageResults.at(-1);
   }
 }
