@@ -132,3 +132,14 @@ export const playSong = (player: AudioPlayer, songpath: string): Promise<AudioPl
   player.play(resource);
   return entersState(player, AudioPlayerStatus.Playing, 5e3);
 };
+
+// Concatinates a list of strings into string sequences which are no longer than length
+export const concatToMaxLengthSegments = (args: string[], length: number): string[] =>
+  args.reduce((prev: string[], curr: string) => {
+    if (prev.length !== 0 && (prev.at(-1)?.length ?? 0) + curr.length + 1 < length) {
+      prev[prev.length - 1] = `${prev.at(-1) ?? ""}\n${curr}`;
+      return prev;
+    } else {
+      return [...prev, curr];
+    }
+  }, []);
