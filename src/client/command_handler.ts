@@ -55,9 +55,7 @@ export class CommandHandler implements Handler<CommandInteraction> {
 
       // Permissions:
       const guild = this.client.guilds.cache.get(this.client.config.discord.guildId);
-      const roles = (await guild?.roles?.fetch())?.filter((role) =>
-        this.client.config.guild.adminRoles.includes(role.name.toUpperCase()),
-      );
+      const roles = (await guild?.roles?.fetch())?.filter((role) => role.name.toUpperCase() === "ADMIN");
       const rolePermissions: ApplicationCommandPermissionData[] =
         roles?.map((role) => ({
           id: role.id,
