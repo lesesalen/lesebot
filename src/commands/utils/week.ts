@@ -15,7 +15,7 @@ export default class WeekCommand extends SlashCommandHandler {
     const embed = new MessageEmbed()
       .setColor("#0099ff")
       .setTitle("Week number")
-      .setDescription(format(new Date(), "w"))
+      .setDescription(format(new Date(), "I"))
       .setThumbnail("attachment://blobross.png")
       .setTimestamp()
       .setFooter("Don't you have a calendar?");
