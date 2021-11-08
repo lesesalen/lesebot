@@ -7,7 +7,7 @@ import { DiscordClient, SlashCommandHandler } from "../../client";
 
 export default class WeekCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
-    .setName("uke") // .setAlias("week", "ukenr")
+    .setName("week")
     .setDescription("What week is it again? Man, I wish I had a calendar");
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
