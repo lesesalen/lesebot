@@ -1,5 +1,13 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, GuildMember, MessageActionRow, MessageButton, MessageEmbed, Permissions} from "discord.js";
+import {
+  CommandInteraction,
+  GuildMember,
+  MessageActionRow,
+  MessageButton,
+  MessageEmbed,
+  Permissions,
+  VoiceChannel,
+} from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
 
@@ -19,37 +27,57 @@ const allApplications: Record<string, string> = {
 export default class ActivityCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
     .setName("activity")
-    .setDescription("Generate discord together activity invite")
-    .addStringOption((option) => option.setName("name").setDescription("The activity name").addChoices([["Watch Together", "youtube"], ["Poker Night", "poker"], ["Betrayal.io", "betrayal"], ["Chess In The Park", "chess"], ["Fishington.io", "fishing"], ["Poker Night", "poker"], ["Lettertile", "lettertile"], ["Wordsnack", "wordsnack"], ["Doodlecrew", "doodlecrew"], ["Awkword", "awkword"], ["Spellcast", "spellcast"]]).setRequired(true))
-    .addChannelOption((option) => option.setName("channel").setDescription("The voice channel").setRequired(false));
+    .setDescription("Generate a discord together activity invite")
+    .addStringOption((option) =>
+      option
+        .setName("name")
+        .setDescription("The activity name")
+        .addChoices([
+          ["Watch Together", "youtube"],
+          ["Poker Night", "poker"],
+          ["Betrayal.io", "betrayal"],
+          ["Chess In The Park", "chess"],
+          ["Fishington.io", "fishing"],
+          ["Poker Night", "poker"],
+          ["Lettertile", "lettertile"],
+          ["Wordsnack", "wordsnack"],
+          ["Doodlecrew", "doodlecrew"],
+          ["Awkword", "awkword"],
+          ["Spellcast", "spellcast"],
+        ])
+        .setRequired(true),
+    )
+    .addChannelOption((option) =>
+      option.setName("channel").setDescription("The voice channel for the activity").setRequired(false),
+    );
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
     const name = interaction.options.getString("name", true);
-    const channel = interaction.options.getChannel("channel", false) ?? (interaction.member instanceof GuildMember ? interaction.member : undefined)?.voice?.channel;
-
+    const channel =
+      interaction.options.getChannel("channel", false) ??
+      (interaction.member instanceof GuildMember ? interaction.member : undefined)?.voice?.channel;
     const applicationId = allApplications[name];
 
     if (!(channel instanceof VoiceChannel))
-      return interaction.reply("You have to join or mention a voice channel.");
+      return interaction.reply({
+        content: "You have to join or target a voice channel to create an activity.",
+        ephemeral: true,
+      });
 
-    if (!channel.viewable)
-      return interaction.reply("I need \`View Channel\` permission.");
+    if (!channel.viewable) return interaction.reply({ content: "I need `View Channel` permission.", ephemeral: true });
 
     if (channel.type !== "GUILD_VOICE")
-      return interaction.reply("Provide a valid guild voice channel.");
+      return interaction.reply({ content: "Provide a valid guild voice channel.", ephemeral: true });
 
-    if (!channel.permissionsFor(interaction.guild.me)?.has(Permissions.FLAGS.CREATE_INSTANT_INVITE))
-      return interaction.reply("I need \`Create Invite\` permission.");
+    if (!channel.permissionsFor(interaction.user)?.has(Permissions.FLAGS.CREATE_INSTANT_INVITE))
+      return interaction.reply("I need `Create Invite` permission.");
 
     const invite = await channel.createInvite({
       targetApplication: `${applicationId}`,
-      targetType: 2
+      targetType: 2,
     });
 
-    const button = new MessageButton()
-      .setLabel("Join")
-      .setStyle("LINK")
-      .setURL(`${invite.url}`);
+    const button = new MessageButton().setLabel("Join").setStyle("LINK").setURL(`${invite.url}`);
 
     const row = new MessageActionRow().addComponents([button]);
 
