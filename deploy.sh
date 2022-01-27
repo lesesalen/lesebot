@@ -6,12 +6,12 @@ echo "Getting latest Docker container"
 docker pull ghcr.io/lesesalen/lesebot:latest
 
 echo "Stopping bot..."
-docker stop testbot
+docker stop lesebot
 
 echo "Removing old container..."
-docker container rm testbot
+docker container rm lesebot
 
 echo "Redeploying bot"
-docker run --env-file .env --pull always -itd --restart unless-stopped --name testbot ghcr.io/lesesalen/lesebot:latest
+docker run --env-file .env --pull always -itd --restart unless-stopped --name lesebot ghcr.io/lesesalen/lesebot:latest
 
 echo "And we're live again!"
