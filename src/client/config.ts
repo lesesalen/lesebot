@@ -3,6 +3,7 @@ export interface Config {
     token: string;
     appId: string;
     guildId: string;
+    prefix: string;
   };
 }
 
@@ -19,6 +20,7 @@ export const getConfig = (): Config => {
       token: getEnvVar("DISCORD_TOKEN"),
       appId: getEnvVar("DISCORD_APP_ID"),
       guildId: getEnvVar("DISCORD_GUILD_ID"),
+      prefix: getEnvVar("DISCORD_PREFIX"),
     },
   };
 };
