@@ -55,13 +55,12 @@ GIPHY_API_KEY=abcdefgh
 The only required options are the three first, the rest can be ignored unless you
 are working on that feature/need it to run.
 
-
 ## Creating a new command
 
 To create a new command you can copy one of the existing ones that matches what
-you want to do from the `src/commands` directory, for example the `InsultCommand` 
-has some simple code for an optional argument that targets a user or otherwise 
-randomly selects a member of the guild you're in while the `MeowCommand` is a very 
+you want to do from the `src/commands` directory, for example the `InsultCommand`
+has some simple code for an optional argument that targets a user or otherwise
+randomly selects a member of the guild you're in while the `MeowCommand` is a very
 simple command that simply replies `Meow!` when invoked.
 
 The commands themselves are created by extending an abstract class called `SlashCommandHandler`:

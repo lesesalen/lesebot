@@ -55,12 +55,12 @@ This takes approximately four minutes from when a commit lands on `main`.
 ### Automatically
 
 For production, I recommend hosting the bot in a Docker container and running
-that. It is fairly straight forward: edit the `deploy.sh` file and change the 
-name from `lesebot` to whatever you want it to be and then just run it from 
+that. It is fairly straight forward: edit the `deploy.sh` file and change the
+name from `lesebot` to whatever you want it to be and then just run it from
 the command line `./deploy.sh`. This will pull the latest version of the bot
 from the GitHub Docker Registry and deploy it.
 
-If you want to do this manually you can look at the commands that are run in 
+If you want to do this manually you can look at the commands that are run in
 `deploy.sh` and run them yourself, just remember to build the bot locally first:
 
 ```sh
@@ -75,7 +75,7 @@ view its logs.
 ## Developing
 
 For development, you need a good JavaScript IDE (Visual Studio Code or WebStorm
-are my recommendations) and Node (version 16.6 and above, **note:** due to 
+are my recommendations) and Node (version 16.6 and above, **note:** due to
 requirements for Discord.js you _must_ have at least v16.6), then simply run:
 
 ```sh
@@ -88,7 +88,7 @@ $ npm ci
 you can install it without the optional dependency `sodium` like so: `npm ci --no-optional`.
 
 Once you have everything installed you can start developing. The easiest way to
-do this is to start the bot with `npm start` to automatically reload the bot 
+do this is to start the bot with `npm dev` to automatically reload the bot
 whenever the code changes.
 
 # Inspiration, help
