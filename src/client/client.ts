@@ -45,7 +45,7 @@ export class DiscordClient extends Client {
       const cmd = message.content.split(" ")[0];
       if (cmd.startsWith(this.config.discord.prefix)) {
         const cmdContent = cmd.slice(1);
-        message.reply(
+        void message.reply(
           `Commands starting with \`${this.config.discord.prefix}\` are deprecated, try \`/${cmdContent}\` instead.`,
         );
       }
