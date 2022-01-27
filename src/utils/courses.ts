@@ -57,6 +57,7 @@ export const getPersistentData = async (): Promise<PersistentData | undefined> =
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     logger.error(`Unable to fetch course information, reason: ${error}`);
+    return undefined;
   }
 
   logger.error("Unable to fetch course information, reason unknown.");
