@@ -18,18 +18,17 @@ import { createDiscordJSAdapter } from "./adapter";
 import logger from "./logger";
 
 export const writeJson = async <T>(filePath: string, content: T): Promise<void> => {
-  const filepath = path.resolve(filePath);
   try {
-    await fs.stat(filepath);
+    await fs.stat(filePath);
   } catch {
     logger.warn({
       message: `404: File not found`,
       file: filePath,
     });
-    await fs.writeFile(filepath, "");
+    await fs.writeFile(filePath, "");
   }
 
-  await fs.writeFile(filepath, JSON.stringify(content));
+  await fs.writeFile(filePath, JSON.stringify(content));
 };
 
 export const loadJson = async <T>(filePath: string): Promise<T[]> => {
@@ -88,7 +87,7 @@ export const getCurrentSemester = (): string => {
   const current = new Date();
   const m = current.getMonth();
   const y = current.getFullYear();
-  return `${y}${m < 6 ? "H" : "V"}`;
+  return `${y}${m < 6 ? "V" : "H"}`;
 };
 
 export const randomNumber = async (min: number, max: number): Promise<number> => {

@@ -3,6 +3,7 @@ import cheerio from "cheerio";
 import { promises as fs } from "fs";
 import path from "path";
 
+import { getEnvVar } from "../client";
 import logger from "./logger";
 import { getCurrentSemester, strToJsonTyped, writeJson } from "./utils";
 
@@ -42,26 +43,30 @@ export const deletePersistentData = (): void => {
 };
 
 export const getPersistentData = async (): Promise<PersistentData | undefined> => {
+  logger.warn(path.resolve(process.cwd(), "data"));
+  // 1. Attempt to return local storage
+  if (persistentData) return persistentData;
+
+  // 2. Attempt to read from file
   try {
-    // 1. Attempt to return local storage
-    if (persistentData) return Promise.resolve(persistentData);
-
-    // 2. Attempt to read from file
     persistentData = await readStructuredData();
-    if (persistentData) return Promise.resolve(persistentData);
+    if (persistentData) return persistentData;
+  } catch {
+    logger.info("No stored data, attempting update...");
+  }
 
+  try {
     // 3. If that also doesn't work, regenerate info
     await writeStructuredData();
     persistentData = await readStructuredData();
-    if (persistentData) return Promise.resolve(persistentData);
+    if (persistentData) return persistentData;
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     logger.error(`Unable to fetch course information, reason: ${error}`);
-    return undefined;
   }
 
   logger.error("Unable to fetch course information, reason unknown.");
-  return undefined;
+  return;
 };
 
 export const getCourse = async (course: string): Promise<Course | undefined> => {
@@ -200,48 +205,52 @@ interface CourseExplorerAPIResponse {
 }
 
 const getRooms = async (): Promise<RoomApiEntry[]> => {
-  const resp = await axios.get<RoomApiResponse>(
-    `https://tp.data.uib.no/${process.env.UIB_OPENDATA_API_KEY ?? ""}/ws/room/2.0/allrooms.php`,
-    {
-      responseType: "json",
-    },
-  );
+  const key = getEnvVar("UIB_OPENDATA_API_KEY");
+  const resp = await axios.get<RoomApiResponse>(`https://tp.data.uib.no/${key}/ws/room/2.0/allrooms.php`, {
+    responseType: "json",
+  });
 
   return resp.data.data.map((obj) => ({ id: obj.id, roomurl: obj.roomurl, name: obj.name })); // (。_。)
 };
 
 const getCourses = async (): Promise<ExtendedCourse[]> => {
-  const fs_resp = await axios.get<CourseAPIResponse>(
-    `https://fs.data.uib.no/${process.env.UIB_OPENDATA_API_KEY ?? ""}/json/littl_emne/${getCurrentSemester()}`,
-    {
+  try {
+    const key = getEnvVar("UIB_OPENDATA_API_KEY");
+    const fs_resp = await axios.get<CourseAPIResponse>(
+      `https://fs.data.uib.no/${key}/json/littl_emne/${getCurrentSemester()}`,
+      {
+        responseType: "json",
+      },
+    );
+
+    const fs_courses = fs_resp.data.emne.map(
+      (obj): ExtendedCourse => ({
+        id: obj.emnekode,
+        name_no: obj.emnenavn_bokmal,
+        name_en: obj.emnenavn_engelsk,
+        curriculum: obj.url,
+      }),
+    );
+
+    const exp_resp = await axios.get<Record<string, CourseExplorerAPIResponse>>(STRUCTURED_DATA_URL, {
       responseType: "json",
-    },
-  );
+    });
 
-  const fs_courses = fs_resp.data.emne.map(
-    (obj): ExtendedCourse => ({
-      id: obj.emnekode,
-      name_no: obj.emnenavn_bokmal,
-      name_en: obj.emnenavn_engelsk,
-      curriculum: obj.url,
-    }),
-  );
+    const exp_courses = Object.entries(exp_resp.data).map(
+      ([id, obj]): ExtendedCourse => ({
+        id: id,
+        name_no: "",
+        name_en: obj.name,
+        url: obj.url,
+        exams: obj.exams.length > 0 ? obj.exams : undefined,
+      }),
+    );
 
-  const exp_resp = await axios.get<Record<string, CourseExplorerAPIResponse>>(STRUCTURED_DATA_URL, {
-    responseType: "json",
-  });
-
-  const exp_courses = Object.entries(exp_resp.data).map(
-    ([id, obj]): ExtendedCourse => ({
-      id: id,
-      name_no: "",
-      name_en: obj.name,
-      url: obj.url,
-      exams: obj.exams.length > 0 ? obj.exams : undefined,
-    }),
-  );
-
-  return [...fs_courses, ...exp_courses];
+    return [...fs_courses, ...exp_courses];
+  } catch (e) {
+    logger.error(e);
+    return [];
+  }
 };
 
 const getExams = async (): Promise<CourseExamInfo[]> => {
@@ -264,15 +273,25 @@ interface StructuredData {
 
 const createStructuredData = async (): Promise<StructuredData> => {
   // Convert room data
-  const rooms = await getRooms();
-  const courses = await getCourses();
-  const exams = await getExams();
+  try {
+    const rooms = await getRooms();
+    const courses = await getCourses();
+    const exams = await getExams();
 
-  return {
-    rooms: rooms,
-    courses: courses,
-    exams: exams,
-  };
+    return {
+      rooms: rooms,
+      courses: courses,
+      exams: exams,
+    };
+  } catch (err: unknown) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    logger.error(`Unable to fetch course information, reason: ${err}`);
+    return {
+      rooms: [],
+      courses: [],
+      exams: [],
+    };
+  }
 };
 
 export const writeStructuredData = async (): Promise<void> => {
