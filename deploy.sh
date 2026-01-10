@@ -12,6 +12,6 @@ echo "Removing old container..."
 docker container rm lesebot
 
 echo "Redeploying bot"
-docker run --env-file .env --pull always -itd --restart unless-stopped -v ./data:/usr/src/app/data --name lesebot ghcr.io/lesesalen/lesebot:latest
+docker run --env-file .env --pull always -itd --restart unless-stopped -v "$(pwd)/data:/usr/src/app/data" --name lesebot ghcr.io/lesesalen/lesebot:latest
 
 echo "And we're live again!"
