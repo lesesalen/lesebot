@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, GuildMember} from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
 import { getCourse } from "../../utils/courses";
@@ -7,7 +7,7 @@ import logger from "../../utils/logger";
 
 export default class EndTaCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
-    .setName("sluttGruppeleder")
+    .setName("sluttgruppeleder")
     .setDescription("Remove me as a group leader for a course")
     .addStringOption((option) => option.setName("subject").setDescription("Subject to end TA status in").setRequired(true));
 
@@ -34,8 +34,8 @@ export default class EndTaCommand extends SlashCommandHandler {
       return;
     }
 
-    let role: Role;
-    if (!guild.roles.cache.some((role) => role.name === `gruppeleder-${courseId}`)) {
+    const role = guild.roles.cache.find((role) => role.name === `gruppeleder-${courseId}`);
+    if (!role) {
       logger.error({
         message: `Could not get role for ${courseId}`,
       });
@@ -43,8 +43,6 @@ export default class EndTaCommand extends SlashCommandHandler {
         content: `It seems no one is a TA in this course, please make sure you wrote it correctly or tell an admin`,
         ephemeral: true,
       });
-    } else {
-      role = guild.roles.cache.find((role) => role.name === `gruppeleder-${courseId}`);
     }
 
     if (!user.roles.cache.has(role.id)) {
