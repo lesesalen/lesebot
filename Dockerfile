@@ -21,4 +21,6 @@ COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/assets ./assets
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 
+RUN mkdir -p data
+
 CMD [ "node", "dist/main.js" ]
