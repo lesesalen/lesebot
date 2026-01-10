@@ -1,7 +1,7 @@
-FROM node:22-alpine AS builder
+FROM node:22 AS builder
 
-RUN apk update
-RUN apk add python3 g++ make
+# RUN apk update
+# RUN apk add python3 g++ make
 
 WORKDIR /usr/src/app
 
@@ -13,7 +13,7 @@ COPY . .
 RUN npm run build
 RUN npm prune --production
 
-FROM node:22-alpine
+FROM node:22
 
 WORKDIR /usr/src/app
 
