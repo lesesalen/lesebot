@@ -1,5 +1,4 @@
 import axios from "axios";
-import cheerio from "cheerio";
 import { promises as fs } from "fs";
 import path from "path";
 
@@ -9,7 +8,6 @@ import { getCurrentSemester, strToJsonTyped, writeJson } from "./utils";
 
 const STRUCTURED_DATA_URL = "https://raw.githubusercontent.com/sondr3/course-explorer/master/structured.json";
 const STRUCTURED_DATA_PATH = path.resolve(process.cwd(), "data/structured.json");
-const EXAM_URL = "https://www.uib.no/en/student/108687/exam-dates-faculty-mathematics-and-natural-sciences-autumn-2017";
 
 export interface Course {
   name_no: string;
@@ -115,60 +113,11 @@ export const getCourseExams = async (course: string, message: unknown): Promise<
   return exams;
 };
 
-const parseExams = ($: cheerio.Root, element: cheerio.Cheerio): Exam[] => {
-  const exams: Exam[] = [];
-
-  const temporaryArray: string[] = [];
-  $(element).each((_index, element) => temporaryArray.push($(element).text()));
-  const info = temporaryArray.flatMap((element) =>
-    element
-      .split("\n")
-      .map((item) => item.trim())
-      .filter((item) => item !== ""),
-  );
-
-  let exam = {} as Exam;
-  for (let index = 0; index < info.length; index++) {
-    if (info[index].toLowerCase().includes("date")) {
-      if (Object.prototype.hasOwnProperty.call(exam, "date")) {
-        exams.push(exam);
-        exam = {} as Exam;
-      }
-
-      exam.date = info[index + 1];
-    } else if (info[index].toLowerCase().includes("duration")) {
-      exam.duration = info[index + 1];
-    } else if (info[index].toLowerCase().includes("examination")) {
-      exam.system = `${info[index + 1]} ${info[index + 2]}`;
-    } else if (info[index].toLowerCase().includes("location")) {
-      exam.location = info[index + 1];
-    }
-  }
-  exams.push(exam);
-
-  return exams;
-};
-
 interface CourseExamInfo {
   id: string;
   url?: string;
   exams: Exam[];
 }
-
-const parseCourse = ($: cheerio.Root, element: cheerio.Element): CourseExamInfo => {
-  const course = {} as CourseExamInfo;
-
-  const parsedTitle = $(element).find(".exam-list-title").text();
-  const [code] = parsedTitle.split("/").map((s) => s.trim());
-  course.id = code;
-
-  course.url = $(element).find(".exam-list-title > a").attr("href")?.trim();
-
-  const details = $(element).find(".uib-study-exam-assessment");
-  course.exams = parseExams($, details);
-
-  return course;
-};
 
 interface RoomEntry {
   id: string;
@@ -220,6 +169,9 @@ const getCourses = async (): Promise<ExtendedCourse[]> => {
       `https://fs.data.uib.no/${key}/json/littl_emne/${getCurrentSemester()}`,
       {
         responseType: "json",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
     );
 
@@ -253,18 +205,6 @@ const getCourses = async (): Promise<ExtendedCourse[]> => {
   }
 };
 
-const getExams = async (): Promise<CourseExamInfo[]> => {
-  const $ = await loadExamPage();
-
-  const examInfos: CourseExamInfo[] = [];
-
-  $(".faculty-exam-list > li").each((_index, element) => {
-    examInfos.push(parseCourse($, element));
-  });
-
-  return examInfos;
-};
-
 interface StructuredData {
   rooms: RoomApiEntry[];
   courses: ExtendedCourse[];
@@ -276,12 +216,11 @@ const createStructuredData = async (): Promise<StructuredData> => {
   try {
     const rooms = await getRooms();
     const courses = await getCourses();
-    const exams = await getExams();
 
     return {
       rooms: rooms,
       courses: courses,
-      exams: exams,
+      exams: [],
     };
   } catch (err: unknown) {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -343,11 +282,6 @@ export const readStructuredData = async (): Promise<
     logger.warn(`Error in reading saved data: ${error as string}`);
   }
   return undefined;
-};
-
-const loadExamPage = async (): Promise<cheerio.Root> => {
-  const { data } = await axios.get<string>(EXAM_URL);
-  return cheerio.load(data);
 };
 
 const populateCoursesWithExamInfo = (courses: Map<string, Course>, exams: CourseExamInfo[]) => {
