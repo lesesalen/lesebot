@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, GuildMember} from "discord.js";
+import { CommandInteraction, GuildMember } from "discord.js";
 
 import { DiscordClient, SlashCommandHandler } from "../../client";
 import { getCourse } from "../../utils/courses";
@@ -9,7 +9,9 @@ export default class EndTaCommand extends SlashCommandHandler {
   builder = new SlashCommandBuilder()
     .setName("sluttgruppeleder")
     .setDescription("Remove me as a group leader for a course")
-    .addStringOption((option) => option.setName("subject").setDescription("Subject to end TA status in").setRequired(true));
+    .addStringOption((option) =>
+      option.setName("subject").setDescription("Subject to end TA status in").setRequired(true),
+    );
 
   async handle(interaction: CommandInteraction, _client: DiscordClient): Promise<void> {
     const inputSubject = interaction.options.getString("subject", true).toUpperCase().trim();
